@@ -1,11 +1,13 @@
 import './index.css'
+import logo from '@/assets/imgs/logo.png'
 
 export default function Header() {
 
   return (
-    <>
+    <header>
+      <img src={logo} alt="图片不见了" width={80} height={80} />
       <div>SG Page Game</div>
-    </>
+    </header>
   )
 
 }
