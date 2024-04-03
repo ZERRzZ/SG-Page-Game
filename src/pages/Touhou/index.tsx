@@ -4,7 +4,7 @@ export default function Touhou() {
 
   return (
     <>
-      
+      Touhou
     </>
   )
 

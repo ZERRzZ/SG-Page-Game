@@ -1,0 +1,32 @@
+.greedy-snake {
+  width: 1080px;
+  margin: 0 auto;
+  padding-bottom: 1em;
+  display: flex;
+  gap: 2em;
+}
+
+.gs-btns {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+}
+
+.gs-btns input[type='button'] {
+  padding: 5px 10px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.gs-btns input[type='button']:hover {
+  transform: translateY(-5px);
+}
+
+.gs-map {
+  width: 1000px;
+  height: 600px;
+}

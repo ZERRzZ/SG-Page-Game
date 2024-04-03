@@ -1,0 +1,32 @@
+.exhibition {
+  padding: 0 2em;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 2em;
+}
+
+.exhibition-item {
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px rgb(200, 200, 200);
+  transition: all .3s;
+  display: flex;
+  flex-flow: column;
+  place-items: center;
+  gap: 1em;
+}
+
+.exhibition-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 5px 5px 10px rgb(200, 200, 200);
+}
+
+.e-i-img {
+  width: 100px;
+  height: 60px;
+}
+
+.e-i-name {
+  color: var(--color);
+}
