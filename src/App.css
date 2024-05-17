@@ -1,6 +1,5 @@
 #root {
-  width: 100%;
   display: flex;
   flex-flow: column;
-  gap: 2em;
+  gap: 1em;
 }

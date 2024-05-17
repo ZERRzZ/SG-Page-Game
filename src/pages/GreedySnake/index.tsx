@@ -1,3 +1,5 @@
+import { Button } from 'antd'
+
 import './index.css'
 
 export default function GreedySnake() {
@@ -5,9 +7,9 @@ export default function GreedySnake() {
   return (
     <div className='greedy-snake'>
       <div className="gs-btns">
-        <input type="button" value="开始" />
-        <input type="button" value="暂停" />
-        <input type="button" value="结束" />
+        <Button className='gs-btn'>开始</Button>
+        <Button className='gs-btn'>暂停</Button>
+        <Button className='gs-btn'>结束</Button>
       </div>
       <div className="gs-map">
 
