@@ -1,13 +1,14 @@
 .exhibition {
-  padding: 0 2em;
-  margin: 0 auto;
+  padding: 1em;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   gap: 2em;
+  align-items: center;
+  justify-content: center;
 }
 
 .exhibition-item {
-  padding: 1em;
+  padding: 1em 4em;
   border-radius: 10px;
   box-shadow: 1px 1px 5px rgb(200, 200, 200);
   transition: all .3s;
@@ -22,11 +23,11 @@
   box-shadow: 5px 5px 10px rgb(200, 200, 200);
 }
 
-.e-i-img {
-  width: 100px;
-  height: 60px;
+.ei-name {
+  color: var(--color);
+  transition: all .3s;
 }
 
-.e-i-name {
-  color: var(--color);
+.exhibition-item:hover .ei-name {
+  color: var(--theme-dark);
 }

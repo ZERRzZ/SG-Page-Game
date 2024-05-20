@@ -9,12 +9,14 @@
     "id": 2,
     "name": "Greedy Snake",
     "path": "Greedy Snake",
+    "icon": "icon-tanchishe",
     "description": "贪吃蛇小游戏"
   },
   {
     "id": 3,
     "name": "typing",
     "path": "typing",
+    "icon": "icon-jianpan",
     "description": "极简打字小游戏"
   }
 ]

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 
 import './index.css'
-import logo from '@/assets/imgs/logo.png'
 import exhibitions from '@/assets/jsons/exhibitions.json'
+import IconFont from '../IconFont'
 
 export default function Exhibition() {
 
@@ -11,8 +11,8 @@ export default function Exhibition() {
       {
         exhibitions.map(v =>
           <Link className='exhibition-item' key={v.id} to={v.path}>
-            <img className='e-i-img' src={logo} alt="图片不见了" />
-            <span className='e-i-name'>{v.name}</span>
+            <IconFont type={v.icon} size={160} />
+            <span className='ei-name'>{v.name}</span>
           </Link>
         )
       }
