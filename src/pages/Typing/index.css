@@ -1,0 +1,39 @@
+.typing {
+  max-width: 800px;
+  padding: 1em;
+  background: radial-gradient(transparent 60%, var(--theme-light) 100%);
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+}
+
+.t-count {
+  align-self: flex-start;
+}
+
+.t-section {
+  align-self: flex-start;
+  color: var(--color-light);
+  letter-spacing: 2px;
+  text-align: justify;
+  word-break: break-all;
+}
+
+.t-reset {
+  padding: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.t-reset:hover {
+  color: var(--theme-dark);
+  transform: rotate(180deg);
+}
+
+.t-results {
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+}

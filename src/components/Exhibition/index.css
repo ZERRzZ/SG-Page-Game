@@ -10,7 +10,7 @@
 .exhibition-item {
   padding: 1em 4em;
   border-radius: 10px;
-  box-shadow: 1px 1px 5px rgb(200, 200, 200);
+  box-shadow: 1px 1px 5px var(--box-shadow);
   transition: all .3s;
   display: flex;
   flex-flow: column;
@@ -20,7 +20,7 @@
 
 .exhibition-item:hover {
   transform: translateY(-5px);
-  box-shadow: 5px 5px 10px rgb(200, 200, 200);
+  box-shadow: 5px 5px 10px var(--box-shadow);
 }
 
 .ei-name {

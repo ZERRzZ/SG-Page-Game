@@ -1,6 +1,6 @@
 header {
   padding: 0 1em;
-  box-shadow: 3px 0 5px rgb(200, 200, 200);
+  box-shadow: 3px 0 5px var(--box-shadow);
   display: flex;
   gap: 1em;
   flex-flow: row;

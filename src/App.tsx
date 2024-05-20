@@ -9,17 +9,17 @@ function App() {
 
   const location = useLocation()
 
-  console.log(location);
-
   return (
     <>
       <Header />
-      {
-        location.pathname === '/' ?
-          <Exhibition /> :
-          <Nav />
-      }
-      <Outlet />
+      <main>
+        {
+          location.pathname === '/' ?
+            <Exhibition /> :
+            <Nav />
+        }
+        <Outlet />
+      </main>
     </>
   )
 

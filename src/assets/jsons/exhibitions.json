@@ -1,21 +1,21 @@
 [
   {
     "id": 1,
-    "name": "touhou",
-    "path": "touhou",
+    "name": "Touhou",
+    "path": "Touhou",
     "description": "一个打飞机游戏却有成为东方那样的野心"
   },
   {
     "id": 2,
-    "name": "Greedy Snake",
-    "path": "Greedy Snake",
-    "icon": "icon-tanchishe",
+    "name": "GreedySnake",
+    "path": "GreedySnake",
+    "icon": "icon-she",
     "description": "贪吃蛇小游戏"
   },
   {
     "id": 3,
-    "name": "typing",
-    "path": "typing",
+    "name": "Typing",
+    "path": "Typing",
     "icon": "icon-jianpan",
     "description": "极简打字小游戏"
   }

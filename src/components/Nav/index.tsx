@@ -2,6 +2,7 @@ import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 import './index.css'
+import IconFont from '../IconFont'
 
 export default function Nav() {
 
@@ -13,7 +14,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <Button className='nav-btn' onClick={goBack}>返回</Button>
+      <Button className='nav-btn' onClick={goBack} icon={<IconFont type='icon-fanhui' />}>返回</Button>
     </nav>
   )
 

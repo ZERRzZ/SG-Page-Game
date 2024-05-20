@@ -3,3 +3,11 @@
   flex-flow: column;
   gap: 1em;
 }
+
+main {
+  max-width: 1400px;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+}
