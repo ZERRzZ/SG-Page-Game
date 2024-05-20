@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "touhou",
+    "path": "touhou",
+    "description": "一个打飞机游戏却有成为东方那样的野心"
+  },
+  {
+    "id": 2,
+    "name": "Greedy Snake",
+    "path": "Greedy Snake",
+    "description": "贪吃蛇小游戏"
+  },
+  {
+    "id": 3,
+    "name": "typing",
+    "path": "typing",
+    "description": "极简打字小游戏"
+  }
+]

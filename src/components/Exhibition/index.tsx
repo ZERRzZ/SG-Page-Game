@@ -2,13 +2,9 @@ import { Link } from 'react-router-dom'
 
 import './index.css'
 import logo from '@/assets/imgs/logo.png'
+import exhibitions from '@/assets/jsons/exhibitions.json'
 
 export default function Exhibition() {
-
-  const exhibitions = [
-    { id: 1, name: 'touhou', path: 'touhou', description: '一个打飞机游戏却有成为东方那样的野心' },
-    { id: 2, name: 'Greedy Snake', path: 'greedy-snake', description: '贪吃蛇小游戏' },
-  ]
 
   return (
     <div className='exhibition'>

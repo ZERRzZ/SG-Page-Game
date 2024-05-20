@@ -1,0 +1,16 @@
+{
+  "id": "4553418",
+  "name": "我的项目",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "35987752",
+      "name": "键盘",
+      "font_class": "jianpan",
+      "unicode": "e6d9",
+      "unicode_decimal": 59097
+    }
+  ]
+}
