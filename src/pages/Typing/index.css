@@ -1,7 +1,7 @@
 .typing {
-  max-width: 800px;
+  max-width: 600px;
   padding: 1em;
-  background: radial-gradient(transparent 60%, var(--theme-light) 100%);
+  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -14,10 +14,20 @@
 
 .t-section {
   align-self: flex-start;
-  color: var(--color-light);
   letter-spacing: 2px;
   text-align: justify;
   word-break: break-all;
+  position: relative;
+}
+
+.t-words {
+  color: var(--color-light);
+}
+
+.t-typed {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .t-reset {
