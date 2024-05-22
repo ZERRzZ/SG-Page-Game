@@ -15,7 +15,6 @@
 .t-section {
   align-self: flex-start;
   letter-spacing: 2px;
-  text-align: justify;
   word-break: break-all;
   position: relative;
 }

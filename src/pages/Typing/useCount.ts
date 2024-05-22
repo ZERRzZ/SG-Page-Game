@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { TypingState } from "."
 
-export const useCount = (init: number, setState: React.Dispatch<React.SetStateAction<TypingState>>) => {
+export const useCount = (init: number, finish: () => void) => {
 
   const [count, setCount] = useState(init)
 
@@ -9,8 +8,15 @@ export const useCount = (init: number, setState: React.Dispatch<React.SetStateAc
 
   const startCount = useCallback(() => {
     intervalRef.current = setInterval(() => {
-      setCount(c => c - 1)
-      // console.log('typing interval running...')
+      console.log('interval running...')
+      setCount(c => {
+        const r = c - 1
+        if (r <= 0) {
+          intervalRef.current && clearInterval(intervalRef.current)
+          finish()
+        }
+        return r
+      })
     }, 1000)
   }, [])
 
@@ -22,13 +28,6 @@ export const useCount = (init: number, setState: React.Dispatch<React.SetStateAc
   const pauseCount = useCallback(() => {
     intervalRef.current && clearInterval(intervalRef.current)
   }, [])
-
-  useEffect(() => {
-    if (count <= 0 && intervalRef.current) {
-      clearInterval(intervalRef.current)
-      setState('finish')
-    }
-  }, [count])
 
   // 离开组件时销毁定时器
   useEffect(() => {

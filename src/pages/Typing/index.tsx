@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import './index.css'
 import IconFont from '@/components/IconFont'
@@ -8,22 +8,15 @@ import { useTyped } from './useTyped'
 
 export type TypingState = 'init' | 'start' | 'pause' | 'finish'
 
+export interface TypingColor {
+  correct: string
+  error: string
+}
+
 export default function Typing() {
 
   const [state, setState] = useState<TypingState>('init')
-
-  const { words, updateWords } = useWords(20)
-  const { count, startCount, resetCount, pauseCount } = useCount(30, setState)
-  const { typed, resetTyping } = useTyped(state, words)
-
-  useEffect(() => {
-    document.addEventListener('keyup', enterEvent)
-    if (state === 'finish') console.log('finish');
-    
-    return () => {
-      document.removeEventListener('keyup', enterEvent)
-    }
-  }, [state]) // 状态改变时重新绑定事件
+  const [color] = useState<TypingColor>({ correct: 'green', error: 'red' })
 
   const start = () => {
     setState('start')
@@ -42,11 +35,15 @@ export default function Typing() {
     resetTyping()
   }
 
-  const enterEvent = ({ code }: KeyboardEvent) => {
-    // console.log('enter event running...')
-    if (code !== 'Enter') return
-    state === 'start' ? pause() : start()
+  const finish = () => {
+    setState('finish')
   }
+
+  const { words, updateWords } = useWords(20)
+
+  const { typed, resetTyping } = useTyped({ state, words, color, pause, start, reset })
+
+  const { count, startCount, resetCount, pauseCount } = useCount(30, finish)
 
   return (
     <div className='typing'>
