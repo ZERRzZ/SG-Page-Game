@@ -1,4 +1,14 @@
 .typing {
+  display: flex;
+  gap: 1em;
+}
+
+.t-rank {
+  min-width: 150px;
+  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
+}
+
+.t-game {
   max-width: 600px;
   padding: 1em;
   background: radial-gradient(transparent 50%, var(--theme-light) 100%);
@@ -12,21 +22,13 @@
   align-self: flex-start;
 }
 
-.t-section {
-  align-self: flex-start;
-  letter-spacing: 2px;
-  word-break: break-all;
-  position: relative;
-}
-
 .t-words {
   color: var(--color-light);
-}
-
-.t-typed {
-  position: absolute;
-  top: 0;
-  left: 0;
+  letter-spacing: 3px;
+  line-height: 2em;
+  text-align: justify;
+  word-break: break-all;
+  align-self: flex-start;
 }
 
 .t-reset {
@@ -41,6 +43,9 @@
 }
 
 .t-results {
+  min-width: 150px;
+  padding: 1em;
+  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
   display: flex;
   flex-flow: column;
   gap: 1em;

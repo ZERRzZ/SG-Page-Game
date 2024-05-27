@@ -10,12 +10,12 @@ export const useCount = (init: number, finish: () => void) => {
     intervalRef.current = setInterval(() => {
       console.log('interval running...')
       setCount(c => {
-        const r = c - 1
-        if (r <= 0) {
+        if (c <= 0) {
           intervalRef.current && clearInterval(intervalRef.current)
           finish()
+          return c
         }
-        return r
+        return c - 1
       })
     }, 1000)
   }, [])
