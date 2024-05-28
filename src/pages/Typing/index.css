@@ -1,11 +1,20 @@
 .typing {
   display: flex;
   gap: 1em;
+  position: relative;
 }
 
 .t-rank {
-  min-width: 150px;
+  width: 300px;
+  padding: 1em;
   background: radial-gradient(transparent 50%, var(--theme-light) 100%);
+  animation: show-results .3s ease;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+  position: absolute;
+  left: calc(-300px - 1em);
 }
 
 .t-game {
@@ -43,11 +52,51 @@
 }
 
 .t-results {
-  min-width: 150px;
+  width: 200px;
   padding: 1em;
   background: radial-gradient(transparent 50%, var(--theme-light) 100%);
+  animation: show-results .3s ease;
   display: flex;
   flex-flow: column;
   gap: 1em;
   align-items: center;
+  position: absolute;
+  right: calc(-200px - 1em);
+}
+
+.tr-1 {
+  font-weight: 800;
+  animation: show-results .3s ease .3s backwards;
+}
+
+.tr-2 {
+  animation: show-results .3s ease .6s backwards;
+}
+
+.tr-3 {
+  animation: show-results .3s ease .9s backwards;
+}
+
+.tr-4 {
+  animation: show-results .3s ease 1.2s backwards;
+}
+
+.tr-5 {
+  animation: show-results .3s ease 1.5s backwards;
+}
+
+.tr-table {
+  animation: show-results .3s ease .6s backwards;
+}
+
+@keyframes show-results {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

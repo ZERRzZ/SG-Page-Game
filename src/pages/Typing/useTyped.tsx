@@ -9,6 +9,7 @@ export interface TypedHook {
   start: () => void
   pause: () => void
   reset: () => void
+  finish: () => void
 }
 
 export interface Typed {
@@ -19,7 +20,7 @@ export interface Typed {
   }
 }
 
-export const useTyped = ({ state, words, color, pause, start, reset }: TypedHook) => {
+export const useTyped = ({ state, words, color, pause, start, reset, finish }: TypedHook) => {
 
   const [typed, setTyped] = useState<Typed[]>([])
   const [total, setTotal] = useState(0)
@@ -50,7 +51,10 @@ export const useTyped = ({ state, words, color, pause, start, reset }: TypedHook
         if (state !== 'start') return
         setTyped(t => [...t, markTyping(key, words[total])])
         key !== words[total] && setError(e => e + 1)
-        setTotal(t => t + 1)
+        setTotal(t => {
+          if (t + 1 >= words.length) finish()
+          return t + 1
+        })
     }
   }
 
@@ -63,10 +67,10 @@ export const useTyped = ({ state, words, color, pause, start, reset }: TypedHook
   const renderTyped = useMemo(() => (
     <>
       {
-        typed.map(t => <span style={t.style}>{t.word}</span>)
+        typed.map((t, i) => <span key={t.word + i} style={t.style}>{t.word}</span>)
       }
       {
-        words.slice(total).split('').map(w => <span>{w}</span>)
+        words.slice(total).split('').map((w, i) => <span key={i + w}>{w}</span>)
       }
     </>
   ), [typed])

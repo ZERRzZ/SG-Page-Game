@@ -1,12 +1,12 @@
 #root {
+  height: 100vh;
   display: flex;
   flex-flow: column;
   gap: 1em;
 }
 
 main {
-  max-width: 1400px;
-  margin: auto;
+  flex: 1;
   display: flex;
   flex-flow: column;
   gap: 1em;

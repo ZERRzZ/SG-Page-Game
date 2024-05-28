@@ -1,10 +1,15 @@
 header {
+  min-width: 100vh;
   padding: 0 1em;
   box-shadow: 3px 0 5px var(--box-shadow);
+  background: var(--body-bg);
   display: flex;
   gap: 1em;
   flex-flow: row;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .header-title {
