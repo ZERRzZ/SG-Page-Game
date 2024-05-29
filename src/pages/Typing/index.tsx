@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { Table } from 'antd'
+import { useEffect, useState } from 'react'
+import { Button, Table } from 'antd'
 
 import './index.css'
 import IconFont from '@/components/IconFont'
 import { useWords } from './useWords'
 import { useCount } from './useCount'
 import { useTyped } from './useTyped'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export type TypingState = 'init' | 'start' | 'pause' | 'finish'
 
@@ -15,6 +16,7 @@ export interface TypingColor {
 }
 
 export interface TypingResult {
+  id?: number
   rank: number
   total: number
   error: number
@@ -25,11 +27,14 @@ export interface TypingResult {
 
 export default function Typing() {
 
+  // 游戏状态
   const [state, setState] = useState<TypingState>('init')
-
   const [color] = useState<TypingColor>({ correct: 'green', error: 'red' })
 
-  const [ranked, setRanked] = useState<TypingResult[]>(JSON.parse(localStorage.getItem('tRank') || "[]"))
+  let [rank, changeRank] = useLocalStorage<TypingResult[]>('typingRank')
+
+  const { words, updateWords } = useWords(20)
+  const { count, startCount, resetCount, pauseCount } = useCount(30)
 
   const start = () => {
     setState('start')
@@ -50,34 +55,37 @@ export default function Typing() {
 
   const finish = () => {
     setState('finish')
-    const tRank: TypingResult = {
+    pauseCount()
+    settle()
+  }
+
+  const { typed, total, error, resetTyping } = useTyped({ state, words, color, pause, start, reset })
+
+  useEffect(() => {
+    !count && finish()
+  }, [count])
+
+  useEffect(() => {
+    total === words.length && finish()
+  }, [total])
+
+  const settle = () => {
+    const newRank: TypingResult = {
       rank: Number((speed(total, count) * accuracy(total, error)).toFixed(0)),
       total,
       error,
       speed: `${speed(total, count).toFixed(0)} 词/分`,
-      accuracy: `${accuracy(total, error).toFixed(0)} %`,
+      accuracy: `${accuracy(total, error).toFixed(0)}%`,
       latest: true
     }
-    // console.log('tRank': tRank);
-    
-    console.log(ranked);
-    setRanked(r => {
-      if (r instanceof Array !== true) r = []
-      r.length >= 5 && r.splice(4)
-      r.forEach(r => r.latest = false)
-      r.push(tRank)
-      r.sort((a, b) => b.rank - a.rank)
-      r.forEach((r, i) => r.rank = i + 1)
-      // localStorage.setItem('tRank', JSON.stringify(ranked))
-      return [...r]
-    })
+    if (rank instanceof Array !== true) rank = []
+    rank.forEach(r => r.latest = false)
+    rank.length > 4 && rank.splice(-1)
+    const rr = [...rank, newRank]
+    rr.sort((a, b) => b.rank - a.rank)
+    rr.forEach((r, i) => r.id = i + 1)
+    changeRank(rr)
   }
-
-  const { words, updateWords } = useWords(20)
-
-  const { typed, total, error, resetTyping } = useTyped({ state, words, color, pause, start, reset, finish })
-
-  const { count, startCount, resetCount, pauseCount } = useCount(30, finish)
 
   const speed = (total: number, count: number) => ((total / (30 - count) * 60) || 0)
 
@@ -89,13 +97,16 @@ export default function Typing() {
     { title: '准确性', dataIndex: 'accuracy', key: 'accuracy', align: 'center' as 'center' }
   ]
 
+  const clearRank = () => changeRank([])
+
   return (
     <div className='typing'>
       {
-        ranked.length > 0 ?
+        rank && rank.length ?
           <div className="t-rank">
             <span className='tr-1'>排名</span>
-            <Table className='tr-table' columns={rankColumns} dataSource={ranked} pagination={false} rowKey='rank' />
+            <Table className='tr-table' columns={rankColumns} dataSource={rank} pagination={false} rowKey='id' />
+            <Button type='primary' onClick={clearRank}>清空排名</Button>
           </div>
           : ''
       }
@@ -113,7 +124,7 @@ export default function Typing() {
             <span className='tr-2'>输入：{total}</span>
             <span className='tr-3'>错误：{error}</span>
             <span className='tr-4'>速度：{speed(total, count).toFixed(0)}  词/分</span>
-            <span className='tr-5'>准确性：{accuracy(total, error).toFixed(0)} %</span>
+            <span className='tr-5'>准确性：{accuracy(total, error).toFixed(0)}%</span>
           </div> : ''
       }
     </div>

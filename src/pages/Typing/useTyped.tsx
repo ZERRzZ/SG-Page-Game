@@ -9,7 +9,6 @@ export interface TypedHook {
   start: () => void
   pause: () => void
   reset: () => void
-  finish: () => void
 }
 
 export interface Typed {
@@ -20,7 +19,7 @@ export interface Typed {
   }
 }
 
-export const useTyped = ({ state, words, color, pause, start, reset, finish }: TypedHook) => {
+export const useTyped = ({ state, words, color, pause, start, reset }: TypedHook) => {
 
   const [typed, setTyped] = useState<Typed[]>([])
   const [total, setTotal] = useState(0)
@@ -28,9 +27,7 @@ export const useTyped = ({ state, words, color, pause, start, reset, finish }: T
 
   useEffect(() => {
     document.addEventListener('keyup', typing)
-    return () => {
-      document.removeEventListener('keyup', typing)
-    }
+    return () => document.removeEventListener('keyup', typing)
   }, [typed, state]) // 状态改变时重新绑定事件
 
   const favourCode = (code: string) => code.startsWith('Key') || code.startsWith('Digit') || code === 'Minus' || code === 'Space' || code === 'Enter'
@@ -49,19 +46,12 @@ export const useTyped = ({ state, words, color, pause, start, reset, finish }: T
         break
       default:
         if (state !== 'start') return
-        setTyped(t => [...t, markTyping(key, words[total])])
+        const markColor = key === words[total] ? color.correct : color.error
+        const markStyle = words[total] === ' ' ? { background: markColor } : { color: markColor }
+        setTotal(t => t + 1)
+        setTyped(t => [...t, { word: words[total], style: markStyle }])
         key !== words[total] && setError(e => e + 1)
-        setTotal(t => {
-          if (t + 1 >= words.length) finish()
-          return t + 1
-        })
     }
-  }
-
-  const markTyping = (key: string, word: string) => {
-    const markColor = key === word ? color.correct : color.error
-    const markStyle = word === ' ' ? { background: markColor } : { color: markColor }
-    return ({ word, style: markStyle })
   }
 
   const renderTyped = useMemo(() => (

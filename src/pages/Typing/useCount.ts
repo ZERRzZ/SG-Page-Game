@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
-export const useCount = (init: number, finish: () => void) => {
+export const useCount = (init: number) => {
 
   const [count, setCount] = useState(init)
 
@@ -9,14 +9,7 @@ export const useCount = (init: number, finish: () => void) => {
   const startCount = useCallback(() => {
     intervalRef.current = setInterval(() => {
       console.log('interval running...')
-      setCount(c => {
-        if (c <= 0) {
-          intervalRef.current && clearInterval(intervalRef.current)
-          finish()
-          return c
-        }
-        return c - 1
-      })
+      setCount(c => c - 1)
     }, 1000)
   }, [])
 
