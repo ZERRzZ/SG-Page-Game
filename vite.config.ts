@@ -8,6 +8,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src')
-    }
+    },
+  },
+  publicDir: '/SG-Page-Game/',
+  build: {
+    outDir: 'docs',
   }
 })

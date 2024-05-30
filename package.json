@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://ZERRzZ.github.io/SG-Page-Game",
   "scripts": {
     "dev": "vite --port=3344",
     "build": "tsc && vite build",

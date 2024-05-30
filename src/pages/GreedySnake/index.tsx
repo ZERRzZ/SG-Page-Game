@@ -1,5 +1,3 @@
-import { Button } from 'antd'
-
 import './index.css'
 
 export default function GreedySnake() {
