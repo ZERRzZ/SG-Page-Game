@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   const env = loadEnv(mode, process.cwd())
 
-  console.log(env);
+  console.log('环境变量:', env);
 
   return {
     plugins: [react()],
@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
         '@': resolve(__dirname, './src')
       },
     },
-    base: env.BASE_DIR,
+    base: env.VITE_BASE_DIR,
     build: {
       outDir: 'docs',
     }
