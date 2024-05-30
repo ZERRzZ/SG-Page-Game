@@ -29,8 +29,9 @@ export default function Typing() {
 
   // 游戏状态
   const [state, setState] = useState<TypingState>('init')
+  // 输入正确和错误时的颜色
   const [color] = useState<TypingColor>({ correct: 'green', error: 'red' })
-
+  // 排名
   let [rank, changeRank] = useLocalStorage<TypingResult[]>('typingRank')
 
   const { words, updateWords } = useWords(20)
@@ -99,17 +100,15 @@ export default function Typing() {
 
   const clearRank = () => changeRank([])
 
+  const tips = {
+    'init': '开始游戏',
+    'start': '暂停游戏',
+    'pause': '继续游戏',
+    'finish': '重新开始',
+  }
+
   return (
     <div className='typing'>
-      {
-        rank && rank.length ?
-          <div className="t-rank">
-            <span className='tr-1'>排名</span>
-            <Table className='tr-table' columns={rankColumns} dataSource={rank} pagination={false} rowKey='id' />
-            <Button type='primary' onClick={clearRank}>清空排名</Button>
-          </div>
-          : ''
-      }
       <div className="t-game">
         <span className="t-count">倒计时：{count}</span>
         <div className="t-words">{typed}</div>
@@ -117,13 +116,23 @@ export default function Typing() {
           <IconFont type='icon-zhongzhi' color='inherit' />
         </div>
       </div>
+      <span className='t-tips'>输入<span className='tt-btn'>Enter</span>{tips[state]}</span>
+      {
+        rank && rank.length ?
+          <div className="t-rank">
+            <span className='tr-1'>排名</span>
+            <Table className='tr-table' columns={rankColumns} dataSource={rank} pagination={false} rowKey='id' />
+            <Button onClick={clearRank}>清空排名</Button>
+          </div>
+          : ''
+      }
       {
         state === 'finish' ?
           <div className="t-results">
             <span className='tr-1'>结果</span>
             <span className='tr-2'>输入：{total}</span>
             <span className='tr-3'>错误：{error}</span>
-            <span className='tr-4'>速度：{speed(total, count).toFixed(0)}  词/分</span>
+            <span className='tr-4'>速度：{speed(total, count).toFixed(0)} 词/分</span>
             <span className='tr-5'>准确性：{accuracy(total, error).toFixed(0)}%</span>
           </div> : ''
       }
