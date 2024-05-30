@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   base: './',
-  publicDir: 'SG-Page-Game',
+  // publicDir: 'SG-Page-Game',
   build: {
     outDir: 'docs',
   },
