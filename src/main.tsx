@@ -5,7 +5,9 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import routes from './config/routes'
 
-const router = createBrowserRouter(routes)
+console.log(import.meta.env.VITE_BASE_DIR);
+
+const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE_DIR })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

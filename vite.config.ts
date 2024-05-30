@@ -1,17 +1,25 @@
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src')
+export default defineConfig(({ mode }) => {
+
+  const env = loadEnv(mode, process.cwd())
+
+  console.log(env);
+
+  return {
+    plugins: [react()],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, './src')
+      },
     },
-  },
-  base: '/SG-Page-Game',
-  build: {
-    outDir: 'docs',
-  },
+    base: env.BASE_DIR,
+    build: {
+      outDir: 'docs',
+    }
+  }
+
 })
