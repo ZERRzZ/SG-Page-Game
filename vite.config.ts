@@ -10,8 +10,7 @@ export default defineConfig({
       '@': resolve(__dirname, './src')
     },
   },
-  base: './',
-  // publicDir: 'SG-Page-Game',
+  base: '/SG-Page-Game',
   build: {
     outDir: 'docs',
   },
