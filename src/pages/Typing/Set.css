@@ -1,0 +1,9 @@
+.t-set {
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.t-set:hover {
+  color: var(--theme-dark);
+  transform: rotate(180deg);
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Table } from 'antd'
 
 import './index.css'
+import Set from './Set'
 import IconFont from '@/components/IconFont'
 import { useWords } from './useWords'
 import { useCount } from './useCount'
@@ -110,7 +111,10 @@ export default function Typing() {
   return (
     <div className='typing'>
       <div className="t-game">
-        <span className="t-count">倒计时：{count}</span>
+        <div className="t-header">
+          <span className="t-count">倒计时：{count}</span>
+          <Set />
+        </div>
         <div className="t-words">{typed}</div>
         <div className='t-reset' onClick={reset}>
           <IconFont type='icon-zhongzhi' color='inherit' />

@@ -26,6 +26,13 @@
   flex-flow: column;
   gap: 1em;
   align-items: center;
+  position: relative;
+}
+
+.t-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .t-count {
