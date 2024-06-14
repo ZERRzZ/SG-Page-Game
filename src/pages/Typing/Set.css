@@ -7,3 +7,8 @@
   color: var(--theme-dark);
   transform: rotate(180deg);
 }
+
+.t-set-pop {
+  width: 160px;
+  padding: 1em;
+}

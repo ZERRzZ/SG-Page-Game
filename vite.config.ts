@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   const env = loadEnv(mode, process.cwd())
 
-  console.log('环境变量:', env);
+  // console.log('环境变量:', env);
 
   return {
     plugins: [react()],

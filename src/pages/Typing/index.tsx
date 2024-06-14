@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button, Table } from 'antd'
 
 import './index.css'
 import Set from './Set'
 import IconFont from '@/components/IconFont'
-import { useWords } from './useWords'
-import { useCount } from './useCount'
-import { useTyped } from './useTyped'
+import { useInit } from './hooks/useInit'
+import { useWords } from './hooks/useWords'
+import { useCount } from './hooks/useCount'
+import { useTyped } from './hooks/useTyped'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export type TypingState = 'init' | 'start' | 'pause' | 'finish'
@@ -33,10 +34,14 @@ export default function Typing() {
   // 输入正确和错误时的颜色
   const [color] = useState<TypingColor>({ correct: 'green', error: 'red' })
   // 排名
-  let [rank, changeRank] = useLocalStorage<TypingResult[]>('typingRank')
+  const [rank, changeRank] = useLocalStorage<TypingResult[]>('typingRank', [])
 
-  const { words, updateWords } = useWords(20)
-  const { count, startCount, resetCount, pauseCount } = useCount(30)
+  // 初始设置项
+  const { init, changeInit } = useInit()
+  // 词句
+  const { words, updateWords } = useWords(init.iword)
+  // 倒计时
+  const { count, startCount, resetCount, pauseCount } = useCount(init.icount)
 
   const start = () => {
     setState('start')
@@ -63,24 +68,26 @@ export default function Typing() {
 
   const { typed, total, error, resetTyping } = useTyped({ state, words, color, pause, start, reset })
 
-  useEffect(() => {
-    !count && finish()
-  }, [count])
+  useEffect(() => count <= 0 ? finish() : undefined, [count])
 
-  useEffect(() => {
-    total === words.length && finish()
-  }, [total])
+  useEffect(() => total === words.length ? finish() : undefined, [total])
+
+  useEffect(() => reset(), [init.icount, init.iword])
+
+  const speed = useMemo(() => (total / (init.icount - count) * 60) || 0, [total, count, init.icount])
+
+  const accuracy = useMemo(() => ((1 - error / total) * 100) || 0, [total, error])
 
   const settle = () => {
     const newRank: TypingResult = {
-      rank: Number((speed(total, count) * accuracy(total, error)).toFixed(0)),
+      rank: Number((speed * accuracy).toFixed(0)),
       total,
       error,
-      speed: `${speed(total, count).toFixed(0)} 词/分`,
-      accuracy: `${accuracy(total, error).toFixed(0)}%`,
+      speed: `${speed.toFixed(0)} 词/分`,
+      accuracy: `${accuracy.toFixed(0)}%`,
       latest: true
     }
-    if (rank instanceof Array !== true) rank = []
+    if (rank instanceof Array !== true) changeRank([])
     rank.forEach(r => r.latest = false)
     rank.length > 4 && rank.splice(-1)
     const rr = [...rank, newRank]
@@ -88,10 +95,6 @@ export default function Typing() {
     rr.forEach((r, i) => r.id = i + 1)
     changeRank(rr)
   }
-
-  const speed = (total: number, count: number) => ((total / (30 - count) * 60) || 0)
-
-  const accuracy = (total: number, error: number) => (((1 - error / total) * 100) || 0)
 
   const rankColumns = [
     { title: '分数', dataIndex: 'rank', key: 'rank', align: 'center' as 'center' },
@@ -113,14 +116,16 @@ export default function Typing() {
       <div className="t-game">
         <div className="t-header">
           <span className="t-count">倒计时：{count}</span>
-          <Set />
+          <Set init={init} changeInit={changeInit} />
         </div>
         <div className="t-words">{typed}</div>
         <div className='t-reset' onClick={reset}>
           <IconFont type='icon-zhongzhi' color='inherit' />
         </div>
       </div>
-      <span className='t-tips'>输入<span className='tt-btn'>Enter</span>{tips[state]}</span>
+      {
+        init.isTip ? <span className='t-tips'>输入<span className='tt-btn'>Enter</span>{tips[state]}</span> : ''
+      }
       {
         rank && rank.length ?
           <div className="t-rank">
@@ -136,8 +141,8 @@ export default function Typing() {
             <span className='tr-1'>结果</span>
             <span className='tr-2'>输入：{total}</span>
             <span className='tr-3'>错误：{error}</span>
-            <span className='tr-4'>速度：{speed(total, count).toFixed(0)} 词/分</span>
-            <span className='tr-5'>准确性：{accuracy(total, error).toFixed(0)}%</span>
+            <span className='tr-4'>速度：{speed.toFixed(0)} 词/分</span>
+            <span className='tr-5'>准确性：{accuracy.toFixed(0)}%</span>
           </div> : ''
       }
     </div>

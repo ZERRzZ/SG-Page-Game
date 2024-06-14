@@ -16,7 +16,7 @@ export const useCount = (init: number) => {
   const resetCount = useCallback(() => {
     setCount(init)
     intervalRef.current && clearInterval(intervalRef.current)
-  }, [])
+  }, [init])
 
   const pauseCount = useCallback(() => {
     intervalRef.current && clearInterval(intervalRef.current)
