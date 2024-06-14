@@ -5,7 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import routes from './config/routes'
 
-console.log(import.meta.env.VITE_BASE_DIR);
+// console.log(import.meta.env.VITE_BASE_DIR);
 
 const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE_DIR })
 
