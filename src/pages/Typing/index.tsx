@@ -130,7 +130,14 @@ export default function Typing() {
         rank && rank.length ?
           <div className="t-rank">
             <span className='tr-1'>排名</span>
-            <Table className='tr-table' columns={rankColumns} dataSource={rank} pagination={false} rowKey='id' />
+            <Table
+              rowKey='id'
+              className='tr-table'
+              rowClassName={r => r.latest ? 'tr-new-tr' : ''}
+              columns={rankColumns}
+              dataSource={rank}
+              pagination={false}
+            />
             <Button onClick={clearRank}>清空排名</Button>
           </div>
           : ''

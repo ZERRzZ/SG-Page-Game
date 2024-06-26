@@ -21,9 +21,11 @@
   :root {
     --color: #213547;
     --color-light: #5b6c82;
+
     --body-bg: #ffffff;
     --box-shadow: #c8c8c8;
     --background-color: #c8c8c8;
+
     --theme-dark: #4096ff;
     --theme-light: #eff8ff;
   }

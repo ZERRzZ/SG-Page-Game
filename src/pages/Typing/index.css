@@ -8,7 +8,7 @@
 .t-rank {
   width: 300px;
   padding: 1em;
-  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
+  background: var(--theme-light);
   animation: show-results .3s ease;
   display: flex;
   flex-flow: column;
@@ -21,7 +21,7 @@
 .t-game {
   max-width: 600px;
   padding: 1em;
-  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
+  background: var(--theme-light);
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -111,4 +111,8 @@
 
 .tr-table {
   animation: updisplay .3s ease .6s backwards;
+}
+
+.tr-new-tr {
+  color: var(--theme-dark);
 }
