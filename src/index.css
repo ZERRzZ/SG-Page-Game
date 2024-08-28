@@ -17,6 +17,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --color: #213547;
@@ -29,14 +37,6 @@
     --theme-dark: #4096ff;
     --theme-light: #eff8ff;
   }
-}
-
-body {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
 }
 
 /* 动画 */

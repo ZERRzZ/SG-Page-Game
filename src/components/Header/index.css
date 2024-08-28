@@ -1,6 +1,6 @@
 header {
-  min-width: 100vh;
-  padding: 0 1em;
+  height: 120px;
+  padding: 0 4em;
   box-shadow: 3px 0 5px var(--box-shadow);
   background: var(--body-bg);
   display: flex;
@@ -10,9 +10,4 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-}
-
-.header-title {
-  font-size: 1.2em;
-  font-weight: 800;
 }

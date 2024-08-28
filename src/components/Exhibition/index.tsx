@@ -11,7 +11,7 @@ export default function Exhibition() {
       {
         exhibitions.map(v =>
           <Link className='exhibition-item' key={v.id} to={v.path}>
-            <IconFont type={v.icon} size={160} />
+            <IconFont type={v.icon} size={120} />
             <span className='ei-name'>{v.name}</span>
           </Link>
         )
