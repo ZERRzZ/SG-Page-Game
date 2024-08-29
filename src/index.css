@@ -22,6 +22,7 @@ body {
 }
 
 a {
+  color: var(--color);
   text-decoration: none;
 }
 
@@ -29,6 +30,7 @@ a {
   :root {
     --color: #213547;
     --color-light: #5b6c82;
+    --color-anti: #ffffff;
 
     --body-bg: #ffffff;
     --box-shadow: #c8c8c8;

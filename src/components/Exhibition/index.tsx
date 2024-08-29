@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom'
 
 import './index.css'
-import exhibitions from '@/assets/jsons/exhibitions.json'
 import IconFont from '../IconFont'
+import { ExhibitionItem } from '@/types/Exhibition'
 
-export default function Exhibition() {
+interface IProps {
+  list: ExhibitionItem[]
+}
+
+export default function Exhibition({ list }: IProps) {
 
   return (
     <div className='exhibition'>
       {
-        exhibitions.map(v =>
+        list.map(v =>
           <Link className='exhibition-item' key={v.id} to={v.path}>
             <IconFont type={v.icon} size={120} />
             <span className='ei-name'>{v.name}</span>

@@ -3,9 +3,11 @@
   display: flex;
   flex-flow: column;
   gap: 2em;
+  align-items: center;
 }
 
 main {
+  max-width: 1200px;
   flex: 1;
   display: flex;
   flex-flow: column;

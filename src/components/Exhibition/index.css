@@ -1,5 +1,4 @@
 .exhibition {
-  padding: 1em;
   display: flex;
   flex-flow: row wrap;
   gap: 2em;
@@ -8,13 +7,15 @@
 }
 
 .exhibition-item {
-  padding: 1em 4em;
+  width: 300px;
+  height: 250px;
   border-radius: 10px;
   box-shadow: 1px 1px 5px var(--box-shadow);
   transition: all .3s;
   display: flex;
   flex-flow: column;
   place-items: center;
+  justify-content: center;
   gap: 1em;
 }
 

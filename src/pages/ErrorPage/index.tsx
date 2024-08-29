@@ -13,7 +13,7 @@ const ErrorPage = () => {
   return (
     <div className="error-page">
       <h1>抱歉，你遇到了错误！</h1>
-      <h2>{error?.status}，{error?.statusText || error?.message}</h2>
+      <h2>{error?.status} {error?.statusText || error?.message}</h2>
       <Button
         type="primary"
         icon={<IconFont type="icon-shouye1" size='1.2em' color="#fff" />}
