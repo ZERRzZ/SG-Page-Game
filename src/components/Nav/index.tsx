@@ -1,21 +1,38 @@
-import { Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { Breadcrumb } from 'antd'
+import { Link, useLocation } from 'react-router-dom'
 
 import './index.css'
 import IconFont from '../IconFont'
+import { useEffect } from 'react'
 
 export default function Nav() {
 
-  const navigate = useNavigate()
+  const location = useLocation()
 
-  const goBack = () => {
-    navigate(-1)
-  }
+  useEffect(() => {
+    console.log(location);
+  }, [location])
 
   return (
-    <nav>
-      <Button className='nav-btn' onClick={goBack} icon={<IconFont type='icon-fanhui' />}>返回</Button>
-    </nav>
+    <Breadcrumb
+      itemRender={route => <Link to={route.href || ''}>{route.title}</Link>}
+      items={[
+        {
+          title: <IconFont type='icon-shouye1' />
+        },
+        {
+          href: '',
+          title: (
+            <>
+              <span>Application List</span>
+            </>
+          ),
+        },
+        {
+          title: 'Application',
+        },
+      ]}
+    />
   )
 
 }

@@ -1,5 +1,3 @@
-nav {
-  padding: 1em 0;
-  display: flex;
-  gap: 1em;
+.ant-breadcrumb {
+  align-self: flex-start;
 }

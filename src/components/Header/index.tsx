@@ -4,7 +4,7 @@ import './index.css'
 export default function Header() {
 
   const location = useLocation()
-  
+
   return (
     <header>
       <h1>SG Page Game</h1>
