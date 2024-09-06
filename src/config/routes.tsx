@@ -23,6 +23,7 @@ export const menus: MyRoute[] = [
       {
         path: 'games',
         element: <Outlet />,
+        extra: { name: "游戏" },
         children: [
           {
             index: true,
@@ -31,23 +32,24 @@ export const menus: MyRoute[] = [
           {
             path: 'Touhou',
             element: <Touhou />,
-            extra: { id: "g1", name: "Touhou", icon: "", description: "一个打飞机游戏却有成为东方那样的野心" }
+            extra: { id: "g1", name: "东方", icon: "", description: "一个打飞机游戏却有成为东方那样的野心" }
           },
           {
             path: 'GreedySnake',
             element: <GreedySnake />,
-            extra: { id: "g2", name: "GreedySnake", icon: "icon-she", description: "贪吃蛇小游戏" }
+            extra: { id: "g2", name: "贪吃蛇", icon: "", description: "贪吃蛇小游戏" }
           },
           {
             path: 'Typing',
             element: <Typing />,
-            extra: { id: "g3", name: "Typing", icon: "icon-jianpan", description: "极简打字小游戏" }
+            extra: { id: "g3", name: "打字", icon: "icon-keyboard", description: "极简打字小游戏" }
           }
         ]
       },
       {
         path: 'guides',
         element: <Outlet />,
+        extra: { name: "攻略" },
         children: [
           {
             index: true,
@@ -75,6 +77,15 @@ const renderRoutes = (menus: MyRoute[]) => {
     }
     return obj
   })
+}
+
+export const getPageRoute = (path: string) => {
+  if (!menus || !menus[0]) return
+  if (!menus[0].children) return
+  const pathRoute = menus[0].children.find(item => item.path === path)
+  if (!pathRoute || !pathRoute.children) return
+  const pathRouteList: MyRoute[] = pathRoute.children.filter((item: MyRoute) => item.extra)
+  return pathRouteList
 }
 
 export const routes = renderRoutes(menus)

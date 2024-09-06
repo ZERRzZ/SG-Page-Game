@@ -71,7 +71,9 @@
 
 .tt-btn {
   padding: 0 3px;
-  border: 1px solid var(--color-light);
+  font-size: .8em;
+  color: var(--color-anti);
+  background: var(--color-light);
   border-radius: 4px;
 }
 

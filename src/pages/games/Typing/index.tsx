@@ -120,7 +120,7 @@ export default function Typing() {
         </div>
         <div className="t-words">{typed}</div>
         <div className='t-reset' onClick={reset}>
-          <IconFont type='icon-zhongzhi' color='inherit' />
+          <IconFont type='icon-reset' color='inherit' />
         </div>
       </div>
       {

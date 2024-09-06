@@ -10,7 +10,7 @@ export default function Nav() {
   const location = useLocation()
 
   useEffect(() => {
-    console.log(location);
+    console.log(location.pathname.split('/'))
   }, [location])
 
   return (
@@ -18,7 +18,8 @@ export default function Nav() {
       itemRender={route => <Link to={route.href || ''}>{route.title}</Link>}
       items={[
         {
-          title: <IconFont type='icon-shouye1' />
+          href: '/',
+          title: <IconFont type='icon-home' />
         },
         {
           href: '',

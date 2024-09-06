@@ -66,7 +66,7 @@ export default function Set({ init, changeInit }: IProps) {
       onOpenChange={handleOpenChange}
     >
       <span className='t-set'>
-        <IconFont type='icon-shezhi' />
+        <IconFont type='icon-setting' />
       </span>
     </Popover>
   )

@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 
 import './index.css'
-import { ExhibitionItem } from '@/types/Exhibition';
 import Exhibition from '@/components/Exhibition';
-import exhibitions from '@/config/exhibitions';
+import { getPageRoute, menus } from '@/config/routes'
+import { MyRoute } from '@/types/MyRoute'
 
 export default function GuideIndex() {
 
-  const [elist, setElist] = useState<ExhibitionItem[]>([])
+  const [elist, setElist] = useState<MyRoute[]>([])
 
   useEffect(() => {
-    exhibitions.guide && setElist(exhibitions.guide)
-  }, [exhibitions])
+    const guideList = getPageRoute('guides')
+    console.log(guideList)
+  }, [menus])
 
   return (
     <>
