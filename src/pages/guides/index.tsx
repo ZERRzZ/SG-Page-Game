@@ -11,7 +11,7 @@ export default function GuideIndex() {
 
   useEffect(() => {
     const guideList = getPageRoute('guides')
-    console.log(guideList)
+    guideList && setElist(guideList)
   }, [menus])
 
   return (

@@ -14,6 +14,7 @@ export const menus: MyRoute[] = [
   {
     path: '/',
     element: <App />,
+    extra: { name: "首页", icon: 'icon-home' },
     errorElement: <ErrorPage />,
     children: [
       {
@@ -23,7 +24,7 @@ export const menus: MyRoute[] = [
       {
         path: 'games',
         element: <Outlet />,
-        extra: { name: "游戏" },
+        extra: { name: "游戏", icon: 'icon-game' },
         children: [
           {
             index: true,
@@ -49,7 +50,7 @@ export const menus: MyRoute[] = [
       {
         path: 'guides',
         element: <Outlet />,
-        extra: { name: "攻略" },
+        extra: { name: "攻略", icon: 'icon-guide' },
         children: [
           {
             index: true,
@@ -79,13 +80,13 @@ const renderRoutes = (menus: MyRoute[]) => {
   })
 }
 
+export const routes = renderRoutes(menus)
+
 export const getPageRoute = (path: string) => {
-  if (!menus || !menus[0]) return
-  if (!menus[0].children) return
-  const pathRoute = menus[0].children.find(item => item.path === path)
+  const mainMenu = menus[0].children
+  if (!mainMenu) return
+  const pathRoute = mainMenu.find(item => item.path === path)
   if (!pathRoute || !pathRoute.children) return
   const pathRouteList: MyRoute[] = pathRoute.children.filter((item: MyRoute) => item.extra)
   return pathRouteList
 }
-
-export const routes = renderRoutes(menus)
