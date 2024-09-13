@@ -1,3 +1,18 @@
-.ant-breadcrumb {
+.breadcrumb {
   align-self: flex-start;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.breadcrumb a {
+  color: var(--color-light);
+  transition: all .3s;
+  display: flex;
+  gap: .3em;
+  align-items: center;
+}
+
+.breadcrumb a:hover {
+  background: var(----background-color);
 }

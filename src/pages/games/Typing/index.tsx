@@ -9,23 +9,7 @@ import { useWords } from './hooks/useWords'
 import { useCount } from './hooks/useCount'
 import { useTyped } from './hooks/useTyped'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-
-export type TypingState = 'init' | 'start' | 'pause' | 'finish'
-
-export interface TypingColor {
-  correct: string
-  error: string
-}
-
-export interface TypingResult {
-  id?: number
-  rank: number
-  total: number
-  error: number
-  speed: string
-  accuracy: string
-  latest: boolean
-}
+import { TypingColor, TypingResult, TypingState } from '@/types/Typing'
 
 export default function Typing() {
 
@@ -113,19 +97,6 @@ export default function Typing() {
 
   return (
     <div className='typing'>
-      <div className="t-game">
-        <div className="t-header">
-          <span className="t-count">倒计时：{count}</span>
-          <Set init={init} changeInit={changeInit} />
-        </div>
-        <div className="t-words">{typed}</div>
-        <div className='t-reset' onClick={reset}>
-          <IconFont type='icon-reset' color='inherit' />
-        </div>
-      </div>
-      {
-        init.isTip ? <span className='t-tips'>输入<span className='tt-btn'>Enter</span>{tips[state]}</span> : ''
-      }
       {
         rank && rank.length ?
           <div className="t-rank">
@@ -142,6 +113,19 @@ export default function Typing() {
           </div>
           : ''
       }
+      <div className="t-game">
+        <div className="t-header">
+          <span className="t-count">倒计时：{count}</span>
+          <Set init={init} changeInit={changeInit} />
+        </div>
+        <div className="t-words">{typed}</div>
+        <div className='t-reset' onClick={reset}>
+          <IconFont type='icon-reset' color='inherit' />
+        </div>
+      </div>
+      {
+        init.isTip ? <span className='t-tips'>输入<span className='tt-btn'>Enter</span>{tips[state]}</span> : ''
+      }
       {
         state === 'finish' ?
           <div className="t-results">
@@ -150,7 +134,7 @@ export default function Typing() {
             <span className='tr-3'>错误：{error}</span>
             <span className='tr-4'>速度：{speed.toFixed(0)} 词/分</span>
             <span className='tr-5'>准确性：{accuracy.toFixed(0)}%</span>
-          </div> : ''
+          </div> : <div className="t-results"></div>
       }
     </div>
   )

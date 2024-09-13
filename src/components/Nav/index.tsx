@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { Breadcrumb } from 'antd'
+import { Fragment, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BreadcrumbItemType, BreadcrumbSeparatorType } from 'antd/es/breadcrumb/Breadcrumb'
 
 import './index.css'
 import IconFont from '../IconFont'
 import { menus } from '@/config/routes'
 import { MyRoute } from '@/types/MyRoute'
+import { Breadcrumb } from '@/types/Breadcrumb'
 
 export default function Nav() {
 
   const location = useLocation()
 
-  const [items, setItems] = useState<Partial<BreadcrumbItemType & BreadcrumbSeparatorType>[]>([])
+  const [items, setItems] = useState<Breadcrumb[]>([])
 
+  // 不涉及 dom 更新，无须使用 state
   let nowMenu: MyRoute[] = []
 
   useEffect(() => {
@@ -32,7 +32,15 @@ export default function Nav() {
       const pathObj = getPathDetails(pathArr[i] || '/')
       return {
         href: t,
-        title: <>{pathObj?.extra?.icon ? <IconFont type={pathObj?.extra?.icon} /> : ''} {pathObj?.extra?.name}</>
+        title:
+          <>
+            {
+              pathObj?.extra?.icon ? <IconFont type={pathObj?.extra?.icon} /> : ''
+            }
+            {
+              pathObj?.extra?.name
+            }
+          </>
       }
     }))
   }, [location])
@@ -47,10 +55,18 @@ export default function Nav() {
   }
 
   return (
-    <Breadcrumb
-      itemRender={route => <Link to={route.href || ''}>{route.title}</Link>}
-      items={items}
-    />
+    <div className="breadcrumb">
+      {
+        items.map((v, i) =>
+          <Fragment key={v.href}>
+            <Link to={v.href || ''}>{v.title}</Link>
+            {
+              i !== items.length - 1 ? '/' : ''
+            }
+          </Fragment>
+        )
+      }
+    </div>
   )
 
 }

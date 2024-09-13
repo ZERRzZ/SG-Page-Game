@@ -1,7 +1,6 @@
 .typing {
   display: flex;
-  gap: 1em;
-  flex-flow: column;
+  gap: 10px;
   position: relative;
 }
 
@@ -14,8 +13,8 @@
   flex-flow: column;
   gap: 1em;
   align-items: center;
-  position: absolute;
-  left: calc(-300px - 1em);
+  /* position: absolute;
+  left: calc(-300px - 1em); */
 }
 
 .t-game {
@@ -86,8 +85,8 @@
   flex-flow: column;
   gap: 1em;
   align-items: center;
-  position: absolute;
-  right: calc(-200px - 1em);
+  /* position: absolute;
+  right: calc(-200px - 1em); */
 }
 
 .tr-1 {

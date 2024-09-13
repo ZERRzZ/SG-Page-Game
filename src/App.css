@@ -1,15 +1,5 @@
-#root {
-  min-width: 100vw;
-  height: 100vh;
-  display: inline-flex;
-  flex-flow: column;
-  gap: 1em;
-  align-items: center;
-  position: relative;
-}
-
 main {
-  width: 1200px;
+  width: 90%;
   flex: 1;
   display: flex;
   flex-flow: column;

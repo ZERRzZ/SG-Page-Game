@@ -33,7 +33,7 @@ export const useTyped = ({ state, words, color, pause, start, reset }: TypedHook
   const favourCode = (code: string) => code.startsWith('Key') || code.startsWith('Digit') || code === 'Minus' || code === 'Space' || code === 'Enter'
 
   const typing = ({ code, key }: KeyboardEvent) => {
-    console.log('keyup event running...')
+    // console.log('keyup event running...')
     if (!favourCode(code)) return
     switch (code) {
       case 'Enter':

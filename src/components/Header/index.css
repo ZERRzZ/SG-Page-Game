@@ -1,8 +1,8 @@
 header {
   width: 100%;
-  height: 100px;
-  padding: 0 4em;
-  box-shadow: 3px 0 5px var(--box-shadow);
+  height: 6em;
+  padding: 0 5%;
+  box-shadow: 0 0 .5em var(--box-shadow);
   background: var(--body-bg);
   display: flex;
   gap: 1em;
@@ -19,12 +19,10 @@ header {
 }
 
 .head-nav a {
-  width: 80px;
-  height: 100%;
+  padding: 0 2em;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .head-nav .active,

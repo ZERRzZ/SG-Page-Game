@@ -8,7 +8,7 @@ export const useCount = (init: number) => {
 
   const startCount = useCallback(() => {
     intervalRef.current = setInterval(() => {
-      console.log('interval running...')
+      // console.log('interval running...')
       setCount(c => c - 1)
     }, 1000)
   }, [])
