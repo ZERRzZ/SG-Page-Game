@@ -1,18 +1,25 @@
 .breadcrumb {
-  align-self: flex-start;
+  width: 100%;
+  color: var(--color-light);
   display: flex;
-  gap: 1em;
+  gap: .5em;
   align-items: center;
 }
 
 .breadcrumb a {
+  padding: .2em .4em;
   color: var(--color-light);
+  border-radius: 1em;
   transition: all .3s;
   display: flex;
   gap: .3em;
   align-items: center;
 }
 
+.breadcrumb a:last-child {
+  color: var(--color);
+}
+
 .breadcrumb a:hover {
-  background: var(----background-color);
+  background: var(--background-color);
 }

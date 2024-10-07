@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { TypingColor, TypingState } from "@/types/Typing"
 
-import { TypingColor, TypingState } from ".."
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 export interface TypedHook {
   state: TypingState

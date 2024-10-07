@@ -37,7 +37,7 @@ export default function Set({ init, changeInit }: IProps) {
     {
       type: 'number',
       item: { name: 'word', label: '词数' },
-      option: { min: 20, max: 40 }
+      option: { min: 30, max: 60 }
     }
   ]
 

@@ -2,7 +2,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage"
 
 export const useInit = () => {
 
-  const [iword, changeIword] = useLocalStorage('iword', 20)
+  const [iword, changeIword] = useLocalStorage('iword', 30)
 
   const [icount, changeIcount] = useLocalStorage('icount', 30)
 

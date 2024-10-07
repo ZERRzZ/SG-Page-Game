@@ -24,8 +24,8 @@ export default function Nav() {
       transPathArr.push(pre + cur)
       return pre + cur + '/'
     }, '')
-    console.log(pathArr, 'pathArr')
-    console.log(transPathArr, 'transPathArr')
+    // console.log(pathArr, 'pathArr')
+    // console.log(transPathArr, 'transPathArr')
     // 获取每个层级的额外信息并设置面包屑
     nowMenu = JSON.parse(JSON.stringify(menus))
     setItems(transPathArr.map((t, i) => {
@@ -34,12 +34,8 @@ export default function Nav() {
         href: t,
         title:
           <>
-            {
-              pathObj?.extra?.icon ? <IconFont type={pathObj?.extra?.icon} /> : ''
-            }
-            {
-              pathObj?.extra?.name
-            }
+            {pathObj?.extra?.icon ? <IconFont type={pathObj?.extra?.icon} /> : ''}
+            {pathObj?.extra?.name}
           </>
       }
     }))
@@ -60,9 +56,7 @@ export default function Nav() {
         items.map((v, i) =>
           <Fragment key={v.href}>
             <Link to={v.href || ''}>{v.title}</Link>
-            {
-              i !== items.length - 1 ? '/' : ''
-            }
+            {i !== items.length - 1 ? '/' : ''}
           </Fragment>
         )
       }

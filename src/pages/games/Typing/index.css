@@ -1,24 +1,15 @@
 .typing {
-  display: flex;
-  gap: 10px;
-  position: relative;
-}
-
-.t-rank {
-  width: 300px;
-  padding: 1em;
-  background: var(--theme-light);
-  animation: show-results .3s ease;
+  align-self: center;
+  width: 82em;
   display: flex;
   flex-flow: column;
   gap: 1em;
   align-items: center;
-  /* position: absolute;
-  left: calc(-300px - 1em); */
+  position: relative;
 }
 
 .t-game {
-  max-width: 600px;
+  width: 40em;
   padding: 1em;
   background: var(--theme-light);
   display: flex;
@@ -48,7 +39,6 @@
 }
 
 .t-reset {
-  padding: 5px;
   cursor: pointer;
   transition: all .3s;
 }
@@ -59,6 +49,7 @@
 }
 
 .t-tips {
+  width: 40rem;
   color: var(--color-light);
   font-size: .8em;
   cursor: default;
@@ -77,16 +68,17 @@
 }
 
 .t-results {
-  width: 200px;
+  width: 20em;
   padding: 1em;
-  background: radial-gradient(transparent 50%, var(--theme-light) 100%);
   animation: updisplay .3s ease;
+  background: var(--theme-light);
   display: flex;
   flex-flow: column;
   gap: 1em;
   align-items: center;
-  /* position: absolute;
-  right: calc(-200px - 1em); */
+  position: absolute;
+  left: 62em;
+  top: 0;
 }
 
 .tr-1 {
@@ -116,4 +108,34 @@
 
 .tr-new-tr {
   color: var(--theme-dark);
+}
+
+.t-rank {
+  width: 20em;
+  padding: 1em;
+  background: var(--theme-light);
+  animation: show-results .3s ease;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.t-rank-null {
+  width: 20em;
+}
+
+@media (max-width: 1100px) {
+  .typing {
+    width: 100%;
+  }
+
+  .t-results,
+  .t-rank {
+    width: 40em;
+    position: static;
+  }
 }
