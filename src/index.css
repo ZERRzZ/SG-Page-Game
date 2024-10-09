@@ -66,6 +66,9 @@ a {
     --theme-dark: #4096ff;
     --theme-dark-active: #6eafff;
     --theme-light: #eff8ff;
+    --theme-light-active: #dcf0ff;
+
+    --danger: red;
   }
 }
 

@@ -1,7 +1,6 @@
-import { Button, Table } from 'antd'
-
 import './index.css'
 import { TypingResult } from '@/types/Typing'
+import IconFont from '@/components/IconFont'
 
 interface IProps {
   rank: TypingResult[]
@@ -10,24 +9,33 @@ interface IProps {
 
 export default function Rank({ rank, clearRank }: IProps) {
 
-  const rankColumns = [
-    { title: '分数', dataIndex: 'rank', key: 'rank', align: 'center' as 'center' },
-    { title: '速度', dataIndex: 'speed', key: 'speed', align: 'center' as 'center' },
-    { title: '准确性', dataIndex: 'accuracy', key: 'accuracy', align: 'center' as 'center' }
-  ]
-
   return (
     <div className="t-rank">
-      <span className='tr-1'>排名</span>
-      <Table
-        rowKey='id'
-        className='tr-table'
-        rowClassName={r => r.latest ? 'tr-new-tr' : ''}
-        columns={rankColumns}
-        dataSource={rank}
-        pagination={false}
-      />
-      <Button onClick={clearRank}>清空排名</Button>
+      <span className='tr-title'>
+        <IconFont type='icon-rank' size='1.4em' />
+      </span>
+      <div className='tr-content'>
+        <span>排名</span>
+        <span>分数</span>
+        <span>速度</span>
+        <span>准确性</span>
+        {
+          rank?.map(r => (
+            <>
+              <span className='trc-rank'>
+                {r.latest ? <div className='trc-new'><IconFont type='icon-new' size='1.6em' color='var(--theme-dark)' /></div> : ''}
+                {r.id === 1 ? <IconFont type='icon-top' size='1.4em' /> : r.id}
+              </span>
+              <span>{r.rank}</span>
+              <span>{r.speed}</span>
+              <span>{r.accuracy}</span>
+            </>
+          ))
+        }
+      </div>
+      <div className='t-clear' onClick={clearRank}>
+        <IconFont type='icon-clear' size='1.2em' />
+      </div>
     </div>
   )
 
