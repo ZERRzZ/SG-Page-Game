@@ -1,5 +1,4 @@
 import { useNavigate, useRouteError } from "react-router-dom"
-import { Button } from "antd"
 
 import "./index.css"
 import IconFont from "@/components/IconFont"
@@ -14,13 +13,10 @@ const ErrorPage = () => {
     <div className="error-page">
       <h1>抱歉，你遇到了错误！</h1>
       <h2>{error?.status} {error?.statusText || error?.message}</h2>
-      <Button
-        type="primary"
-        icon={<IconFont type="icon-shouye1" size='1.2em' color="#fff" />}
-        onClick={() => navigate('/')}
-      >
+      <button className="ep-homebtn" onClick={() => navigate('/')}>
+        <IconFont type="icon-home" />
         返回首页
-      </Button>
+      </button>
     </div>
   )
 

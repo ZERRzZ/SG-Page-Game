@@ -1,0 +1,25 @@
+.t-rank {
+  width: 20em;
+  padding: 1em;
+  background: var(--theme-light);
+  animation: updisplay .3s;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.tr-1 {
+  font-weight: 800;
+  animation: updisplay .3s .3s backwards;
+}
+
+@media (max-width: 1100px) {
+  .t-rank {
+    width: 40em;
+    position: static;
+  }
+}

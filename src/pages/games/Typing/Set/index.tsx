@@ -1,7 +1,7 @@
 import { Popover } from 'antd'
 import { ZeForm, ZeFormForm, ZeFormItem } from '@chengzs/zeform'
 
-import './Set.css'
+import './index.css'
 import IconFont from '@/components/IconFont'
 import { useForm } from 'antd/es/form/Form'
 

@@ -1,5 +1,5 @@
 .exhibition {
-  animation: updisplay .3s ease;
+  animation: updisplay .3s;
   display: flex;
   flex-flow: row wrap;
   gap: 2em;

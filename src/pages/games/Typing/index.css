@@ -1,6 +1,6 @@
 .typing {
-  align-self: center;
   width: 82em;
+  align-self: center;
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -12,6 +12,7 @@
   width: 40em;
   padding: 1em;
   background: var(--theme-light);
+  animation: updisplay .3s;
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -53,24 +54,24 @@
   color: var(--color-light);
   font-size: .8em;
   cursor: default;
-  animation: updisplay .3s ease;
+  animation: leftdisplay .3s;
   display: flex;
   gap: .5em;
   align-items: center;
 }
 
 .tt-btn {
-  padding: 0 3px;
+  padding: .1em .3em;
   font-size: .8em;
   color: var(--color-anti);
   background: var(--color-light);
-  border-radius: 4px;
+  border-radius: .4em;
 }
 
 .t-results {
-  width: 20em;
+  width: 15em;
   padding: 1em;
-  animation: updisplay .3s ease;
+  animation: updisplay .3s;
   background: var(--theme-light);
   display: flex;
   flex-flow: column;
@@ -83,49 +84,31 @@
 
 .tr-1 {
   font-weight: 800;
-  animation: updisplay .3s ease .3s backwards;
+  animation: updisplay .3s .3s backwards;
 }
 
 .tr-2 {
-  animation: updisplay .3s ease .6s backwards;
+  animation: updisplay .3s .6s backwards;
 }
 
 .tr-3 {
-  animation: updisplay .3s ease .9s backwards;
+  animation: updisplay .3s .9s backwards;
 }
 
 .tr-4 {
-  animation: updisplay .3s ease 1.2s backwards;
+  animation: updisplay .3s 1.2s backwards;
 }
 
 .tr-5 {
-  animation: updisplay .3s ease 1.5s backwards;
+  animation: updisplay .3s 1.5s backwards;
 }
 
 .tr-table {
-  animation: updisplay .3s ease .6s backwards;
+  animation: updisplay .3s .6s backwards;
 }
 
 .tr-new-tr {
   color: var(--theme-dark);
-}
-
-.t-rank {
-  width: 20em;
-  padding: 1em;
-  background: var(--theme-light);
-  animation: show-results .3s ease;
-  display: flex;
-  flex-flow: column;
-  gap: 1em;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.t-rank-null {
-  width: 20em;
 }
 
 @media (max-width: 1100px) {
@@ -133,8 +116,7 @@
     width: 100%;
   }
 
-  .t-results,
-  .t-rank {
+  .t-results {
     width: 40em;
     position: static;
   }

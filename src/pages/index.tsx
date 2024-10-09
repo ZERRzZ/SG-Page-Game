@@ -3,7 +3,7 @@ import './index.css'
 export default function IndexPage() {
 
   return (
-    <div>
+    <div className='home'>
       首页
     </div>
   )

@@ -24,7 +24,13 @@
   color-scheme: light;
 }
 
-body {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
@@ -54,9 +60,11 @@ a {
     --color-anti: #ffffff;
     --body-bg: #ffffff;
     --box-shadow: #c8c8c8;
+    --border: #c8c8c8;
     --background-color: #c8c8c8;
 
     --theme-dark: #4096ff;
+    --theme-dark-active: #6eafff;
     --theme-light: #eff8ff;
   }
 }

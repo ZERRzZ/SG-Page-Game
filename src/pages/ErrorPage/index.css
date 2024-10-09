@@ -1,7 +1,26 @@
 .error-page {
-  margin-top: 200px;
+  margin-top: 10em;
+  animation: updisplay .3s;
   display: flex;
   flex-flow: column;
-  gap: 1em;
+  gap: 2em;
   align-items: center;
+}
+
+.ep-homebtn {
+  padding: .6em 1em;
+  color: var(--color-anti);
+  border: none;
+  border-radius: .4em;
+  background: var(--theme-dark);
+  cursor: pointer;
+  transition: all .3s;
+  animation: updisplay .3s .3s backwards;
+  display: flex;
+  gap: .5em;
+  align-items: center;
+}
+
+.ep-homebtn:hover {
+  background: var(--theme-dark-active);
 }

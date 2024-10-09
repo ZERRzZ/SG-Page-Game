@@ -1,6 +1,6 @@
 header {
   width: 100%;
-  height: 6em;
+  flex: 0 0 6em;
   padding: 0 5%;
   box-shadow: 0 0 .5em var(--box-shadow);
   background: var(--body-bg);

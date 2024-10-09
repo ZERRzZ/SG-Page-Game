@@ -56,7 +56,7 @@ export default function Nav() {
         items.map((v, i) =>
           <Fragment key={v.href}>
             <Link to={v.href || ''}>{v.title}</Link>
-            {i !== items.length - 1 ? '/' : ''}
+            {i !== items.length - 1 ? <span>/</span> : ''}
           </Fragment>
         )
       }
