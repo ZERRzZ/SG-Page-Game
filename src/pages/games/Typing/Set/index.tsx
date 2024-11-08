@@ -1,74 +1,54 @@
-import { Popover } from 'antd'
-import { ZeForm, ZeFormForm, ZeFormItem } from '@chengzs/zeform'
+import { useState } from 'react'
 
 import './index.css'
 import IconFont from '@/components/IconFont'
-import { useForm } from 'antd/es/form/Form'
+import { TypingMode } from '@/types/Typing';
 
 interface IProps {
-  init: any
-  changeInit: (...arg: { value: any, key: string }[]) => void
+  showTip: boolean
+  tMode: TypingMode
+  changeInit: (key: string, value: any) => void
 }
 
-export default function Set({ init, changeInit }: IProps) {
+export default function Set({ showTip, tMode, changeInit }: IProps) {
 
-  const [form] = useForm()
+  const [open, setOpen] = useState(false)
 
-  const setForm: ZeFormForm = {
-    form: form,
-    labelCol: { span: 'auto' },
-    initialValues: {
-      isTip: init.isTip,
-      count: init.icount,
-      word: init.iword
-    },
-  }
-
-  const setItems: ZeFormItem[] = [
-    {
-      type: 'switch',
-      item: { name: 'isTip', label: '是否显示提示' }
-    },
-    {
-      type: 'number',
-      item: { name: 'count', label: '秒数' },
-      option: { min: 30, max: 90, step: 10 }
-    },
-    {
-      type: 'number',
-      item: { name: 'word', label: '词数' },
-      option: { min: 30, max: 60 }
-    }
-  ]
-
-  const content = (
-    <div className="t-set-pop">
-      <ZeForm form={setForm} items={setItems} />
-    </div>
-  )
-
-  const handleOpenChange = (v: any) => {
-    if (v) return
-    const value = form.getFieldsValue()
-    changeInit(
-      { key: 'iword', value: value.word },
-      { key: 'icount', value: value.count },
-      { key: 'isTip', value: value.isTip },
-    )
-  }
+  const mode = ['快速', '适中', '持久']
 
   return (
-    <Popover
-      content={content}
-      title="设置"
-      trigger="click"
-      placement='bottom'
-      onOpenChange={handleOpenChange}
-    >
-      <span className='t-set'>
+    <div className="t-set">
+      <div className="ts-icon" onClick={() => setOpen(!open)}>
         <IconFont type='icon-setting' />
-      </span>
-    </Popover>
+      </div>
+      {
+        open ?
+          <div className='t-pop'>
+            <div>
+              <span>是否显示提示</span>
+              <input type="checkbox" checked={showTip} onChange={() => changeInit('typingShowTip', !showTip)} />
+            </div>
+            <div>
+              <span>模式</span>
+              <span className='tp-btns'>
+                {
+                  mode.map((v, i) => (
+                    <div
+                      key={i}
+                      className={tMode === v ? 'active' : ''}
+                      onClick={() => changeInit('typingMode', v)}
+                    >
+                      {v}
+                    </div>
+                  ))
+                }
+              </span>
+            </div>
+          </div>
+          :
+          ''
+      }
+    </div>
   )
 
 }

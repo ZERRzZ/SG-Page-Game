@@ -1,14 +1,57 @@
 .t-set {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.ts-icon {
   cursor: pointer;
   transition: all .3s;
 }
 
-.t-set:hover {
+.ts-icon:hover {
   color: var(--theme-dark);
   transform: rotate(180deg);
 }
 
-.t-set-pop {
-  width: 160px;
+.t-pop {
   padding: 1em;
+  background: var(--body-bg);
+  border-radius: .5em;
+  box-shadow: .2em .2em .5em var(--box-shadow);
+  white-space: nowrap;
+  animation: downdisplay .3s;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  position: absolute;
+  top: calc(100% + 1em);
+  z-index: 10;
+}
+
+.t-pop>div {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.tp-btns {
+  display: flex;
+  gap: 1em;
+}
+
+.tp-btns>div {
+  padding: .1em .3em;
+  border: 1px solid var(--border);
+  border-radius: .2em;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.tp-btns>div:hover,
+.tp-btns>div.active {
+  color: var(--color-anti);
+  background: var(--theme-dark);
+  border-color: var(--theme-dark);
 }

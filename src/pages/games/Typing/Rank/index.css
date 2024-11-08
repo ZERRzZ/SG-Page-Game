@@ -18,18 +18,25 @@
 
 .tr-content {
   width: 100%;
+  animation: updisplay .3s .6s backwards;
   display: flex;
-  flex-flow: row wrap;
-  gap: 1em 0;
+  flex-flow: column;
+  gap: 1em;
 }
 
-.tr-content span {
-  width: 25%;
+.trc-row {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.trc-row span {
+  flex: 1;
   font-size: .8em;
   text-align: center;
 }
 
-.tr-content span:nth-child(-n + 4) {
+.trc-row:nth-child(1) span {
   padding: .5em;
   font-size: 1em;
   font-weight: 800;
@@ -44,13 +51,22 @@
 }
 
 .trc-new {
+  animation: popin .3s .9s backwards;
   position: absolute;
   left: 0;
 }
 
 .t-clear {
   cursor: pointer;
+  animation: updisplay .3s .9s backwards;
   transition: all .3s;
+  position: relative;
+}
+
+.t-clear>span {
+  animation: rightdisplay .3s;
+  white-space: nowrap;
+  position: absolute;
 }
 
 .t-clear:hover {

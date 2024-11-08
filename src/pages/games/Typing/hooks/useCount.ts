@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export const useCount = (init: number) => {
 
@@ -6,21 +6,21 @@ export const useCount = (init: number) => {
 
   const intervalRef = useRef<NodeJS.Timeout>()
 
-  const startCount = useCallback(() => {
+  const startCount = () => {
     intervalRef.current = setInterval(() => {
       // console.log('interval running...')
       setCount(c => c - 1)
     }, 1000)
-  }, [])
+  }
 
-  const resetCount = useCallback(() => {
+  const resetCount = () => {
     setCount(init)
     intervalRef.current && clearInterval(intervalRef.current)
-  }, [init])
+  }
 
-  const pauseCount = useCallback(() => {
+  const pauseCount = () => {
     intervalRef.current && clearInterval(intervalRef.current)
-  }, [])
+  }
 
   // 离开组件时销毁定时器
   useEffect(() => {
