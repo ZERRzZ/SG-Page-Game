@@ -1,11 +1,13 @@
 import './index.css'
+import Header from '@/components/Header'
 
 export default function IndexPage() {
-
   return (
-    <div className='home'>
-      首页
-    </div>
+    <>
+      <Header />
+      <main>
+        <div className="home">首页</div>
+      </main>
+    </>
   )
-
 }

@@ -2,17 +2,17 @@
   width: 100%;
   color: var(--color-light);
   display: flex;
-  gap: .5em;
+  gap: 0.5em;
   align-items: center;
 }
 
 .breadcrumb a {
   color: var(--color-light);
   border-radius: 1em;
-  transition: all .3s;
-  animation: leftdisplay .3s;
+  transition: all 0.3s;
+  animation: leftdisplay 0.3s;
   display: flex;
-  gap: .5em;
+  gap: 0.5em;
   align-items: center;
 }
 
@@ -21,9 +21,11 @@
 }
 
 .breadcrumb a:hover {
-  box-shadow: inset 0 0 0 10em var(--background-color), -.2em 0 0 .15em var(--background-color), .2em 0 0 .15em var(--background-color);
+  box-shadow: inset 0 0 0 10em var(--background-color),
+    -0.2em 0 0 0.15em var(--background-color),
+    0.2em 0 0 0.15em var(--background-color);
 }
 
 .breadcrumb span {
-  animation: leftdisplay .3s;
+  animation: leftdisplay 0.3s;
 }

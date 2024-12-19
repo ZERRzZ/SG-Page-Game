@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import './index.css'
-import { getPageRoute, menus } from '@/config/routes'
 import { MyRoute } from '@/types/MyRoute'
 import Exhibition from '@/components/Exhibition'
+import { getPageRoute, menus } from '@/config/routes'
 
 export default function GameIndex() {
-
   const [elist, setElist] = useState<MyRoute[]>([])
 
   useEffect(() => {
@@ -19,5 +18,4 @@ export default function GameIndex() {
       <Exhibition list={elist} />
     </>
   )
-
 }

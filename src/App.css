@@ -1,7 +1,0 @@
-main {
-  width: 90%;
-  flex: 1;
-  display: flex;
-  flex-flow: column;
-  gap: 1em;
-}

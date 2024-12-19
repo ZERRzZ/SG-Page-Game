@@ -7,7 +7,7 @@
 
 .ts-icon {
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .ts-icon:hover {
@@ -18,19 +18,31 @@
 .t-pop {
   padding: 1em;
   background: var(--body-bg);
-  border-radius: .5em;
-  box-shadow: .2em .2em .5em var(--box-shadow);
+  border-radius: 0.5em;
+  box-shadow: 0.2em 0.2em 0.2em var(--box-shadow);
   white-space: nowrap;
-  animation: downdisplay .3s;
+  animation: downdisplay 0.3s;
   display: flex;
   flex-flow: column;
+  align-items: center;
   gap: 1em;
   position: absolute;
   top: calc(100% + 1em);
   z-index: 10;
 }
 
-.t-pop>div {
+.t-pop::before {
+  content: '';
+  width: 1em;
+  height: 1em;
+  border: 0.5em solid var(--body-bg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: -0.1em;
+  z-index: -1;
+}
+
+.t-pop > div {
   display: flex;
   gap: 1em;
   align-items: center;
@@ -41,16 +53,16 @@
   gap: 1em;
 }
 
-.tp-btns>div {
-  padding: .1em .3em;
+.tp-btns > div {
+  padding: 0.1em 0.3em;
   border: 1px solid var(--border);
-  border-radius: .2em;
+  border-radius: 0.2em;
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
-.tp-btns>div:hover,
-.tp-btns>div.active {
+.tp-btns > div:hover,
+.tp-btns > div.active {
   color: var(--color-anti);
   background: var(--theme-dark);
   border-color: var(--theme-dark);

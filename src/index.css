@@ -7,8 +7,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: .5vw;
-  height: .5vw;
+  width: 0.5vw;
+  height: 0.5vw;
   position: absolute;
 }
 
@@ -20,7 +20,8 @@
 }
 
 :root {
-  font: calc(.4rem + .5vw) Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font: calc(0.4rem + 0.5vw) Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
   color-scheme: light;
 }
 
@@ -59,7 +60,7 @@ a {
     --color-light: #5b6c82;
     --color-anti: #ffffff;
     --body-bg: #ffffff;
-    --box-shadow: #c8c8c8;
+    --box-shadow: #e1e1e1;
     --border: #c8c8c8;
     --background-color: #c8c8c8;
 

@@ -2,7 +2,7 @@ header {
   width: 100%;
   flex: 0 0 6em;
   padding: 0 5%;
-  box-shadow: 0 0 .5em var(--box-shadow);
+  box-shadow: 0 0 0.5em var(--box-shadow);
   background: var(--body-bg);
   display: flex;
   gap: 1em;
@@ -23,6 +23,7 @@ header {
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
+  gap: 0.5em;
 }
 
 .head-nav .active,
