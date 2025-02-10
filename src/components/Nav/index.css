@@ -21,9 +21,9 @@
 }
 
 .breadcrumb a:hover {
-  box-shadow: inset 0 0 0 10em var(--background-color),
-    -0.2em 0 0 0.15em var(--background-color),
-    0.2em 0 0 0.15em var(--background-color);
+  box-shadow: inset 0 0 0 10em var(--background-lighter),
+    -0.2em 0 0 0.15em var(--background-lighter),
+    0.2em 0 0 0.15em var(--background-lighter);
 }
 
 .breadcrumb span {

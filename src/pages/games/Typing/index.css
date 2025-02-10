@@ -11,8 +11,8 @@
 .t-game {
   width: 40em;
   padding: 1em;
-  background: var(--theme-light);
-  animation: updisplay .3s;
+  background: var(--background-lighter);
+  animation: updisplay 0.3s;
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -41,7 +41,7 @@
 
 .t-reset {
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .t-reset:hover {
@@ -52,27 +52,27 @@
 .t-tips {
   width: 40rem;
   color: var(--color-light);
-  font-size: .8em;
+  font-size: 0.8em;
   cursor: default;
-  animation: leftdisplay .3s;
+  animation: leftdisplay 0.3s;
   display: flex;
-  gap: .5em;
+  gap: 0.5em;
   align-items: center;
 }
 
 .tt-btn {
-  padding: .1em .3em;
-  font-size: .8em;
+  padding: 0.1em 0.3em;
+  font-size: 0.8em;
   color: var(--color-anti);
   background: var(--color-light);
-  border-radius: .4em;
+  border-radius: 0.4em;
 }
 
 .t-results {
   width: 15em;
   padding: 1em;
-  animation: updisplay .3s;
-  background: var(--theme-light);
+  animation: updisplay 0.3s;
+  background: var(--background-lighter);
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -84,27 +84,27 @@
 
 .tr-1 {
   font-weight: 800;
-  animation: updisplay .3s .3s backwards;
+  animation: updisplay 0.3s 0.3s backwards;
 }
 
 .tr-2 {
-  animation: updisplay .3s .6s backwards;
+  animation: updisplay 0.3s 0.6s backwards;
 }
 
 .tr-3 {
-  animation: updisplay .3s .9s backwards;
+  animation: updisplay 0.3s 0.9s backwards;
 }
 
 .tr-4 {
-  animation: updisplay .3s 1.2s backwards;
+  animation: updisplay 0.3s 1.2s backwards;
 }
 
 .tr-5 {
-  animation: updisplay .3s 1.5s backwards;
+  animation: updisplay 0.3s 1.5s backwards;
 }
 
 .tr-table {
-  animation: updisplay .3s .6s backwards;
+  animation: updisplay 0.3s 0.6s backwards;
 }
 
 .tr-new-tr {

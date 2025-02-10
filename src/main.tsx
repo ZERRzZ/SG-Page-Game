@@ -5,6 +5,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import { routes } from './config/routes'
 
+import '@/utils/beautyMouse'
+
 // console.log(import.meta.env.VITE_BASE_DIR);
 
 const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE_DIR })

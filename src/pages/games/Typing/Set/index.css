@@ -17,7 +17,7 @@
 
 .t-pop {
   padding: 1em;
-  background: var(--body-bg);
+  background: var(--background);
   border-radius: 0.5em;
   box-shadow: 0.2em 0.2em 0.2em var(--box-shadow);
   white-space: nowrap;
@@ -35,7 +35,7 @@
   content: '';
   width: 1em;
   height: 1em;
-  border: 0.5em solid var(--body-bg);
+  border: 0.5em solid var(--background);
   transform: rotate(45deg);
   position: absolute;
   top: -0.1em;

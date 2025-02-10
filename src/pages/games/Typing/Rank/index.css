@@ -1,8 +1,8 @@
 .t-rank {
   width: 20em;
   padding: 1em;
-  background: var(--theme-light);
-  animation: updisplay .3s;
+  background: var(--background-lighter);
+  animation: updisplay 0.3s;
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -13,12 +13,12 @@
 }
 
 .tr-title {
-  animation: updisplay .3s .3s backwards;
+  animation: updisplay 0.3s 0.3s backwards;
 }
 
 .tr-content {
   width: 100%;
-  animation: updisplay .3s .6s backwards;
+  animation: updisplay 0.3s 0.6s backwards;
   display: flex;
   flex-flow: column;
   gap: 1em;
@@ -32,15 +32,15 @@
 
 .trc-row span {
   flex: 1;
-  font-size: .8em;
+  font-size: 0.8em;
   text-align: center;
 }
 
 .trc-row:nth-child(1) span {
-  padding: .5em;
+  padding: 0.5em;
   font-size: 1em;
   font-weight: 800;
-  background: var(--theme-light-active);
+  background: var(--background);
 }
 
 .trc-rank {
@@ -51,20 +51,20 @@
 }
 
 .trc-new {
-  animation: popin .3s .9s backwards;
+  animation: popin 0.3s 0.9s backwards;
   position: absolute;
   left: 0;
 }
 
 .t-clear {
   cursor: pointer;
-  animation: updisplay .3s .9s backwards;
-  transition: all .3s;
+  animation: updisplay 0.3s 0.9s backwards;
+  transition: all 0.3s;
   position: relative;
 }
 
-.t-clear>span {
-  animation: rightdisplay .3s;
+.t-clear > span {
+  animation: rightdisplay 0.3s;
   white-space: nowrap;
   position: absolute;
 }

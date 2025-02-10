@@ -2,8 +2,7 @@ header {
   width: 100%;
   flex: 0 0 6em;
   padding: 0 5%;
-  box-shadow: 0 0 0.5em var(--box-shadow);
-  background: var(--body-bg);
+  background: var(--background-darker);
   display: flex;
   gap: 1em;
   justify-content: space-between;
