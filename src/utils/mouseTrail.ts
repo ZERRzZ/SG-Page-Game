@@ -6,7 +6,7 @@ const mouseMove = (e: MouseEvent) => {
   el.move()
 }
 
-const throttleMouseMove = throttle(mouseMove, 100)
+const throttleMouseMove = throttle(mouseMove, 150)
 
 const add = () => {
   document.addEventListener('mousemove', throttleMouseMove)
@@ -73,7 +73,7 @@ class MouseElement {
     document.body.appendChild(this.node)
   }
 
-  move(delay = 10) {
+  move(delay = 50) {
     setTimeout(() => {
       const range = (l: number) => Math.floor(Math.random() * l) - l / 2
       this.node.style.setProperty('opacity', '0')
