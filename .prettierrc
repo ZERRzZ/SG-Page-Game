@@ -14,7 +14,7 @@ semi: false
 singleQuote: true
 
 # 尾随逗号
-trailingComma: none
+trailingComma: all
 
 # 箭头函数括号
 arrowParens: avoid
