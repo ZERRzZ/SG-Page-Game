@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import './index.css'
 import { TypingResult } from '@/types/Typing'
-import IconFont from '@/components/IconFont'
+import Icon from '@/components/Icon'
 
 interface IProps {
   rank: TypingResult[]
@@ -36,7 +36,7 @@ export default function Rank({ rank, clearRank }: IProps) {
   return (
     <div className="t-rank">
       <span className='tr-title'>
-        <IconFont type='icon-rank' size='1.4em' />
+        <Icon type='icon-rank' size='1.4em' />
       </span>
       <div className='tr-content'>
         <div className="trc-row">
@@ -49,8 +49,8 @@ export default function Rank({ rank, clearRank }: IProps) {
           rank?.map(r => (
             <div className='trc-row' key={r.id}>
               <span className='trc-rank'>
-                {r.latest ? <div className='trc-new'><IconFont type='icon-new' size='1.6em' color='var(--theme-dark)' /></div> : ''}
-                {r.rank === 1 ? <IconFont type='icon-top' size='1.4em' /> : r.rank}
+                {r.latest ? <div className='trc-new'><Icon type='icon-new' size='1.6em' color='var(--theme-dark)' /></div> : ''}
+                {r.rank === 1 ? <Icon type='icon-top' size='1.4em' /> : r.rank}
               </span>
               <span>{r.score}</span>
               <span>{r.speed}</span>
@@ -60,7 +60,7 @@ export default function Rank({ rank, clearRank }: IProps) {
         }
       </div>
       <div className='t-clear' onClick={clear}>
-        <IconFont type='icon-clear' size='1.2em' />
+        <Icon type='icon-clear' size='1.2em' />
         {count ? <span>请再次确认</span> : ''}
       </div>
     </div>

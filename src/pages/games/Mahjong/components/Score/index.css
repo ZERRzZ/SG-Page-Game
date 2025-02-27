@@ -1,0 +1,31 @@
+.score {
+  width: 8em;
+  height: 8em;
+  border: 1px solid var(--border);
+  position: absolute;
+  left: calc(50% - 5em);
+  top: calc(50% - 5em);
+
+  & .item {
+    width: 5em;
+    transform-origin: center -1em;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    position: absolute;
+    bottom: 0.3em;
+    left: calc(50% - 2.5em);
+
+    &:nth-child(2) {
+      transform: rotate(-90deg);
+    }
+
+    &:nth-child(3) {
+      transform: rotate(-180deg);
+    }
+
+    &:nth-child(4) {
+      transform: rotate(90deg);
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import './index.css'
-import IconFont from '@/components/IconFont'
+import Icon from '@/components/Icon'
 import { TypingMode } from '@/types/Typing';
 
 interface IProps {
@@ -19,7 +19,7 @@ export default function Set({ showTip, tMode, changeInit }: IProps) {
   return (
     <div className="t-set">
       <div className="ts-icon" onClick={() => setOpen(!open)}>
-        <IconFont type='icon-setting' />
+        <Icon type='icon-setting' />
       </div>
       {
         open ?

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import './index.css'
-import IconFont from '../IconFont'
+import Icon from '../Icon'
 import { menus } from '@/config/routes'
 import { MyRoute } from '@/types/MyRoute'
 import { Breadcrumb } from '@/types/Breadcrumb'
@@ -40,7 +40,7 @@ export default function Nav() {
           title: (
             <>
               {pathObj?.extra?.icon ? (
-                <IconFont type={pathObj?.extra?.icon} />
+                <Icon type={pathObj?.extra?.icon} />
               ) : (
                 ''
               )}

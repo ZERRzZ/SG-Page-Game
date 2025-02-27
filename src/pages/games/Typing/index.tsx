@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import './index.css'
 import Set from './Set'
 import Rank from './Rank'
-import IconFont from '@/components/IconFont'
+import Icon from '@/components/Icon'
 import { useCount, useInit, useResult, useTyped, useWords } from './hooks'
 
 export default function Typing() {
@@ -41,7 +41,7 @@ export default function Typing() {
         </div>
         <div className="t-words">{typed}</div>
         <div className='t-reset' onClick={resetGame}>
-          <IconFont type='icon-reset' color='inherit' />
+          <Icon type='icon-reset' color='inherit' />
         </div>
       </div>
       {

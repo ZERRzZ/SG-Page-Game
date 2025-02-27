@@ -1,0 +1,8 @@
+.card {
+  width: 1.65em;
+  transition: all 0.1s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
+// vite-plugin-svg-icons 脚本
+import 'virtual:svg-icons-register'
+
 import './index.css'
 import { routes } from './config/routes'
 

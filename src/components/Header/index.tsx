@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import './index.css'
 import { menus } from '@/config/routes'
 import { MyRoute } from '@/types/MyRoute'
-import IconFont from '@/components/IconFont'
+import Icon from '@/components/Icon'
 
 export default function Header() {
   const { pathname } = useLocation()
@@ -25,7 +25,7 @@ export default function Header() {
             to={`../${hm.path}`}
           >
             <span>{hm?.extra?.name}</span>
-            <IconFont type={hm.extra?.icon} />
+            <Icon type={hm.extra?.icon} />
           </Link>
         ))}
       </div>
