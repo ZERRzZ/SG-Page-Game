@@ -6,3 +6,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.new-card {
+  margin: 0 0.5em;
+}

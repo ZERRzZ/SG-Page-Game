@@ -1,37 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+
 import { Status } from '../type'
-
-export class Player {
-  points: number
-  setWind: string
-  handCards: string[]
-  disCards: string[]
-
-  constructor(setWind: string, points: number) {
-    this.points = points
-    this.setWind = setWind
-    this.handCards = []
-    this.disCards = []
-  }
-
-  addHandCards(cards: string[]) {
-    this.handCards.push(...cards)
-  }
-
-  removeHandCards(indexs: number[]) {
-    for (const i of indexs) {
-      this.handCards.splice(i, 1)
-    }
-  }
-
-  addDisCard(card: string) {
-    this.disCards.push(card)
-  }
-
-  removeLastDisCard() {
-    this.disCards.pop()
-  }
-}
+import { Player } from '../Player'
 
 export const useInit = () => {
   const ms = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
@@ -71,7 +41,7 @@ export const useInit = () => {
     const i = 4
     let count = 1
     let d: string[] = []
-    while (count++ > doraCount) {
+    while (count++ <= doraCount) {
       d.push(deadWall[i + 2 * (count - 1)])
     }
     return d
@@ -81,7 +51,7 @@ export const useInit = () => {
     const i = 5
     let count = 1
     let d: string[] = []
-    while (count++ > doraCount) {
+    while (count++ <= doraCount) {
       d.push(deadWall[i + 2 * (count - 1)])
     }
     return d
@@ -99,7 +69,6 @@ export const useInit = () => {
     ps.forEach((p, i) => p.addHandCards(plrCards[i]))
     // 初始化王牌
     const [rcards2, deadCards] = getRandomCards(14, rcards)
-    console.log(ps)
     // 设置状态
     setTon(ton)
     setPlayer(ps)
@@ -116,27 +85,10 @@ export const useInit = () => {
     while (count++ <= 4) {
       const [rcs, pcs] = getRandomCards(13, rcards)
       rcards = rcs
-      plrCards[i] = sortCards(pcs)
+      plrCards[i] = pcs
       i = (i + 1) % L
     }
     return [rcards, plrCards] as [string[], string[][]]
-  }
-
-  const sortCards = (cards: string[]) => {
-    const ms = cards.filter(v => v.endsWith('m')).sort()
-    const ps = cards.filter(v => v.endsWith('p')).sort()
-    const ss = cards.filter(v => v.endsWith('s')).sort()
-    const zs = cards.filter(v => v.endsWith('z')).sort()
-    ;[ms, ps, ss].forEach((v: string[]) => {
-      if (!v[0] || v[0].search(/0[mps]/) === -1) return
-      const dora = v.shift()
-      let index = 0
-      while (v[index] < '5') {
-        index++
-      }
-      dora && v.splice(index, 0, dora)
-    })
-    return [...ms, ...ps, ...ss, ...zs]
   }
 
   const getRandomCards = (length: number, cards: string[]) => {
@@ -162,5 +114,6 @@ export const useInit = () => {
     deadWall,
     doras,
     uraDoras,
+    getRandomCards,
   }
 }

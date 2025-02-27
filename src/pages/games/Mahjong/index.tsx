@@ -1,9 +1,11 @@
+import { useEffect, useRef, useState } from 'react'
+
 import './index.css'
 import { useInit } from './hooks/useInit'
 import CardZone from './components/CardZone'
-import { useRef } from 'react'
 import Icon from '@/components/Icon'
 import Points from './components/Points'
+import { Player } from './Player'
 
 export default function Mahjong() {
   const {
@@ -18,7 +20,10 @@ export default function Mahjong() {
     deadWall,
     doras,
     uraDoras,
+    getRandomCards,
   } = useInit()
+
+  const [index, setIndex] = useState(ton)
 
   const mahjongRef = useRef<HTMLDivElement>(null)
 
@@ -34,8 +39,55 @@ export default function Mahjong() {
     mahjongRef.current && (mahjongRef.current.scrollTop = 0)
   }
 
-  const playCard = (card: string, index: number) => {
-    console.log(card, index)
+  useEffect(() => setIndex(ton), [ton])
+
+  useEffect(() => {
+    if (index === undefined) return
+    console.log(index)
+    const [rcards, pickCards] = getRandomCards(1, restCards)
+    const { setWind, points, newCard, handCards, disCards } = player[index]
+    const p = new Player(
+      setWind,
+      points,
+      newCard,
+      [...handCards],
+      [...disCards],
+    )
+    p.addNewCard(pickCards[0])
+    setRestCards(rcards)
+    setPlayer(player.map((pp, i) => (i === index ? p : pp)))
+  }, [index])
+
+  useEffect(() => {
+    console.log('剩余麻将: ', restCards)
+  }, [restCards])
+
+  // useEffect(() => {
+  //   console.log(index)
+  //   if (index === undefined) return
+  //   if (index === 0) return
+  //   setTimeout(() => {
+  //     const p = [...player]
+  //     // p[index].f
+
+  //     console.log(player[index])
+  //     setIndex((index + 1) % 4)
+  //   }, 1000)
+  // }, [index])
+
+  const playCard = (pi: number, card: string, ci?: number) => {
+    if (index !== pi) return
+    const { setWind, points, newCard, handCards, disCards } = player[index]
+    const p = new Player(setWind, points, newCard, handCards, disCards)
+    if (ci !== undefined) {
+      p.removeHandCards([ci])
+      p.addHandCards([p.newCard])
+    }
+    p.removeNewCard()
+    p.addDisCard(card)
+
+    setIndex((index + 1) % player.length)
+    setPlayer(player.map((pp, i) => (i === index ? p : pp)))
   }
 
   return (
@@ -72,7 +124,8 @@ export default function Mahjong() {
                 className={`player p${i + 1}`}
                 key={p.setWind}
                 cards={p.handCards}
-                handleCardClick={playCard}
+                newCard={p.newCard}
+                handleCardClick={(card, ci) => playCard(i, card, ci)}
               />
             ))}
           </div>

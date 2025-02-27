@@ -1,5 +1,5 @@
 import './index.css'
-import { Player } from '../../hooks/useInit'
+import { Player } from '../../Player'
 
 interface IProps {
   player: Player[]

@@ -4,13 +4,15 @@ import Icon from '@/components/Icon'
 interface IProps {
   className?: string
   cards: string[]
-  handleCardClick?: (card: string, index: number) => void
+  newCard?: string
+  handleCardClick?: (card: string, index?: number) => void
 }
 
 export default function CardZone({
   className,
   cards,
-  handleCardClick
+  newCard,
+  handleCardClick,
 }: IProps) {
   return (
     <section className={className}>
@@ -24,6 +26,14 @@ export default function CardZone({
           />
         </span>
       ))}
+      {newCard && (
+        <span
+          className="card new-card"
+          onClick={() => handleCardClick?.(newCard)}
+        >
+          <Icon type={`icon-mahjong-${newCard}`} size="2em" color="#000" />
+        </span>
+      )}
     </section>
   )
 }
