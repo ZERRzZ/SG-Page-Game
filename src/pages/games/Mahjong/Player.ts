@@ -1,4 +1,5 @@
 import { River } from './type'
+import { quickSort } from '@/utils'
 
 /** player
  * @member points 点数
@@ -46,7 +47,7 @@ export class Player {
 
   addHand(tiles: string[]) {
     const ts = this.hand.concat(tiles)
-    this.hand = this.sortCards(ts)
+    this.hand = this.sortTiles(ts)
   }
 
   removeHand(indexs: number[]) {
@@ -63,20 +64,39 @@ export class Player {
     this.river.pop()
   }
 
-  sortCards = (cards: string[]) => {
-    const ms = cards.filter(v => v.endsWith('m')).sort()
-    const ps = cards.filter(v => v.endsWith('p')).sort()
-    const ss = cards.filter(v => v.endsWith('s')).sort()
-    const zs = cards.filter(v => v.endsWith('z')).sort()
-    ;[ms, ps, ss].forEach((v: string[]) => {
-      if (!v[0] || v[0].search(/0[mps]/) === -1) return
+  tegiri(tile: string, index: number) {
+    this.removeHand([index])
+    this.addHand([this.draw])
+    this.addRiver({ type: 'tegiri', tile })
+    this.clearDraw()
+  }
+
+  tsumogiri(tile: string) {
+    this.addRiver({ type: 'tsumogiri', tile })
+    this.clearDraw()
+  }
+
+  sortTiles = (tiles: string[]) => {
+    let [ms, ps, ss, zs] = [[], [], [], []] as string[][]
+    for (let t of tiles) {
+      if (/m$/.test(t)) ms.push(t)
+      else if (/p$/.test(t)) ps.push(t)
+      else if (/s$/.test(t)) ss.push(t)
+      else if (/z$/.test(t)) zs.push(t)
+    }
+    quickSort(ms, 0, ms.length - 1)
+    quickSort(ps, 0, ps.length - 1)
+    quickSort(ss, 0, ss.length - 1)
+    quickSort(zs, 0, zs.length - 1)
+    for (let v of [ms, ps, ss]) {
+      if (!v[0] || !/^0/.test(v[0])) continue
       const dora = v.shift()
       let index = 0
       while (v[index] < '5') {
         index++
       }
       dora && v.splice(index, 0, dora)
-    })
-    return [...ms, ...ps, ...ss, ...zs]
+    }
+    return ms.concat(ps, ss, zs)
   }
 }

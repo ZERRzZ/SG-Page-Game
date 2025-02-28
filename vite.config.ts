@@ -29,13 +29,13 @@ export default defineConfig(({ mode }) => {
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
         symbolId: 'icon-[dir]-[name]',
-        inject: 'body-first'
-      })
+        inject: 'body-first',
+      }),
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, './src')
-      }
+        '@': resolve(__dirname, './src'),
+      },
     },
     build: {
       outDir: 'docs',
@@ -54,10 +54,10 @@ export default defineConfig(({ mode }) => {
                 .split('/')[0]
                 .toString()
             }
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
     // 去掉 console 和 debugger
     // esbuild: {
     //   drop: ['console', 'debugger']

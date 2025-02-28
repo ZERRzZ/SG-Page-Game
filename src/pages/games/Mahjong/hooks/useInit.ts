@@ -35,33 +35,32 @@ export const useInit = () => {
   const [playIndex, setPlayIndex] = useState<number>(ton)
   const nextPlayIndex = () => setPlayIndex((playIndex + 1) % setWinds.length)
 
+  // 宝牌
+  const doras = useMemo(
+    () => Array.from({ length: doraCount }).map((_, i) => deadWall[4 + 2 * i]),
+    [deadWall, doraCount],
+  )
+  const uraDoras = useMemo(
+    () => Array.from({ length: doraCount }).map((_, i) => deadWall[5 + 2 * i]),
+    [deadWall, doraCount],
+  )
+
   useEffect(() => {
-    if (status === 'start') {
-      init()
+    switch (status) {
+      case 'init':
+        init()
+        break
+      case 'deal':
+        deal()
+        break
     }
   }, [status])
 
-  const doras = useMemo(() => {
-    const i = 4
-    let count = 1
-    let d: string[] = []
-    while (count++ <= doraCount) {
-      d.push(deadWall[i + 2 * (count - 1)])
-    }
-    return d
-  }, [deadWall, doraCount])
-
-  const uraDoras = useMemo(() => {
-    const i = 5
-    let count = 1
-    let d: string[] = []
-    while (count++ <= doraCount) {
-      d.push(deadWall[i + 2 * (count - 1)])
-    }
-    return d
-  }, [deadWall, doraCount])
-
   const init = () => {
+    setPlayIndex(-1)
+  }
+
+  const deal = () => {
     // 确立东家位置
     const L = setWinds.length
     const i = Math.floor(Math.random() * L)
@@ -80,6 +79,7 @@ export const useInit = () => {
     setRestCards(rcards2)
     setDeadWall(deadCards)
     setDoraCount(1)
+    setStatus('play')
   }
 
   const initDeal = (ton: number, cards: string[], L: number) => {

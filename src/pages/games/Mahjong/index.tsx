@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import './index.css'
 import { useInit } from './hooks/useInit'
@@ -28,7 +28,7 @@ export default function Mahjong() {
   const mjRef = useRef<HTMLDivElement>(null)
 
   const start = () => {
-    setStatus('start')
+    setStatus('deal')
     if (mjRef.current) {
       mjRef.current.scrollTop = mjRef.current.clientHeight
     }
@@ -40,6 +40,32 @@ export default function Mahjong() {
   }
 
   useEffect(() => {
+    console.log('剩余麻将: ', restCards)
+  }, [restCards])
+
+  const disCard = (pi: number, tile: string, ti?: number) => {
+    if (playIndex !== pi) return
+    if (playIndex !== 0) return
+    const np = new Player(player[playIndex])
+    ti === undefined ? np.tsumogiri(tile) : np.tegiri(tile, ti)
+    setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+  }
+
+  const rivers = useMemo(
+    () => player.map(p => p.river.map(r => r.tile).join('')).join(''),
+    [player],
+  )
+
+  useEffect(() => {
+    if (status !== 'play') return
+    if (!rivers) return
+    const p = player[playIndex]
+    const lastRiver = p.river[p.river.length - 1]
+    isNagi(lastRiver.tile)
+    nextPlayIndex()
+  }, [rivers])
+
+  useEffect(() => {
     if (playIndex === -1) return
     const [rcards, pickCards] = getRandomCards(1, restCards)
     const np = new Player(player[playIndex])
@@ -49,35 +75,35 @@ export default function Mahjong() {
   }, [playIndex])
 
   useEffect(() => {
-    console.log('剩余麻将: ', restCards)
-  }, [restCards])
-
-  // useEffect(() => {
-  //   console.log(index)
-  //   if (index === undefined) return
-  //   if (index === 0) return
-  //   setTimeout(() => {
-  //     const p = [...player]
-  //     // p[index].f
-
-  //     console.log(player[index])
-  //     setIndex((index + 1) % 4)
-  //   }, 1000)
-  // }, [index])
-
-  const disCard = (pi: number, tile: string, ti?: number) => {
-    if (playIndex !== pi) return
+    if (playIndex === -1 || playIndex === 0) return
     const np = new Player(player[playIndex])
-    if (ti !== undefined) {
-      np.removeHand([ti])
-      np.addHand([np.draw])
-      np.addRiver({ type: 'tegiri', tile })
-    } else {
-      np.addRiver({ type: 'tsumogiri', tile })
-    }
-    np.clearDraw()
-    nextPlayIndex()
-    setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+    if (!np.draw) return
+    setTimeout(() => {
+      np.tsumogiri(np.draw)
+      setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+    }, 1000)
+  }, [player, playIndex])
+
+  const isNagi = (tile: string) => {
+    const hands = player.map((p, i) => (i === playIndex ? '' : p.hand.join('')))
+    hands.forEach((hand, i) => {
+      const reg = new RegExp(
+        /[05][mps]/.test(tile) ? `[05][${tile[1]}]` : `${tile}`,
+        'g',
+      )
+      const ts = hand.match(reg)
+      if (!ts) return
+      if (ts.length === 3) {
+        return console.log('player' + i + 'Kong')
+      }
+      if (ts.length === 2) {
+        return console.log('player' + i + 'Pung')
+      }
+    })
+    // const hand = hands[(playIndex + 1) % hands.length]
+    // console.log(hand, hands)
+    // if (/z/.test(tile)) return
+    // if (/[]/)
   }
 
   return (
