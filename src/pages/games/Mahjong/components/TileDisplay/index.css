@@ -5,8 +5,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.new-card {
-  margin: 0 0.5em;
+  &.tsumogiri {
+    filter: brightness(0.6);
+  }
+
+  &.new-card {
+    margin: 0 0.5em;
+  }
 }

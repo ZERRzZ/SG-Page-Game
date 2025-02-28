@@ -1,49 +1,66 @@
+import { River } from './type'
+
+/** player
+ * @member points 点数
+ * @member setWind 自风
+ * @member draw 摸牌
+ * @member hand 手牌
+ * @member river 牌河
+ */
 export class Player {
   points: number
   setWind: string
-  newCard: string
-  handCards: string[]
-  disCards: string[]
+  draw: string
+  riichi: boolean
+  hand: string[]
+  river: River[]
 
-  constructor(
-    setWind: string,
-    points: number,
-    newCard = '',
-    handCards = [] as string[],
-    disCards = [] as string[],
-  ) {
+  constructor(p: Partial<Player>) {
+    this.points = p.points || 25000
+    this.setWind = p.setWind || '东'
+    this.draw = p.draw || ''
+    this.riichi = p.riichi || false
+    this.hand = Array.from(p.hand || [])
+    this.river = Array.from(p.river || [])
+  }
+
+  changePoints(points: number) {
     this.points = points
-    this.setWind = setWind
-    this.newCard = newCard
-    this.handCards = handCards
-    this.disCards = disCards
   }
 
-  addNewCard(card: string) {
-    this.newCard = card
+  changeSetWind(wind: string) {
+    this.setWind = wind
   }
 
-  removeNewCard() {
-    this.newCard = ''
+  addDraw(tile: string) {
+    this.draw = tile
   }
 
-  addHandCards(cards: string[]) {
-    const cs = [...this.handCards, ...cards]
-    this.handCards = this.sortCards(cs)
+  clearDraw() {
+    this.draw = ''
   }
 
-  removeHandCards(indexs: number[]) {
+  doRiichi() {
+    this.riichi = true
+  }
+
+  addHand(tiles: string[]) {
+    const ts = this.hand.concat(tiles)
+    this.hand = this.sortCards(ts)
+  }
+
+  removeHand(indexs: number[]) {
     for (const i of indexs) {
-      this.handCards.splice(i, 1)
+      this.hand.splice(i, 1)
     }
   }
 
-  addDisCard(card: string) {
-    this.disCards.push(card)
+  addRiver(tile: River) {
+    this.river.push(tile)
   }
 
-  removeLastDisCard() {
-    this.disCards.pop()
+  removeRiver() {
+    this.river.pop()
   }
 
   sortCards = (cards: string[]) => {

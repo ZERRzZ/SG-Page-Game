@@ -27,9 +27,13 @@ export const useInit = () => {
   const [status, setStatus] = useState<Status>('init')
   const [restCards, setRestCards] = useState<string[]>([])
   const [player, setPlayer] = useState<Player[]>([])
-  const [ton, setTon] = useState<number>()
   const [deadWall, setDeadWall] = useState<string[]>([])
   const [doraCount, setDoraCount] = useState<number>(1)
+
+  // 东家位置和当前顺位
+  const [ton, setTon] = useState<number>(-1)
+  const [playIndex, setPlayIndex] = useState<number>(ton)
+  const nextPlayIndex = () => setPlayIndex((playIndex + 1) % setWinds.length)
 
   useEffect(() => {
     if (status === 'start') {
@@ -64,13 +68,14 @@ export const useInit = () => {
     const sws = Array.from({ length: L }, (_, idx) => setWinds[(i + idx) % L])
     const ton = sws.findIndex(v => v === '东')
     // 初始化 player 自风和手牌
-    const ps = sws.map(sw => new Player(sw, points))
+    const ps = sws.map(sw => new Player({ setWind: sw, points }))
     const [rcards, plrCards] = initDeal(ton, allMJ, L)
-    ps.forEach((p, i) => p.addHandCards(plrCards[i]))
+    ps.forEach((p, i) => p.addHand(plrCards[i]))
     // 初始化王牌
     const [rcards2, deadCards] = getRandomCards(14, rcards)
     // 设置状态
     setTon(ton)
+    setPlayIndex(ton)
     setPlayer(ps)
     setRestCards(rcards2)
     setDeadWall(deadCards)
@@ -111,6 +116,8 @@ export const useInit = () => {
     setPlayer,
     ton,
     setTon,
+    playIndex,
+    nextPlayIndex,
     deadWall,
     doras,
     uraDoras,

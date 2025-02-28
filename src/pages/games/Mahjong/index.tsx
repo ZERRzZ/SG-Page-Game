@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import './index.css'
 import { useInit } from './hooks/useInit'
-import CardZone from './components/CardZone'
+import TileDisplay from './components/TileDisplay'
 import Icon from '@/components/Icon'
 import Points from './components/Points'
 import { Player } from './Player'
@@ -17,46 +17,36 @@ export default function Mahjong() {
     setPlayer,
     ton,
     setTon,
+    playIndex,
+    nextPlayIndex,
     deadWall,
     doras,
     uraDoras,
     getRandomCards,
   } = useInit()
 
-  const [index, setIndex] = useState(ton)
-
-  const mahjongRef = useRef<HTMLDivElement>(null)
+  const mjRef = useRef<HTMLDivElement>(null)
 
   const start = () => {
     setStatus('start')
-    if (mahjongRef.current) {
-      mahjongRef.current.scrollTop = mahjongRef.current.clientHeight
+    if (mjRef.current) {
+      mjRef.current.scrollTop = mjRef.current.clientHeight
     }
   }
 
   const back = () => {
     setStatus('init')
-    mahjongRef.current && (mahjongRef.current.scrollTop = 0)
+    mjRef.current && (mjRef.current.scrollTop = 0)
   }
 
-  useEffect(() => setIndex(ton), [ton])
-
   useEffect(() => {
-    if (index === undefined) return
-    console.log(index)
+    if (playIndex === -1) return
     const [rcards, pickCards] = getRandomCards(1, restCards)
-    const { setWind, points, newCard, handCards, disCards } = player[index]
-    const p = new Player(
-      setWind,
-      points,
-      newCard,
-      [...handCards],
-      [...disCards],
-    )
-    p.addNewCard(pickCards[0])
+    const np = new Player(player[playIndex])
+    np.addDraw(pickCards[0])
     setRestCards(rcards)
-    setPlayer(player.map((pp, i) => (i === index ? p : pp)))
-  }, [index])
+    setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+  }, [playIndex])
 
   useEffect(() => {
     console.log('剩余麻将: ', restCards)
@@ -75,23 +65,23 @@ export default function Mahjong() {
   //   }, 1000)
   // }, [index])
 
-  const playCard = (pi: number, card: string, ci?: number) => {
-    if (index !== pi) return
-    const { setWind, points, newCard, handCards, disCards } = player[index]
-    const p = new Player(setWind, points, newCard, handCards, disCards)
-    if (ci !== undefined) {
-      p.removeHandCards([ci])
-      p.addHandCards([p.newCard])
+  const disCard = (pi: number, tile: string, ti?: number) => {
+    if (playIndex !== pi) return
+    const np = new Player(player[playIndex])
+    if (ti !== undefined) {
+      np.removeHand([ti])
+      np.addHand([np.draw])
+      np.addRiver({ type: 'tegiri', tile })
+    } else {
+      np.addRiver({ type: 'tsumogiri', tile })
     }
-    p.removeNewCard()
-    p.addDisCard(card)
-
-    setIndex((index + 1) % player.length)
-    setPlayer(player.map((pp, i) => (i === index ? p : pp)))
+    np.clearDraw()
+    nextPlayIndex()
+    setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
   }
 
   return (
-    <div ref={mahjongRef} className="mahjong">
+    <div ref={mjRef} className="mahjong">
       <div className="prepare">
         <div className="start" onClick={start}>
           <Icon type="icon-start" />
@@ -101,7 +91,7 @@ export default function Mahjong() {
         <div className="header">
           <div className="dora">
             <div>DORA</div>
-            <CardZone cards={doras} />
+            <TileDisplay tiles={doras} />
           </div>
           <div className="back" onClick={back}>
             <Icon type="icon-back" />
@@ -111,21 +101,21 @@ export default function Mahjong() {
           <Points player={player} />
           <div className="discard-zone">
             {player.map((p, i) => (
-              <CardZone
+              <TileDisplay
                 className={`discard p${i + 1}`}
                 key={p.setWind}
-                cards={p.disCards}
+                tiles={p.river}
               />
             ))}
           </div>
           <div className="player-zone">
-            {player.map((p, i) => (
-              <CardZone
-                className={`player p${i + 1}`}
+            {player.map((p, pi) => (
+              <TileDisplay
+                className={`player p${pi + 1}`}
                 key={p.setWind}
-                cards={p.handCards}
-                newCard={p.newCard}
-                handleCardClick={(card, ci) => playCard(i, card, ci)}
+                tiles={p.hand}
+                draw={p.draw}
+                tileClick={(tile, ti) => disCard(pi, tile, ti)}
               />
             ))}
           </div>
