@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 import './index.css'
 import { useInit } from './hooks/useInit'
@@ -15,13 +15,13 @@ export default function Mahjong() {
     setRestCards,
     player,
     setPlayer,
-    ton,
-    setTon,
+    // ton,
+    // setTon,
     playIndex,
     nextPlayIndex,
-    deadWall,
+    // deadWall,
     doras,
-    uraDoras,
+    // uraDoras,
     getRandomCards,
   } = useInit()
 
