@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import './index.css'
 import Set from './Set'
 import Rank from './Rank'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 import { useCount, useInit, useResult, useTyped, useWords } from './hooks'
 
 export default function Typing() {

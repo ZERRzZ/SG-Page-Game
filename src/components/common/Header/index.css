@@ -1,0 +1,32 @@
+header {
+  width: 100%;
+  flex: 0 0 6em;
+  padding: 0 6em;
+  background: var(--background-darker);
+  display: flex;
+  gap: 1em;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  & .head-nav {
+    height: 100%;
+    display: flex;
+
+    & a {
+      padding: 0 2em;
+      transition: all 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+      &.active,
+      &:hover {
+        color: var(--color-anti);
+        background: var(--theme-dark);
+      }
+    }
+  }
+}

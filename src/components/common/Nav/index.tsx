@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import './index.css'
 import Icon from '../Icon'
 import { menus } from '@/config/routes'
-import { MyRoute } from '@/types/MyRoute'
+import { MyRoute } from '@/types/common/MyRoute'
 import { Breadcrumb } from '@/types/Breadcrumb'
 
 export default function Nav() {
@@ -39,16 +39,12 @@ export default function Nav() {
           href: t,
           title: (
             <>
-              {pathObj?.extra?.icon ? (
-                <Icon type={pathObj?.extra?.icon} />
-              ) : (
-                ''
-              )}
+              {pathObj?.extra?.icon ? <Icon type={pathObj?.extra?.icon} /> : ''}
               {pathObj?.extra?.name}
             </>
-          )
+          ),
         }
-      })
+      }),
     )
   }, [pathname])
 

@@ -1,6 +1,6 @@
 import './index.css'
 import { River } from '../../type'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 
 interface IProps {
   className?: string

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import './index.css'
 import { useInit } from './hooks/useInit'
 import TileDisplay from './components/TileDisplay'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 import Points from './components/Points'
 import { Player } from './Player'
 

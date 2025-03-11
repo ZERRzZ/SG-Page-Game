@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import './index.css'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 import { TypingMode } from '@/types/Typing';
 
 interface IProps {

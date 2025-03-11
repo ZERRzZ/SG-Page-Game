@@ -1,0 +1,35 @@
+.exhibition {
+  animation: updisplay 0.3s;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+
+  & .item {
+    width: 18em;
+    height: 14em;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    &:hover {
+      transform: translate(3px, -3px);
+      box-shadow: -3px 3px 3px var(--box-shadow);
+    }
+
+    & .name {
+      color: var(--color);
+      transition: all 0.3s;
+    }
+
+    &:hover .name {
+      color: var(--theme-dark);
+    }
+  }
+}

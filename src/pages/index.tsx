@@ -1,5 +1,5 @@
 import './index.css'
-import Header from '@/components/Header'
+import Header from '@/components/common/Header'
 
 export default function IndexPage() {
   return (

@@ -1,5 +1,6 @@
 main {
-  width: 90%;
+  width: 100%;
+  padding: 0 6em;
   flex: 1;
   display: flex;
   flex-flow: column;

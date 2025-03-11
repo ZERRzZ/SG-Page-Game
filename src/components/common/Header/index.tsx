@@ -3,28 +3,29 @@ import { Link, useLocation } from 'react-router-dom'
 
 import './index.css'
 import { menus } from '@/config/routes'
-import { MyRoute } from '@/types/MyRoute'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 
 export default function Header() {
   const { pathname } = useLocation()
 
-  const headerMenus = useMemo(
+  const headerNav = useMemo(
     () => menus[0].children?.filter(mc => mc.path),
-    [menus]
+    [menus],
   )
+
+  const isActive = (path?: string) => path && pathname.includes(path)
 
   return (
     <header>
       <h1>SG Page Game</h1>
       <div className="head-nav">
-        {headerMenus?.map((hm: MyRoute) => (
+        {headerNav?.map(hm => (
           <Link
-            className={pathname.includes(`${hm.path}`) ? 'active' : ''}
+            className={isActive(hm.path) ? 'active' : ''}
             key={hm.path}
             to={`../${hm.path}`}
           >
-            <span>{hm?.extra?.name}</span>
+            <span>{hm.extra?.name}</span>
             <Icon type={hm.extra?.icon} />
           </Link>
         ))}

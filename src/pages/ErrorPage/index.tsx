@@ -1,7 +1,7 @@
 import { useNavigate, useRouteError } from "react-router-dom"
 
 import "./index.css"
-import Icon from "@/components/Icon"
+import Icon from "@/components/common/Icon"
 
 const ErrorPage = () => {
 

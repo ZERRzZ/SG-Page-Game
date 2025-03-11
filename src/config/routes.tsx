@@ -8,28 +8,28 @@ import GameIndex from '@/pages/games'
 // import Touhou from '@/pages/games/Touhou'
 import Typing from '@/pages/games/Typing'
 import ErrorPage from '@/pages/ErrorPage'
-import { MyRoute } from '@/types/MyRoute'
+import { MyRoute } from '@/types/common/MyRoute'
 import Mahjong from '@/pages/games/Mahjong'
 
 export const menus: MyRoute[] = [
   {
     path: '/',
     element: <App />,
-    extra: { name: '首页', icon: 'icon-home' },
+    extra: { name: '首页', icon: 'icon-common-home' },
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <IndexPage />
+        element: <IndexPage />,
       },
       {
         path: 'games',
         element: <Layout />,
-        extra: { name: '游戏', icon: 'icon-game' },
+        extra: { name: '游戏', icon: 'icon-common-game' },
         children: [
           {
             index: true,
-            element: <GameIndex />
+            element: <GameIndex />,
           },
           // {
           //   path: 'Touhou',
@@ -47,9 +47,9 @@ export const menus: MyRoute[] = [
             extra: {
               id: 'g2',
               name: '麻将',
-              icon: 'icon-mahjong',
-              description: '麻将小游戏'
-            }
+              icon: 'icon-common-mahjong',
+              description: '麻将小游戏',
+            },
           },
           {
             path: 'Typing',
@@ -57,16 +57,16 @@ export const menus: MyRoute[] = [
             extra: {
               id: 'g3',
               name: '打字',
-              icon: 'icon-keyboard',
-              description: '极简打字小游戏'
-            }
-          }
-        ]
-      }
+              icon: 'icon-common-keyboard',
+              description: '极简打字小游戏',
+            },
+          },
+        ],
+      },
       // {
       //   path: 'guides',
       //   element: <Layout />,
-      //   extra: { name: '攻略', icon: 'icon-guide' },
+      //   extra: { name: '攻略', icon: 'icon-common-guide' },
       //   children: [
       //     {
       //       index: true,
@@ -85,8 +85,8 @@ export const menus: MyRoute[] = [
       //     }
       //   ]
       // }
-    ]
-  }
+    ],
+  },
 ]
 
 const renderRoutes = (menus: MyRoute[]) => {
@@ -94,7 +94,7 @@ const renderRoutes = (menus: MyRoute[]) => {
     const obj: RouteObject = {
       index: m.index,
       path: m.path,
-      element: m.element
+      element: m.element,
     }
     if (m.path === '/') {
       obj.errorElement = m.errorElement
@@ -114,7 +114,7 @@ export const getPageRoute = (path: string) => {
   const pathRoute = mainMenu.find(item => item.path === path)
   if (!pathRoute || !pathRoute.children) return
   const pathRouteList: MyRoute[] = pathRoute.children.filter(
-    (item: MyRoute) => item.extra
+    (item: MyRoute) => item.extra,
   )
   return pathRouteList
 }

@@ -21,3 +21,6 @@ arrowParens: avoid
 
 # HTML 空白敏感度
 htmlWhitespaceSensitivity: ignore
+
+#  HTML 属性独占一行
+singleAttributePerLine: true

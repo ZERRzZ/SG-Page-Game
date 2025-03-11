@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import './index.css'
 import { TypingResult } from '@/types/Typing'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 
 interface IProps {
   rank: TypingResult[]

@@ -1,16 +1,17 @@
-import { RouteObject } from "react-router-dom"
+import { RouteObject } from 'react-router-dom'
 
 /**
- * 自定义路由类型
+ * 路由
  * @param extra 路由额外信息
+ * @param children 子路由
  */
-export type MyRoute = RouteObject & {
+export type MyRoute = Omit<RouteObject, 'children'> & {
   extra?: MyRouteExtra
   children?: MyRoute[]
 }
 
 /**
- * 路由额外信息类型
+ * 路由额外信息
  * @param id 路由项ID
  * @param name 路由项名称
  * @param icon 路由项相关图标名称，对应到 IconFont 的图标名称
