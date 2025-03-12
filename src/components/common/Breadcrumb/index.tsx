@@ -2,8 +2,8 @@ import { Fragment, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import './index.css'
-import Icon from '../Icon'
-import { menu } from '@/config/routes'
+import routes from '@/config/routes'
+import Icon from '@/components/common/Icon'
 import type { MyBreadcrumb } from '@/types/common/MyBreadcrumb'
 
 export default function Breadcrumb() {
@@ -12,15 +12,15 @@ export default function Breadcrumb() {
   const splitPath = useMemo(() => pathname.split('/'), [pathname])
 
   const breadcrumbPath = useMemo(
-    () => splitPath.map((_, i) => `/${splitPath.slice(0, i + 1).join('/')}`),
+    () => splitPath.map((_, i) => `${splitPath.slice(0, i + 1).join('/')}`),
     [splitPath],
   )
 
   const items: MyBreadcrumb[] = useMemo(() => {
-    let activeMenu = menu
+    let activeMenu = routes
     return breadcrumbPath
       .map((bp, i) => {
-        const route = activeMenu.find(am => am.path === splitPath[i])
+        const route = activeMenu.find(am => am.path === (splitPath[i] || '/'))
         if (!route) {
           console.error(`找不到路由：${bp}`)
           return { href: bp, title: null }
@@ -37,7 +37,7 @@ export default function Breadcrumb() {
         }
       })
       .filter(item => item.title !== null)
-  }, [breadcrumbPath, splitPath, menu])
+  }, [breadcrumbPath, splitPath, routes])
 
   return (
     <div className="breadcrumb">

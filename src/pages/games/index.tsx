@@ -1,12 +1,19 @@
 import { useMemo } from 'react'
 
 import './index.css'
-import { getPageRoute, menu } from '@/config/routes'
+
 import { Link } from 'react-router-dom'
 import Icon from '@/components/common/Icon'
+import routes from '@/config/routes'
 
 export default function GameIndex() {
-  const gameList = useMemo(() => getPageRoute('games'), [menu])
+  const gameList = useMemo(
+    () =>
+      routes[0].children
+        ?.find(r => r.path === 'games')
+        ?.children?.filter(rc => !rc.index),
+    [routes],
+  )
 
   return (
     <div className="exhibition">

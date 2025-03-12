@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import { randomId } from '@/utils'
-import { useLocalStorage } from '@/hooks'
+import { randomId } from '@/utils/randomId'
+import useLocalStorage from '@/hooks/common/useLocalStorage'
 import { TypingResult } from '@/types/Typing'
 
 interface IProps {
@@ -19,16 +19,16 @@ export const useResult = ({
   total,
   error,
   changeInit,
-  pauseCount
+  pauseCount,
 }: IProps) => {
   const [result, changeResult] = useLocalStorage<TypingResult[]>(
     'typingResult',
-    []
+    [],
   )
 
   const speed = useMemo(
     () => (total / (icount - count)) * 60 || 0,
-    [total, count, icount]
+    [total, count, icount],
   )
 
   const accuracy = useMemo(() => (1 - error / total) * 100 || 0, [total, error])
@@ -42,7 +42,7 @@ export const useResult = ({
       error,
       speed: `${speed.toFixed(0)} 词/分`,
       accuracy: `${accuracy.toFixed(0)}%`,
-      latest: true
+      latest: true,
     }
     const pre = result
       .filter((_, i) => i < 4)

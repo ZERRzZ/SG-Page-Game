@@ -1,7 +1,5 @@
-import { RouteObject } from 'react-router-dom'
-
 import App from '@/App'
-import Layout from '@/layouts'
+import Layout from '@/layouts/common'
 import IndexPage from '@/pages'
 import GameIndex from '@/pages/games'
 // import GuideIndex from '@/pages/guides'
@@ -11,9 +9,9 @@ import ErrorPage from '@/pages/ErrorPage'
 import { MyRoute } from '@/types/common/MyRoute'
 import Mahjong from '@/pages/games/Mahjong'
 
-export const menu: MyRoute[] = [
+const routes: MyRoute[] = [
   {
-    path: '',
+    path: '/',
     element: <App />,
     extra: { name: '首页', icon: 'icon-common-home' },
     errorElement: <ErrorPage />,
@@ -89,32 +87,4 @@ export const menu: MyRoute[] = [
   },
 ]
 
-const renderRoutes = (menus: MyRoute[]) => {
-  return menus.map(m => {
-    const obj: RouteObject = {
-      index: m.index,
-      path: m.path,
-      element: m.element,
-    }
-    if (m.path === '/') {
-      obj.errorElement = m.errorElement
-    }
-    if (m.children) {
-      obj.children = renderRoutes(m.children)
-    }
-    return obj
-  })
-}
-
-export const routes = renderRoutes(menu)
-
-export const getPageRoute = (path: string) => {
-  const mainMenu = menu[0].children
-  if (!mainMenu) return
-  const pathRoute = mainMenu.find(item => item.path === path)
-  if (!pathRoute || !pathRoute.children) return
-  const pathRouteList: MyRoute[] = pathRoute.children.filter(
-    (item: MyRoute) => item.extra,
-  )
-  return pathRouteList
-}
+export default routes

@@ -2,15 +2,15 @@ import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import './index.css'
-import { menu } from '@/config/routes'
+import routes from '@/config/routes'
 import Icon from '@/components/common/Icon'
 
 export default function Header() {
   const { pathname } = useLocation()
 
   const headerNav = useMemo(
-    () => menu[0].children?.filter(mc => mc.path),
-    [menu],
+    () => routes[0].children?.filter(mc => mc.path),
+    [routes],
   )
 
   const isActive = (path?: string) => path && pathname.includes(path)

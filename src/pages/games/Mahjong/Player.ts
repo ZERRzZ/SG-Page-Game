@@ -1,5 +1,5 @@
 import { River } from './type'
-import { quickSort } from '@/utils'
+import { quickSort } from '@/utils/quickSort'
 
 /** player
  * @member points 点数
