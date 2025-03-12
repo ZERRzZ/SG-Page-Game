@@ -11,9 +11,9 @@ import ErrorPage from '@/pages/ErrorPage'
 import { MyRoute } from '@/types/common/MyRoute'
 import Mahjong from '@/pages/games/Mahjong'
 
-export const menus: MyRoute[] = [
+export const menu: MyRoute[] = [
   {
-    path: '/',
+    path: '',
     element: <App />,
     extra: { name: '首页', icon: 'icon-common-home' },
     errorElement: <ErrorPage />,
@@ -106,10 +106,10 @@ const renderRoutes = (menus: MyRoute[]) => {
   })
 }
 
-export const routes = renderRoutes(menus)
+export const routes = renderRoutes(menu)
 
 export const getPageRoute = (path: string) => {
-  const mainMenu = menus[0].children
+  const mainMenu = menu[0].children
   if (!mainMenu) return
   const pathRoute = mainMenu.find(item => item.path === path)
   if (!pathRoute || !pathRoute.children) return

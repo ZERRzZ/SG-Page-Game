@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
 import './index.css'
-import Nav from '@/components/common/Nav'
+import Breadcrumb from '@/components/common/Breadcrumb'
 import Header from '@/components/common/Header'
 
 export default function Layout() {
@@ -9,7 +9,7 @@ export default function Layout() {
     <>
       <Header />
       <main>
-        <Nav />
+        <Breadcrumb />
         <Outlet />
       </main>
     </>
