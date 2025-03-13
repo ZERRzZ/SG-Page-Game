@@ -4,9 +4,11 @@ import { Link, useLocation } from 'react-router-dom'
 import './index.css'
 import routes from '@/config/routes'
 import Icon from '@/components/common/Icon'
+import useTheme from '@/hooks/common/useTheme'
 
 export default function Header() {
   const { pathname } = useLocation()
+  const [theme, changeTheme] = useTheme()
 
   const headerNav = useMemo(
     () => routes[0].children?.filter(mc => mc.path),
@@ -29,6 +31,12 @@ export default function Header() {
             <Icon type={hm.extra?.icon} />
           </Link>
         ))}
+        <span
+          className="theme"
+          onClick={() => changeTheme(theme === 'dark' ? 'light' : 'dark')}
+        >
+          <Icon type={`i-common-${theme === 'dark' ? 'moon' : 'sun'}`} />
+        </span>
       </div>
     </header>
   )

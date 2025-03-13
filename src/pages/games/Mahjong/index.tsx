@@ -107,10 +107,16 @@ export default function Mahjong() {
   }
 
   return (
-    <div ref={mjRef} className="mahjong">
+    <div
+      ref={mjRef}
+      className="mahjong"
+    >
       <div className="prepare">
-        <div className="start" onClick={start}>
-          <Icon type="icon-start" />
+        <div
+          className="start"
+          onClick={start}
+        >
+          <Icon type="i-common-start" />
         </div>
       </div>
       <div className="playing">
@@ -119,8 +125,11 @@ export default function Mahjong() {
             <div>DORA</div>
             <TileDisplay tiles={doras} />
           </div>
-          <div className="back" onClick={back}>
-            <Icon type="icon-back" />
+          <div
+            className="back"
+            onClick={back}
+          >
+            <Icon type="i-common-back" />
           </div>
         </div>
         <div className="player">

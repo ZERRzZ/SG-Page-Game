@@ -41,7 +41,7 @@ export default function Typing() {
         </div>
         <div className="t-words">{typed}</div>
         <div className='t-reset' onClick={resetGame}>
-          <Icon type='icon-reset' color='inherit' />
+          <Icon type='i-common-reset' color='inherit' />
         </div>
       </div>
       {

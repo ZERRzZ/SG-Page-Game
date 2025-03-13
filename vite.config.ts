@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
       // svg 雪碧图
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
-        symbolId: 'icon-[dir]-[name]',
+        symbolId: 'i-[dir]-[name]',
         inject: 'body-first',
       }),
     ],

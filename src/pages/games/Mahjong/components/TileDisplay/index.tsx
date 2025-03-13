@@ -19,19 +19,26 @@ export default function TileDisplay({
     <section className={className}>
       {tiles.map((t, i) =>
         typeof t === 'string' ? (
-          <span className="card" key={i} onClick={() => tileClick?.(t, i)}>
+          <span
+            className="card"
+            key={i}
+            onClick={() => tileClick?.(t, i)}
+          >
             <Icon
               key={`${i}-${t}`}
-              type={`icon-mahjong-${t}`}
+              type={`i-mahjong-${t}`}
               size="2em"
               color="#000"
             />
           </span>
         ) : (
-          <span className={`card ${t?.type}`} key={i}>
+          <span
+            className={`card ${t?.type}`}
+            key={i}
+          >
             <Icon
               key={`${i}-${t?.tile}`}
-              type={`icon-mahjong-${t?.tile}`}
+              type={`i-mahjong-${t?.tile}`}
               size="2em"
               color="#000"
             />
@@ -39,8 +46,15 @@ export default function TileDisplay({
         ),
       )}
       {draw && (
-        <span className="card new-card" onClick={() => tileClick?.(draw)}>
-          <Icon type={`icon-mahjong-${draw}`} size="2em" color="#000" />
+        <span
+          className="card new-card"
+          onClick={() => tileClick?.(draw)}
+        >
+          <Icon
+            type={`i-mahjong-${draw}`}
+            size="2em"
+            color="#000"
+          />
         </span>
       )}
     </section>

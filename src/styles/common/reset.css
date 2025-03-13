@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0.5vw;
+  height: 0.5vw;
+  position: absolute;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1vw;
+  background: var(--background-lighter);
+  background-clip: padding-box;
+  cursor: pointer;
+}
+
+:root {
+  font: calc(0.4rem + 0.5vw) Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  color-scheme: light;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+a {
+  color: var(--color);
+  text-decoration: none;
+}
+
+#root {
+  min-width: 350px;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: overlay;
+  color: var(--color);
+  background-color: var(--background);
+  display: inline-flex;
+  flex-flow: column;
+  gap: 1em;
+  align-items: center;
+  position: relative;
+}

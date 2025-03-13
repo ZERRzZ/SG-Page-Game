@@ -11,14 +11,14 @@ const ErrorPage = () => {
   return (
     <div className="error-page">
       <h1>抱歉，你遇到了错误！</h1>
-      <h2>
+      <h3>
         {error?.status} {error?.statusText || error?.message}
-      </h2>
+      </h3>
       <button
         className="homebtn"
         onClick={() => navigate('/')}
       >
-        <Icon type="icon-home" />
+        <Icon type="i-common-home" />
         返回首页
       </button>
     </div>

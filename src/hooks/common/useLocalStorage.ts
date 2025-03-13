@@ -1,9 +1,11 @@
 import { useState } from 'react'
 
 const useLocalStorage = <T>(key: string, init?: T): [T, (value: T) => void] => {
-  const initStore = JSON.parse(localStorage.getItem(key) || 'null')
+  // 初始值，以传入为优先
+  const INIT = JSON.parse(localStorage.getItem(key) || 'null')
+  const [value, setValue] = useState<T>(init || INIT)
 
-  const [value, setValue] = useState<T>(initStore === null ? init : initStore)
+  value !== INIT && localStorage.setItem(key, JSON.stringify(value))
 
   const changeValue = (value: T) => {
     setValue(value)

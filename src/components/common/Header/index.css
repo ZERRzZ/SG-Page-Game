@@ -14,8 +14,11 @@ header {
   & .head-nav {
     height: 100%;
     display: flex;
+    align-items: center;
+    gap: 1em;
 
     & a {
+      height: 100%;
       padding: 0 2em;
       transition: all 0.3s ease-in-out;
       display: flex;
@@ -26,6 +29,24 @@ header {
       &:hover {
         color: var(--color-anti);
         background: var(--theme-dark);
+      }
+    }
+
+    .theme {
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 2em;
+
+      &:hover {
+        color: var(--theme-dark);
+        background: var(--color-anti);
       }
     }
   }

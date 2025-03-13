@@ -1,0 +1,34 @@
+[data-theme='light'] {
+  --color: #213547;
+  --color-light: #5b6c82;
+  --color-anti: #ffffff;
+
+  --background-darker: #f0f0f0;
+  --background: #ffffff;
+  --background-lighter: #f6f6f6;
+
+  --box-shadow: #c8c8c8;
+  --border: #c8c8c8;
+}
+
+[data-theme='dark'] {
+  --color: #f8faff;
+  --color-light: #9dabbe;
+  --color-anti: #213547;
+
+  --background-darker: #1f2020;
+  --background: #282828;
+  --background-lighter: #3c3c3c;
+
+  --box-shadow: #5a5a69;
+  --border: #5a5a69;
+}
+
+:root {
+  --theme-dark: #4096ff;
+  --theme-dark-active: #6eafff;
+  --theme-light: #eff8ff;
+  --theme-light-active: #dcf0ff;
+
+  --danger: red;
+}

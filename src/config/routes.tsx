@@ -1,19 +1,20 @@
 import App from '@/App'
 import Layout from '@/layouts/common'
+import { MyRoute } from '@/types/common/MyRoute'
+import ErrorPage from '@/components/common/ErrorPage'
+
 import IndexPage from '@/pages'
 import GameIndex from '@/pages/games'
-// import GuideIndex from '@/pages/guides'
-// import Touhou from '@/pages/games/Touhou'
 import Typing from '@/pages/games/Typing'
-import ErrorPage from '@/pages/ErrorPage'
-import { MyRoute } from '@/types/common/MyRoute'
+// import GuideIndex from '@/pages/guides'
 import Mahjong from '@/pages/games/Mahjong'
+// import Touhou from '@/pages/games/Touhou'
 
 const routes: MyRoute[] = [
   {
     path: '/',
     element: <App />,
-    extra: { name: '首页', icon: 'icon-common-home' },
+    extra: { name: '首页', icon: 'i-common-home' },
     errorElement: <ErrorPage />,
     children: [
       {
@@ -23,7 +24,7 @@ const routes: MyRoute[] = [
       {
         path: 'games',
         element: <Layout />,
-        extra: { name: '游戏', icon: 'icon-common-game' },
+        extra: { name: '游戏', icon: 'i-common-game' },
         children: [
           {
             index: true,
@@ -45,7 +46,7 @@ const routes: MyRoute[] = [
             extra: {
               id: 'g2',
               name: '麻将',
-              icon: 'icon-common-mahjong',
+              icon: 'i-common-mahjong',
               description: '麻将小游戏',
             },
           },
@@ -55,7 +56,7 @@ const routes: MyRoute[] = [
             extra: {
               id: 'g3',
               name: '打字',
-              icon: 'icon-common-keyboard',
+              icon: 'i-common-keyboard',
               description: '极简打字小游戏',
             },
           },
@@ -64,7 +65,7 @@ const routes: MyRoute[] = [
       // {
       //   path: 'guides',
       //   element: <Layout />,
-      //   extra: { name: '攻略', icon: 'icon-common-guide' },
+      //   extra: { name: '攻略', icon: 'i-common-guide' },
       //   children: [
       //     {
       //       index: true,

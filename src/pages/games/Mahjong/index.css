@@ -20,7 +20,7 @@
       transition: all 0.3s;
 
       &:hover {
-        color: var(--theme-light);
+        color: var(--theme-dark-active);
         transform: scale(1.1);
       }
     }
