@@ -3,9 +3,9 @@
 export const quickSort = (arr: any[], begin: number, end: number) => {
   if (begin >= end) return arr
 
-  let pivot = arr[begin],
-    i = begin,
-    j = end
+  const pivot = arr[begin]
+  let i = begin
+  let j = end
 
   while (i < j) {
     while (arr[j] >= pivot && i < j) {

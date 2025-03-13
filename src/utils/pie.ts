@@ -16,7 +16,6 @@ export interface Pie {
  * @returns 返回一个 svg 饼形图
  */
 export const pieChart = (pie: Array<Pie>, radius: number = 10) => {
-
   let total = pie.reduce((pre, v) => pre + v.value, 0) // 传入的 value 总值, 根据此值计算百分率
 
   pie.sort((a, b) => b.value - a.value) // 排序, value 值大的在前面
@@ -33,20 +32,17 @@ export const pieChart = (pie: Array<Pie>, radius: number = 10) => {
   // Math.sin(), Math.cos() 当值是弧度值时才准确
   // 弧度 = 角度 * PI / 180, 2 * PI 即一个圆周
   pie.reduce((radian, v, i) => {
-
     if (i == 0) {
       svg.innerHTML += `<circle cx='${radius}' cy='${radius}' r='${radius}' fill='${v.color}'/>`
-      return radian - v.value / total * Math.PI * 2
+      return radian - (v.value / total) * Math.PI * 2
     }
-    
+
     let largeArcFlag = radian >= 180 ? 1 : 0 // 是否大于 180 度
     let endX = radius + radius * Math.sin(radian)
     let endY = radius - radius * Math.cos(radian)
     svg.innerHTML += `<path d='M${radius} ${radius} V0 A${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} Z' fill='${v.color}'/>`
-    return radian - v.value / total * Math.PI * 2
-
+    return radian - (v.value / total) * Math.PI * 2
   }, 2 * Math.PI)
 
   return svg
-
 }

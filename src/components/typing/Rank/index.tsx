@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import './index.css'
-import { TypingResult } from '@/types/Typing'
+import { TypingResult } from '@/types/specific/Typing'
 import Icon from '@/components/common/Icon'
 
 interface IProps {
@@ -84,7 +84,7 @@ export default function Rank({ rank, clearRank }: IProps) {
         onClick={clear}
       >
         <Icon
-          type="icon-clear"
+          type="i-common-clear"
           size="1.2em"
         />
         {count ? <span>请再次确认</span> : ''}

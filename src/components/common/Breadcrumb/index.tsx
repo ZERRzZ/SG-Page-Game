@@ -25,7 +25,7 @@ export default function Breadcrumb() {
           console.error(`找不到路由：${bp}`)
           return { href: bp, title: null }
         }
-        route.children && (activeMenu = route.children)
+        if (route.children) activeMenu = route.children
         return {
           href: bp,
           title: (

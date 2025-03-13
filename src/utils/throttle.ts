@@ -3,7 +3,7 @@
  * @param fn 函数
  * @param delay 节流时间
  */
-export const throttle = (fn: Function, delay: number) => {
+export const throttle = (fn: (...args: any[]) => void, delay: number) => {
   let timer: NodeJS.Timeout | undefined
 
   return (...args: any[]) => {

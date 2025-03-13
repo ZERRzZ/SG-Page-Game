@@ -15,7 +15,6 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 1em;
 
     & a {
       height: 100%;
@@ -29,6 +28,10 @@ header {
       &:hover {
         color: var(--color-anti);
         background: var(--theme-dark);
+      }
+
+      &:hover {
+        background: var(--theme-dark-active);
       }
     }
 

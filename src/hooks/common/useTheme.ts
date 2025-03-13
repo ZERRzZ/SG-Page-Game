@@ -4,9 +4,9 @@ import useLocalStorage from './useLocalStorage'
 const useTheme = (): [MyTheme, (theme: MyTheme) => void] => {
   // 媒体查询列表
   const mediaQueryList = matchMedia('(prefers-color-scheme: dark)')
-
   const systemTheme = mediaQueryList.matches ? 'dark' : 'light'
-  const [theme, _changeTheme] = useLocalStorage<MyTheme>('theme')
+
+  const [theme, _changeTheme] = useLocalStorage<MyTheme>('theme', systemTheme)
 
   const applyTheme = (theme: MyTheme) =>
     document.documentElement.setAttribute('data-theme', theme)
@@ -16,7 +16,7 @@ const useTheme = (): [MyTheme, (theme: MyTheme) => void] => {
     applyTheme(theme)
   }
 
-  theme ? applyTheme(theme) : changeTheme(systemTheme)
+  applyTheme(theme)
 
   mediaQueryList.addEventListener('change', e =>
     changeTheme(e.matches ? 'dark' : 'light'),

@@ -77,7 +77,7 @@ export class Player {
   }
 
   sortTiles = (tiles: string[]) => {
-    let [ms, ps, ss, zs] = [[], [], [], []] as string[][]
+    const [ms, ps, ss, zs] = [[], [], [], []] as string[][]
     for (let t of tiles) {
       if (/m$/.test(t)) ms.push(t)
       else if (/p$/.test(t)) ps.push(t)

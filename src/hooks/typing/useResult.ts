@@ -2,23 +2,23 @@ import { useMemo } from 'react'
 
 import { randomId } from '@/utils/randomId'
 import useLocalStorage from '@/hooks/common/useLocalStorage'
-import { TypingResult } from '@/types/Typing'
+import { State, TypingResult } from '@/types/specific/Typing'
 
 interface IProps {
   count: number
   total: number
   error: number
-  icount: number
-  changeInit: (key: string, value: any) => void
+  initCount: number
+  setState: React.Dispatch<React.SetStateAction<State>>
   pauseCount: () => void
 }
 
 export const useResult = ({
-  icount,
+  initCount,
   count,
   total,
   error,
-  changeInit,
+  setState,
   pauseCount,
 }: IProps) => {
   const [result, changeResult] = useLocalStorage<TypingResult[]>(
@@ -27,8 +27,8 @@ export const useResult = ({
   )
 
   const speed = useMemo(
-    () => (total / (icount - count)) * 60 || 0,
-    [total, count, icount],
+    () => (total / (initCount - count)) * 60 || 0,
+    [total, count, initCount],
   )
 
   const accuracy = useMemo(() => (1 - error / total) * 100 || 0, [total, error])
@@ -54,7 +54,7 @@ export const useResult = ({
   }
 
   const endGame = () => {
-    changeInit('state', 'finish')
+    setState('end')
     pauseCount()
     settle()
   }

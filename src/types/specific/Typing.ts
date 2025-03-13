@@ -1,17 +1,16 @@
-/**
- * 游戏状态
- */
-export type TypingState = 'init' | 'start' | 'finish'
+export type State = 'init' | 'running' | 'end'
+
+export type Mode = '快速' | '适中' | '持久'
+
+export interface ModeConfig {
+  count: number
+  word: number
+}
 
 /**
  * 输入校验颜色
  */
 export type TypingColor = [string, string]
-
-/**
- * 游戏模式
- */
-export type TypingMode = '快速' | '适中' | '持久'
 
 /**
  * 输入内容

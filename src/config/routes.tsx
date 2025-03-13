@@ -2,13 +2,11 @@ import App from '@/App'
 import Layout from '@/layouts/common'
 import { MyRoute } from '@/types/common/MyRoute'
 import ErrorPage from '@/components/common/ErrorPage'
-
 import IndexPage from '@/pages'
 import GameIndex from '@/pages/games'
 import Typing from '@/pages/games/Typing'
-// import GuideIndex from '@/pages/guides'
 import Mahjong from '@/pages/games/Mahjong'
-// import Touhou from '@/pages/games/Touhou'
+import GuideIndex from '@/pages/guides'
 
 const routes: MyRoute[] = [
   {
@@ -30,16 +28,6 @@ const routes: MyRoute[] = [
             index: true,
             element: <GameIndex />,
           },
-          // {
-          //   path: 'Touhou',
-          //   element: <Touhou />,
-          //   extra: {
-          //     id: 'g1',
-          //     name: '东方',
-          //     icon: '',
-          //     description: '一个打飞机游戏却有成为东方那样的野心'
-          //   }
-          // },
           {
             path: 'Mahjong',
             element: <Mahjong />,
@@ -62,28 +50,28 @@ const routes: MyRoute[] = [
           },
         ],
       },
-      // {
-      //   path: 'guides',
-      //   element: <Layout />,
-      //   extra: { name: '攻略', icon: 'i-common-guide' },
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: <GuideIndex />
-      //     },
-      //     {
-      //       path: 'RanceQuest',
-      //       element: <div>RanceQuest</div>, // TODO: replace with actual component
-      //       extra: {
-      //         id: 's1',
-      //         name: 'RanceQuest',
-      //         icon: '',
-      //         description:
-      //           '兰斯第 8 部，由日本游戏公司 AliceSoft 制作的健全大冒险游戏'
-      //       }
-      //     }
-      //   ]
-      // }
+      {
+        path: 'guides',
+        element: <Layout />,
+        extra: { name: '攻略', icon: 'i-common-guide' },
+        children: [
+          {
+            index: true,
+            element: <GuideIndex />,
+          },
+          {
+            path: 'RanceQuest',
+            element: <div>RanceQuest</div>, // TODO: replace with actual component
+            extra: {
+              id: 's1',
+              name: 'RanceQuest',
+              icon: '',
+              description:
+                '兰斯第 8 部，由日本游戏公司 AliceSoft 制作的健全大冒险游戏',
+            },
+          },
+        ],
+      },
     ],
   },
 ]
