@@ -7,7 +7,7 @@ import '@/styles/common/animations.css'
 import '@/styles/common/reset.css'
 
 import routes from '@/config/routes'
-import { menuToRoute } from '@/utils/common/routes'
+import { menuToRoute } from '@/utils/routes'
 
 // vite-plugin-svg-icons 脚本
 import 'virtual:svg-icons-register'

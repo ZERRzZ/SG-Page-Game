@@ -1,5 +1,5 @@
 import './index.css'
-import { River } from '../../type'
+import { River } from '@/types/specific/Mahjong'
 import Icon from '@/components/common/Icon'
 
 interface IProps {

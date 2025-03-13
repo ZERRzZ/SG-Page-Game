@@ -5,7 +5,7 @@ import { useInit } from './hooks/useInit'
 import TileDisplay from './components/TileDisplay'
 import Icon from '@/components/common/Icon'
 import Points from './components/Points'
-import { Player } from './Player'
+import { Player } from '@/utils/mahjong/player'
 
 export default function Mahjong() {
   const {
@@ -22,7 +22,6 @@ export default function Mahjong() {
     // deadWall,
     doras,
     // uraDoras,
-    getRandomCards,
   } = useInit()
 
   const mjRef = useRef<HTMLDivElement>(null)
@@ -39,54 +38,54 @@ export default function Mahjong() {
     mjRef.current && (mjRef.current.scrollTop = 0)
   }
 
-  useEffect(() => {
-    console.log('剩余麻将: ', restCards)
-  }, [restCards])
-
-  const disCard = (pi: number, tile: string, ti?: number) => {
-    if (playIndex !== pi) return
-    if (playIndex !== 0) return
-    const np = new Player(player[playIndex])
-    ti === undefined ? np.tsumogiri(tile) : np.tegiri(tile, ti)
-    setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
-  }
-
   const rivers = useMemo(
     () => player.map(p => p.river.map(r => r.tile).join('')).join(''),
     [player],
   )
 
   useEffect(() => {
-    if (status !== 'play') return
-    if (!rivers) return
-    const p = player[playIndex]
-    const lastRiver = p.river[p.river.length - 1]
-    isNagi(lastRiver.tile)
-    nextPlayIndex()
-  }, [rivers])
-
-  useEffect(() => {
-    if (playIndex === -1) return
-    const [rcards, pickCards] = getRandomCards(1, restCards)
+    if (status !== 'draw' && status !== 'giri' && status !== 'nagi') return
     const np = new Player(player[playIndex])
-    np.addDraw(pickCards[0])
-    setRestCards(rcards)
+    switch (status) {
+      case 'draw':
+        const rests = np.drawATile(restCards)
+        setRestCards(rests)
+        setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+        setStatus('giri')
+        break
+      case 'giri':
+        // 自动打牌
+        if (playIndex === -1 || playIndex === 0) return
+        if (!np.draw) return
+        setTimeout(() => {
+          np.tsumogiri(np.draw)
+          setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
+          setStatus('nagi')
+        }, 1000)
+        break
+      case 'nagi':
+        if (!rivers) return
+        const p = player[playIndex]
+        const lastRiver = p.river[p.river.length - 1]
+        isNagi(lastRiver.tile)
+        nextPlayIndex()
+        setStatus('draw')
+    }
+  }, [status])
+
+  // 手动打牌
+  const disCard = (pi: number, tile: string, ti?: number) => {
+    if (playIndex !== pi) return
+    if (playIndex !== 0) return
+    const np = new Player(player[playIndex])
+    ti === undefined ? np.tsumogiri(tile) : np.tegiri(tile, ti)
     setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
-  }, [playIndex])
-
-  useEffect(() => {
-    if (playIndex === -1 || playIndex === 0) return
-    const np = new Player(player[playIndex])
-    if (!np.draw) return
-    setTimeout(() => {
-      np.tsumogiri(np.draw)
-      setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
-    }, 1000)
-  }, [player, playIndex])
+    setStatus('nagi')
+  }
 
   const isNagi = (tile: string) => {
     const hands = player.map((p, i) => (i === playIndex ? '' : p.hand.join('')))
-    hands.forEach((hand, i) => {
+    return hands.map((hand, i) => {
       const reg = new RegExp(
         /[05][mps]/.test(tile) ? `[05][${tile[1]}]` : `${tile}`,
         'g',
@@ -105,6 +104,10 @@ export default function Mahjong() {
     // if (/z/.test(tile)) return
     // if (/[]/)
   }
+
+  useEffect(() => {
+    console.log('剩余麻将: ', restCards)
+  }, [restCards])
 
   return (
     <div

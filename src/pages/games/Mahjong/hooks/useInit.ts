@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { Status } from '../type'
-import { Player } from '../Player'
+import { Player } from '@/utils/mahjong/player'
+import { Status } from '@/types/specific/Mahjong'
+import { getRandomTiles } from '@/utils/mahjong/getRandomTiles'
 
 export const useInit = () => {
   const ms = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
@@ -48,39 +49,34 @@ export const useInit = () => {
   useEffect(() => {
     switch (status) {
       case 'init':
-        init()
+        setPlayIndex(-1)
         break
       case 'deal':
-        deal()
+        // 确立东家位置
+        const L = setWinds.length
+        const i = Math.floor(Math.random() * L)
+        const sws = Array.from(
+          { length: L },
+          (_, idx) => setWinds[(i + idx) % L],
+        )
+        const ton = sws.findIndex(v => v === '东')
+        // 初始化 player 自风和手牌
+        const ps = sws.map(sw => new Player({ setWind: sw, points }))
+        const [rcards, plrCards] = initDeal(ton, allMJ, L)
+        ps.forEach((p, i) => p.addHand(plrCards[i]))
+        // 初始化王牌
+        const [rcards2, deadCards] = getRandomTiles(14, rcards)
+        // 设置状态
+        setTon(ton)
+        setPlayIndex(ton)
+        setPlayer(ps)
+        setRestCards(rcards2)
+        setDeadWall(deadCards)
+        setDoraCount(1)
+        setStatus('draw')
         break
     }
   }, [status])
-
-  const init = () => {
-    setPlayIndex(-1)
-  }
-
-  const deal = () => {
-    // 确立东家位置
-    const L = setWinds.length
-    const i = Math.floor(Math.random() * L)
-    const sws = Array.from({ length: L }, (_, idx) => setWinds[(i + idx) % L])
-    const ton = sws.findIndex(v => v === '东')
-    // 初始化 player 自风和手牌
-    const ps = sws.map(sw => new Player({ setWind: sw, points }))
-    const [rcards, plrCards] = initDeal(ton, allMJ, L)
-    ps.forEach((p, i) => p.addHand(plrCards[i]))
-    // 初始化王牌
-    const [rcards2, deadCards] = getRandomCards(14, rcards)
-    // 设置状态
-    setTon(ton)
-    setPlayIndex(ton)
-    setPlayer(ps)
-    setRestCards(rcards2)
-    setDeadWall(deadCards)
-    setDoraCount(1)
-    setStatus('play')
-  }
 
   const initDeal = (ton: number, cards: string[], L: number) => {
     let i = ton
@@ -88,23 +84,12 @@ export const useInit = () => {
     let count = 1
     let plrCards: string[][] = []
     while (count++ <= 4) {
-      const [rcs, pcs] = getRandomCards(13, rcards)
+      const [rcs, pcs] = getRandomTiles(13, rcards)
       rcards = rcs
       plrCards[i] = pcs
       i = (i + 1) % L
     }
     return [rcards, plrCards] as [string[], string[][]]
-  }
-
-  const getRandomCards = (length: number, cards: string[]) => {
-    const pickCards: string[] = []
-    const rcards = [...cards]
-    while (length-- > 0) {
-      const i = Math.floor(Math.random() * rcards.length)
-      pickCards.push(rcards[i])
-      rcards.splice(i, 1)
-    }
-    return [rcards, pickCards]
   }
 
   return {
@@ -121,6 +106,5 @@ export const useInit = () => {
     deadWall,
     doras,
     uraDoras,
-    getRandomCards,
   }
 }

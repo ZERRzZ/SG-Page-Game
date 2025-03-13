@@ -1,4 +1,4 @@
-export type Status = 'init' | 'deal' | 'play'
+export type Status = 'init' | 'deal' | 'draw' | 'giri' | 'nagi'
 
 export interface River {
   type: 'tsumogiri' | 'tegiri' | 'riichi'
