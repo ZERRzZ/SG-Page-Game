@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import './index.css'
-import { useInit } from './hooks/useInit'
-import TileDisplay from './components/TileDisplay'
+import { SETWINDS, useInit } from '@/hooks/mahjong/useInit'
+import TileDisplay from '../../../components/mahjong/TileDisplay'
 import Icon from '@/components/common/Icon'
-import Points from './components/Points'
+import Points from '../../../components/mahjong/Points'
 import { Player } from '@/utils/mahjong/player'
+import type { NagiType } from '@/types/specific/Mahjong'
+import { isEmpty } from '@/utils/common/isEmpty'
 
 export default function Mahjong() {
   const {
@@ -18,13 +20,15 @@ export default function Mahjong() {
     // ton,
     // setTon,
     playIndex,
-    nextPlayIndex,
+    nextPlayr,
     // deadWall,
     doras,
     // uraDoras,
   } = useInit()
 
   const mjRef = useRef<HTMLDivElement>(null)
+
+  const [nagiList, setNagiList] = useState<NagiType[]>()
 
   const start = () => {
     setStatus('deal')
@@ -37,11 +41,6 @@ export default function Mahjong() {
     setStatus('init')
     mjRef.current && (mjRef.current.scrollTop = 0)
   }
-
-  const rivers = useMemo(
-    () => player.map(p => p.river.map(r => r.tile).join('')).join(''),
-    [player],
-  )
 
   useEffect(() => {
     if (status !== 'draw' && status !== 'giri' && status !== 'nagi') return
@@ -64,12 +63,15 @@ export default function Mahjong() {
         }, 1000)
         break
       case 'nagi':
-        if (!rivers) return
-        const p = player[playIndex]
-        const lastRiver = p.river[p.river.length - 1]
-        isNagi(lastRiver.tile)
-        nextPlayIndex()
-        setStatus('draw')
+        const lastRiverTile = np.river.pop()!.tile
+        const nagiList = whoNagi(lastRiverTile)
+        console.log(nagiList)
+        if (isEmpty(nagiList)) {
+          nextPlayr()
+          setStatus('draw')
+        } else {
+          setNagiList(nagiList)
+        }
     }
   }, [status])
 
@@ -83,26 +85,41 @@ export default function Mahjong() {
     setStatus('nagi')
   }
 
-  const isNagi = (tile: string) => {
+  const whoNagi = (tile: string) => {
     const hands = player.map((p, i) => (i === playIndex ? '' : p.hand.join('')))
-    return hands.map((hand, i) => {
-      const reg = new RegExp(
-        /[05][mps]/.test(tile) ? `[05][${tile[1]}]` : `${tile}`,
-        'g',
-      )
-      const ts = hand.match(reg)
-      if (!ts) return
-      if (ts.length === 3) {
-        return console.log('player' + i + 'Kong')
-      }
-      if (ts.length === 2) {
-        return console.log('player' + i + 'Pung')
+    const result: NagiType[] = []
+    // 碰、杠
+    hands.forEach((hand, i) => {
+      const n = tile[0]
+      const t = tile[1]
+      const reg = new RegExp(/[05]/.test(n) ? `[05][${t}]` : `${tile}`, 'g')
+      const tiles = hand.match(reg)
+      if (tiles?.length === 2) {
+        result.push({ type: 'pung', index: i, tiles })
+      } else if (tiles?.length === 3) {
+        result.push({ type: 'kong', index: i, tiles })
       }
     })
-    // const hand = hands[(playIndex + 1) % hands.length]
-    // console.log(hand, hands)
-    // if (/z/.test(tile)) return
-    // if (/[]/)
+    // 吃
+    const nextPlayIndex = (playIndex + 1) % SETWINDS.length
+    const hand = player[nextPlayIndex].hand
+    const n = Number(tile[0])
+    const t = tile[1]
+    if (t === 'z') return result
+    const pre2 = n - 2 + t
+    const pre = n - 1 + t
+    const next = n + 1 + t
+    const next2 = n + 2 + t
+    if (hand.includes(pre2) && hand.includes(pre)) {
+      result.push({ type: 'chi', index: nextPlayIndex, tiles: [pre2, pre] })
+    }
+    if (hand.includes(pre) && hand.includes(next)) {
+      result.push({ type: 'chi', index: nextPlayIndex, tiles: [pre, next] })
+    }
+    if (hand.includes(next) && hand.includes(next2)) {
+      result.push({ type: 'chi', index: nextPlayIndex, tiles: [next, next2] })
+    }
+    return result
   }
 
   useEffect(() => {

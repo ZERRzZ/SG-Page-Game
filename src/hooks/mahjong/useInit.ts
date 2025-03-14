@@ -4,27 +4,22 @@ import { Player } from '@/utils/mahjong/player'
 import { Status } from '@/types/specific/Mahjong'
 import { getRandomTiles } from '@/utils/mahjong/getRandomTiles'
 
+const M = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
+const S = ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s']
+const P = ['1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p']
+const Z = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
+const RED = ['0m', '0s', '0p']
+
+export const MAHJONG = M.concat(S, P, Z)
+  .map(v => (/5[msp]/.test(v) ? [v, v, v] : [v, v, v, v]))
+  .flat()
+  .concat(RED)
+
+export const SETWINDS = ['东', '南', '西', '北']
+
+export const POINTS = 25000
+
 export const useInit = () => {
-  const ms = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
-  const ss = ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s']
-  const ps = ['1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p']
-  const zs = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
-  const redDoras = ['0m', '0s', '0p']
-
-  const allMJ = [...ms, ...ss, ...ps, ...zs]
-    .map(v => {
-      if (v.search(/5[msp]/) !== -1) {
-        return [v, v, v]
-      }
-      return [v, v, v, v]
-    })
-    .flat()
-    .concat(redDoras)
-
-  const setWinds = ['东', '南', '西', '北']
-
-  const points = 25000
-
   const [status, setStatus] = useState<Status>('init')
   const [restCards, setRestCards] = useState<string[]>([])
   const [player, setPlayer] = useState<Player[]>([])
@@ -34,7 +29,7 @@ export const useInit = () => {
   // 东家位置和当前顺位
   const [ton, setTon] = useState<number>(-1)
   const [playIndex, setPlayIndex] = useState<number>(ton)
-  const nextPlayIndex = () => setPlayIndex((playIndex + 1) % setWinds.length)
+  const nextPlayr = () => setPlayIndex((playIndex + 1) % SETWINDS.length)
 
   // 宝牌
   const doras = useMemo(
@@ -53,24 +48,24 @@ export const useInit = () => {
         break
       case 'deal':
         // 确立东家位置
-        const L = setWinds.length
+        const L = SETWINDS.length
         const i = Math.floor(Math.random() * L)
         const sws = Array.from(
           { length: L },
-          (_, idx) => setWinds[(i + idx) % L],
+          (_, idx) => SETWINDS[(i + idx) % L],
         )
         const ton = sws.findIndex(v => v === '东')
         // 初始化 player 自风和手牌
-        const ps = sws.map(sw => new Player({ setWind: sw, points }))
-        const [rcards, plrCards] = initDeal(ton, allMJ, L)
-        ps.forEach((p, i) => p.addHand(plrCards[i]))
+        const ps = sws.map(sw => new Player({ setWind: sw, points: POINTS }))
+        const [restTiles, playerTiles] = initDeal(ton, MAHJONG, L)
+        ps.forEach((p, i) => p.addHand(playerTiles[i]))
         // 初始化王牌
-        const [rcards2, deadCards] = getRandomTiles(14, rcards)
+        const [restTiles2, deadCards] = getRandomTiles(14, restTiles)
         // 设置状态
         setTon(ton)
         setPlayIndex(ton)
         setPlayer(ps)
-        setRestCards(rcards2)
+        setRestCards(restTiles2)
         setDeadWall(deadCards)
         setDoraCount(1)
         setStatus('draw')
@@ -78,18 +73,18 @@ export const useInit = () => {
     }
   }, [status])
 
-  const initDeal = (ton: number, cards: string[], L: number) => {
+  const initDeal = (ton: number, tiles: string[], L: number) => {
     let i = ton
-    let rcards = [...cards]
+    let restTiles = [...tiles]
     let count = 1
-    let plrCards: string[][] = []
+    let playerTiles: string[][] = []
     while (count++ <= 4) {
-      const [rcs, pcs] = getRandomTiles(13, rcards)
-      rcards = rcs
-      plrCards[i] = pcs
+      const [rests, picks] = getRandomTiles(13, restTiles)
+      restTiles = rests
+      playerTiles[i] = picks
       i = (i + 1) % L
     }
-    return [rcards, plrCards] as [string[], string[][]]
+    return [restTiles, playerTiles] as [string[], string[][]]
   }
 
   return {
@@ -102,7 +97,7 @@ export const useInit = () => {
     ton,
     setTon,
     playIndex,
-    nextPlayIndex,
+    nextPlayr,
     deadWall,
     doras,
     uraDoras,
