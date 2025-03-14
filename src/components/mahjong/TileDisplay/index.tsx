@@ -1,10 +1,10 @@
 import './index.css'
-import { River } from '@/types/specific/Mahjong'
+import type { Meld, River } from '@/types/specific/Mahjong'
 import Icon from '@/components/common/Icon'
 
 interface IProps {
   className?: string
-  tiles: string[] | River[]
+  tiles: string[] | River[] | Meld[]
   draw?: string
   tileClick?: (tile: string, index?: number) => void
 }
@@ -31,7 +31,7 @@ export default function TileDisplay({
               color="#000"
             />
           </span>
-        ) : (
+        ) : t && 'tile' in t ? (
           <span
             className={`card ${t?.type}`}
             key={i}
@@ -43,6 +43,25 @@ export default function TileDisplay({
               color="#000"
             />
           </span>
+        ) : (
+          <div
+            className="single-melds"
+            key={i}
+          >
+            {t?.tiles.map((tt, ii) => (
+              <span
+                key={ii}
+                className={`card ${ii === t.index ? 'special' : ''}`}
+              >
+                <Icon
+                  key={`${i}-${tt}`}
+                  type={`i-mahjong-${tt}`}
+                  size="2em"
+                  color="#000"
+                />
+              </span>
+            ))}
+          </div>
         ),
       )}
       {draw && (

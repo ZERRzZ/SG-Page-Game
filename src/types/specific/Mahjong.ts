@@ -1,12 +1,17 @@
-export type Status = 'init' | 'deal' | 'draw' | 'giri' | 'nagi'
+export type Status = 'init' | 'deal' | 'draw' | 'giri' | 'nagi' | 'end'
 
 export interface River {
   type: 'tsumogiri' | 'tegiri' | 'riichi'
   tile: string
 }
 
-export interface NagiType {
-  type: 'chi' | 'pung' | 'kong'
+export type MeldType = 'chi' | 'pung' | 'kong'
+
+/**
+ * @param index 既可以是鸣牌家，也可以是鸣牌位置
+ */
+export interface Meld {
+  type: MeldType
   index: number
   tiles: string[]
 }

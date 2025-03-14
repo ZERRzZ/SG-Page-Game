@@ -1,0 +1,28 @@
+.nagi-bar {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  position: absolute;
+  bottom: 6em;
+  left: calc(50% - 13em);
+
+  & .item {
+    height: 3em;
+    padding: 0 1em;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+
+    &:hover {
+      border-color: var(--theme-dark);
+      color: var(--theme-dark);
+    }
+
+    & .tiles {
+      display: flex;
+    }
+  }
+}

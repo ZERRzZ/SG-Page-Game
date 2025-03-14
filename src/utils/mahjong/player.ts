@@ -1,4 +1,4 @@
-import { River } from '@/types/specific/Mahjong'
+import type { Meld, MeldType, River } from '@/types/specific/Mahjong'
 import { sortTiles } from './sortTiles'
 import { getRandomTiles } from './getRandomTiles'
 
@@ -16,6 +16,7 @@ export class Player {
   riichi: boolean
   hand: string[]
   river: River[]
+  meld: Meld[]
 
   constructor(p: Partial<Player>) {
     this.points = p.points || 25000
@@ -24,6 +25,7 @@ export class Player {
     this.riichi = p.riichi || false
     this.hand = Array.from(p.hand || [])
     this.river = Array.from(p.river || [])
+    this.meld = Array.from(p.meld || [])
   }
 
   changePoints(points: number) {
@@ -57,17 +59,29 @@ export class Player {
     }
   }
 
+  removeHandByTiles(tiles: string[]) {
+    for (const t of tiles) {
+      const index = this.hand.findIndex(h => h === t)
+      this.hand.splice(index, 1)
+    }
+  }
+
   addRiver(tile: River) {
     this.river.push(tile)
   }
 
   removeRiver() {
-    this.river.pop()
+    return this.river.pop()
+  }
+
+  addMeld(meld: Meld) {
+    this.meld.push(meld)
   }
 
   drawATile(tiles: string[]) {
     const [rests, picks] = getRandomTiles(1, tiles)
     this.addDraw(picks[0])
+    console.log(`player${this.setWind}: draw a tile, ${picks[0]}`)
     return rests
   }
 
@@ -76,10 +90,20 @@ export class Player {
     this.addHand([this.draw])
     this.addRiver({ type: 'tegiri', tile })
     this.clearDraw()
+    console.log(`player${this.setWind}: tegriri, ${tile}`)
   }
 
   tsumogiri(tile: string) {
     this.addRiver({ type: 'tsumogiri', tile })
     this.clearDraw()
+    console.log(`player${this.setWind}: tsumogiri, ${tile}`)
+  }
+
+  naku(type: MeldType, tiles: string[], index: number) {
+    this.addMeld({ type, tiles, index })
+    const localTiles = [...tiles]
+    localTiles.splice(index, 1)
+    this.removeHandByTiles(localTiles)
+    console.log(`player${this.setWind}: ${type}`)
   }
 }

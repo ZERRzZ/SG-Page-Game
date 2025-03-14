@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { Player } from '@/utils/mahjong/player'
-import { Status } from '@/types/specific/Mahjong'
+import { Meld, Status } from '@/types/specific/Mahjong'
 import { getRandomTiles } from '@/utils/mahjong/getRandomTiles'
+import { isEmpty } from '@/utils/common/isEmpty'
 
 const M = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
 const S = ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s']
@@ -29,7 +30,10 @@ export const useInit = () => {
   // 东家位置和当前顺位
   const [ton, setTon] = useState<number>(-1)
   const [playIndex, setPlayIndex] = useState<number>(ton)
-  const nextPlayr = () => setPlayIndex((playIndex + 1) % SETWINDS.length)
+  const nextPlayr = (index?: number) =>
+    isEmpty(index)
+      ? setPlayIndex((playIndex + 1) % SETWINDS.length)
+      : setPlayIndex(index!)
 
   // 宝牌
   const doras = useMemo(
@@ -40,6 +44,9 @@ export const useInit = () => {
     () => Array.from({ length: doraCount }).map((_, i) => deadWall[5 + 2 * i]),
     [deadWall, doraCount],
   )
+
+  // 鸣牌列表
+  const [melds, setMelds] = useState<Meld[]>([])
 
   useEffect(() => {
     switch (status) {
@@ -101,5 +108,7 @@ export const useInit = () => {
     deadWall,
     doras,
     uraDoras,
+    melds,
+    setMelds,
   }
 }

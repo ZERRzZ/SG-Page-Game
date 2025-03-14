@@ -136,6 +136,41 @@
           top: calc(50% - 13em);
         }
       }
+
+      & .meld-area {
+        & .meld {
+          padding: 0.5em;
+          font-size: 1em;
+          display: flex;
+          gap: 1em;
+          position: absolute;
+        }
+
+        & .m1 {
+          bottom: 0;
+          right: 0;
+        }
+
+        & .m2 {
+          transform-origin: center right;
+          transform: rotate(-90deg);
+          right: 2em;
+          top: 0;
+        }
+
+        & .m3 {
+          transform: rotate(180deg);
+          top: 0em;
+          left: 0;
+        }
+
+        & .m4 {
+          transform-origin: center left;
+          transform: rotate(90deg);
+          bottom: 5em;
+          left: 2em;
+        }
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 
 import './index.css'
 import { SETWINDS, useInit } from '@/hooks/mahjong/useInit'
@@ -6,8 +6,12 @@ import TileDisplay from '../../../components/mahjong/TileDisplay'
 import Icon from '@/components/common/Icon'
 import Points from '../../../components/mahjong/Points'
 import { Player } from '@/utils/mahjong/player'
-import type { NagiType } from '@/types/specific/Mahjong'
+import type { Meld } from '@/types/specific/Mahjong'
 import { isEmpty } from '@/utils/common/isEmpty'
+import MeldBar from '@/components/mahjong/MeldBar'
+import { chi } from '@/utils/mahjong/chi'
+import { kong, kong } from '@/utils/mahjong/kong.ts'
+import { pung } from '@/utils/mahjong/pung'
 
 export default function Mahjong() {
   const {
@@ -24,26 +28,21 @@ export default function Mahjong() {
     // deadWall,
     doras,
     // uraDoras,
+    melds,
+    setMelds,
   } = useInit()
-
-  const mjRef = useRef<HTMLDivElement>(null)
-
-  const [nagiList, setNagiList] = useState<NagiType[]>()
 
   const start = () => {
     setStatus('deal')
-    if (mjRef.current) {
-      mjRef.current.scrollTop = mjRef.current.clientHeight
-    }
   }
 
   const back = () => {
     setStatus('init')
-    mjRef.current && (mjRef.current.scrollTop = 0)
   }
 
   useEffect(() => {
     if (status !== 'draw' && status !== 'giri' && status !== 'nagi') return
+    if (isEmpty(restCards)) return setStatus('end')
     const np = new Player(player[playIndex])
     switch (status) {
       case 'draw':
@@ -55,9 +54,8 @@ export default function Mahjong() {
       case 'giri':
         // 自动打牌
         if (playIndex === -1 || playIndex === 0) return
-        if (!np.draw) return
         setTimeout(() => {
-          np.tsumogiri(np.draw)
+          np.draw ? np.tsumogiri(np.draw) : np.tegiri(np.hand[0], 0)
           setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
           setStatus('nagi')
         }, 1000)
@@ -65,12 +63,11 @@ export default function Mahjong() {
       case 'nagi':
         const lastRiverTile = np.river.pop()!.tile
         const nagiList = whoNagi(lastRiverTile)
-        console.log(nagiList)
         if (isEmpty(nagiList)) {
           nextPlayr()
           setStatus('draw')
         } else {
-          setNagiList(nagiList)
+          setMelds(nagiList)
         }
     }
   }, [status])
@@ -86,96 +83,134 @@ export default function Mahjong() {
   }
 
   const whoNagi = (tile: string) => {
-    const hands = player.map((p, i) => (i === playIndex ? '' : p.hand.join('')))
-    const result: NagiType[] = []
+    const hands = player.map((p, i) => (i === playIndex ? '' : p.hand))
+    const result: Meld[] = []
     // 碰、杠
     hands.forEach((hand, i) => {
+      if (!hand) return
+      const pungs = pung(hand, tile)
+      const kongs = kong(hand, tile)
+
       const n = tile[0]
       const t = tile[1]
       const reg = new RegExp(/[05]/.test(n) ? `[05][${t}]` : `${tile}`, 'g')
       const tiles = hand.match(reg)
-      if (tiles?.length === 2) {
-        result.push({ type: 'pung', index: i, tiles })
-      } else if (tiles?.length === 3) {
-        result.push({ type: 'kong', index: i, tiles })
+      if (tiles) {
+        if (tiles.length >= 2) {
+          result.push({ type: 'pung', index: i, tiles })
+        }
+        if (tiles?.length === 3) {
+          result.push({ type: 'kong', index: i, tiles })
+        }
       }
     })
     // 吃
     const nextPlayIndex = (playIndex + 1) % SETWINDS.length
     const hand = player[nextPlayIndex].hand
-    const n = Number(tile[0])
-    const t = tile[1]
-    if (t === 'z') return result
-    const pre2 = n - 2 + t
-    const pre = n - 1 + t
-    const next = n + 1 + t
-    const next2 = n + 2 + t
-    if (hand.includes(pre2) && hand.includes(pre)) {
-      result.push({ type: 'chi', index: nextPlayIndex, tiles: [pre2, pre] })
-    }
-    if (hand.includes(pre) && hand.includes(next)) {
-      result.push({ type: 'chi', index: nextPlayIndex, tiles: [pre, next] })
-    }
-    if (hand.includes(next) && hand.includes(next2)) {
-      result.push({ type: 'chi', index: nextPlayIndex, tiles: [next, next2] })
-    }
+    const r = chi(hand, tile)
+    r.forEach(rr =>
+      result.push({ type: 'chi', index: nextPlayIndex, tiles: rr }),
+    )
     return result
   }
 
-  useEffect(() => {
-    console.log('剩余麻将: ', restCards)
-  }, [restCards])
+  const handleMeld = (meld: Meld) => {
+    const p1 = new Player(player[meld.index])
+    const p2 = new Player(player[playIndex])
+    const tile = p2.removeRiver()!.tile
+    let meldTiles = meld.tiles
+    let index = -1
+    if (playIndex === (meld.index + 1) % SETWINDS.length) {
+      meldTiles = meldTiles.concat(tile)
+      index = meldTiles.length - 1
+    } else if (meld.index === (playIndex + 1) % SETWINDS.length) {
+      meldTiles = [tile].concat(meldTiles)
+      index = 0
+    } else {
+      meldTiles.splice(1, 0, tile)
+      index = 1
+    }
+    p1.naku(meld.type, meldTiles, index)
+    setPlayer(
+      player.map((p, i) => (i === meld.index ? p1 : i === playIndex ? p2 : p)),
+    )
+    setMelds([])
+    nextPlayr(meld.index)
+    meld.type === 'kong' ? setStatus('draw') : setStatus('giri')
+  }
+
+  const handleNotMeld = () => {
+    setMelds([])
+    nextPlayr()
+    setStatus('draw')
+  }
 
   return (
-    <div
-      ref={mjRef}
-      className="mahjong"
-    >
-      <div className="prepare">
-        <div
-          className="start"
-          onClick={start}
-        >
-          <Icon type="i-common-start" />
-        </div>
-      </div>
-      <div className="playing">
-        <div className="header">
-          <div className="dora">
-            <div>DORA</div>
-            <TileDisplay tiles={doras} />
-          </div>
+    <div className="mahjong">
+      {status === 'init' ? (
+        <div className="prepare">
           <div
-            className="back"
-            onClick={back}
+            className="start"
+            onClick={start}
           >
-            <Icon type="i-common-back" />
+            <Icon type="i-common-start" />
           </div>
         </div>
-        <div className="player">
-          <Points player={player} />
-          <div className="discard-zone">
-            {player.map((p, i) => (
-              <TileDisplay
-                className={`discard p${i + 1}`}
-                key={p.setWind}
-                tiles={p.river}
-              />
-            ))}
+      ) : (
+        <div className="playing">
+          <div className="header">
+            <div className="dora">
+              <div>DORA</div>
+              <TileDisplay tiles={doras} />
+            </div>
+            <div
+              className="back"
+              onClick={back}
+            >
+              <Icon type="i-common-back" />
+            </div>
           </div>
-          <div className="player-zone">
-            {player.map((p, pi) => (
-              <TileDisplay
-                className={`player p${pi + 1}`}
-                key={p.setWind}
-                tiles={p.hand}
-                draw={p.draw}
-                tileClick={(tile, ti) => disCard(pi, tile, ti)}
-              />
-            ))}
+          <div className="player">
+            <Points player={player} />
+            <div className="discard-zone">
+              {player.map((p, i) => (
+                <TileDisplay
+                  className={`discard p${i + 1}`}
+                  key={p.setWind}
+                  tiles={p.river}
+                />
+              ))}
+            </div>
+            <div className="player-zone">
+              {player.map((p, pi) => (
+                <TileDisplay
+                  className={`player p${pi + 1}`}
+                  key={p.setWind}
+                  tiles={p.hand}
+                  draw={p.draw}
+                  tileClick={(tile, ti) => disCard(pi, tile, ti)}
+                />
+              ))}
+              {isEmpty(melds) || (
+                <MeldBar
+                  list={melds}
+                  meld={handleMeld}
+                  notMeld={handleNotMeld}
+                />
+              )}
+            </div>
+            <div className="meld-area">
+              {player.map((p, i) => (
+                <TileDisplay
+                  className={`meld m${i + 1}`}
+                  key={p.setWind}
+                  tiles={p.meld}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

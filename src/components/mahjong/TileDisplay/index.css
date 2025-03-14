@@ -10,7 +10,17 @@
     filter: brightness(0.6);
   }
 
+  &.special {
+    transform: rotate(90deg) translateX(0.2em);
+  }
+
   &.new-card {
     margin: 0 0.5em;
   }
+}
+
+.single-melds {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
 }
