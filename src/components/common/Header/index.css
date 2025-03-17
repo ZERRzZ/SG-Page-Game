@@ -15,6 +15,7 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
+    gap: 0.1em;
 
     & a {
       height: 100%;

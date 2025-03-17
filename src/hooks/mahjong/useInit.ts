@@ -52,6 +52,8 @@ export const useInit = () => {
     switch (status) {
       case 'init':
         setPlayIndex(-1)
+        setPlayer([])
+        setMelds([])
         break
       case 'deal':
         // 确立东家位置

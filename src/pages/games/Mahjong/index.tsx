@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 
 import './index.css'
-import { SETWINDS, useInit } from '@/hooks/mahjong/useInit'
-import TileDisplay from '../../../components/mahjong/TileDisplay'
-import Icon from '@/components/common/Icon'
-import Points from '../../../components/mahjong/Points'
-import { Player } from '@/utils/mahjong/player'
 import type { Meld } from '@/types/specific/Mahjong'
-import { isEmpty } from '@/utils/common/isEmpty'
+import { SETWINDS, useInit } from '@/hooks/mahjong/useInit'
+import Icon from '@/components/common/Icon'
+import Points from '@/components/mahjong/Points'
 import MeldBar from '@/components/mahjong/MeldBar'
+import TileDisplay from '@/components/mahjong/TileDisplay'
 import { chi } from '@/utils/mahjong/chi'
-import { kong, kong } from '@/utils/mahjong/kong.ts'
 import { pung } from '@/utils/mahjong/pung'
+import { kong } from '@/utils/mahjong/kong.ts'
+import { Player } from '@/utils/mahjong/player'
+import { isEmpty } from '@/utils/common/isEmpty'
 
 export default function Mahjong() {
   const {
@@ -42,16 +42,17 @@ export default function Mahjong() {
 
   useEffect(() => {
     if (status !== 'draw' && status !== 'giri' && status !== 'nagi') return
-    if (isEmpty(restCards)) return setStatus('end')
     const np = new Player(player[playIndex])
     switch (status) {
       case 'draw':
+        if (isEmpty(restCards)) return setStatus('end')
         const rests = np.drawATile(restCards)
         setRestCards(rests)
         setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
         setStatus('giri')
         break
       case 'giri':
+        np.isWin([...np.hand, np.draw])
         // 自动打牌
         if (playIndex === -1 || playIndex === 0) return
         setTimeout(() => {
@@ -90,19 +91,9 @@ export default function Mahjong() {
       if (!hand) return
       const pungs = pung(hand, tile)
       const kongs = kong(hand, tile)
-
-      const n = tile[0]
-      const t = tile[1]
-      const reg = new RegExp(/[05]/.test(n) ? `[05][${t}]` : `${tile}`, 'g')
-      const tiles = hand.match(reg)
-      if (tiles) {
-        if (tiles.length >= 2) {
-          result.push({ type: 'pung', index: i, tiles })
-        }
-        if (tiles?.length === 3) {
-          result.push({ type: 'kong', index: i, tiles })
-        }
-      }
+      isEmpty(pungs) ||
+        pungs.forEach(p => result.push({ type: 'pung', index: i, tiles: p }))
+      isEmpty(kongs) || result.push({ type: 'kong', index: i, tiles: kongs })
     })
     // 吃
     const nextPlayIndex = (playIndex + 1) % SETWINDS.length
