@@ -15,3 +15,8 @@ export interface Meld {
   index: number
   tiles: string[]
 }
+
+export interface RongType {
+  type: string
+  fan: number | '役满'
+}

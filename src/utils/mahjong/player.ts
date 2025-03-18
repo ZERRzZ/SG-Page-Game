@@ -1,9 +1,10 @@
-import type { Meld, MeldType, River } from '@/types/specific/Mahjong'
+import type { Meld, MeldType, River, RongType } from '@/types/specific/Mahjong'
 import { sortTiles } from './sortTiles'
-import { getChows } from '../common/getChows'
 import { getRandomTiles } from './getRandomTiles'
 import { getDuplicates } from '../common/getDuplicates'
 import { removeElements } from '../common/removeElements'
+import { getMJChows } from './getMJChows'
+import { isEmpty } from '../common/isEmpty'
 
 /** player
  * @member points 点数
@@ -110,44 +111,57 @@ export class Player {
     // console.log(`player${this.setWind}: ${type}`)
   }
 
-  isWin(tiles: string[]) {
-    const calChowNum = (tiles: string[]) => {
-      if (!tiles) return []
-      const ms = tiles.filter(t => t.includes('m')).map(v => parseInt(v))
-      const ss = tiles.filter(t => t.includes('s')).map(v => parseInt(v))
-      const ps = tiles.filter(t => t.includes('p')).map(v => parseInt(v))
-      console.log(getChows(ms), 'ms')
-      console.log(getChows(ss), 'ss')
-      console.log(getChows(ps), 'ps')
-    }
-    console.log(`origin tiles: ${tiles}`)
+  isWin(tile: string) {
+    const tiles = this.hand.concat(tile)
+    const result: RongType[] = []
+
     const ts = [...tiles.map(t => (/0[msp]/.test(t) ? `5${t[1]}` : t))]
 
     const jantou = getDuplicates(ts)
 
-    if (jantou.length <= 0) return false
-    if (new Set(jantou).size === 7) return 'qi dui'
+    if (jantou.length <= 0) return result
+    if (new Set(jantou).size === 7) result.push({ type: 'qidui', fan: 2 })
 
-    const chow: string[][] = []
-    const pung: string[][] = []
-    // 固定雀头，计算顺子和刻子，因为雀头必须
+    // 先固定雀头，再计算顺子和刻子，因为雀头必须
     for (let j of jantou) {
       const rest = removeElements(ts, j, 2)
-      const pung = getDuplicates(rest, 3)
-      // 再固定刻子，计算顺子，刻子非必须，需要考虑不将其看作是顺子的情况
-      if (pung.length > 0) {
-        for (let p of pung) {
-          const rest2 = removeElements(rest, p, 3)
-          console.log(`jt: ${[j, j]}`)
-          console.log(`pung: ${pung}`)
-          console.log(`rest: ${rest2}`)
-          calChowNum(rest2)
+      // 先顺子后刻子，比番数大小
+      const chows = getMJChows(rest)
+      if (chows.length > 0) {
+        for (let c of chows) {
+          const rest2 = [...rest]
+          c.forEach(cc => rest2.splice(rest2.indexOf(cc), 1))
+          const pungs = getDuplicates(rest2, 3)
+          if (chows.length + pungs.length === 4) {
+            result.push({ type: 'wuyi', fan: 0 })
+          }
         }
       } else {
-        console.log(`jt: ${[j, j]}`)
-        console.log(`rest: ${rest}`)
-        calChowNum(rest)
+        const pungs = getDuplicates(rest, 3)
+        if (pungs.length === 4) {
+          result.push({ type: 'sianke', fan: '役满' })
+        }
       }
+      // 先刻字后顺子，比番数大小
+      const pungs = getDuplicates(rest, 3)
+      if (pungs.length > 0) {
+        for (let p of pungs) {
+          const rest2 = removeElements(rest, p, 3)
+          const chows = getMJChows(rest2)
+          if (chows.length + pungs.length === 4) {
+            result.push({ type: 'wuyi', fan: 0 })
+          }
+        }
+      } else {
+        const chows = getMJChows(rest)
+        if (chows.length === 4) {
+          result.push({ type: 'pinghu', fan: 1 })
+        }
+      }
+    }
+
+    if (!isEmpty(result)) {
+      window.alert(`${this.setWind} 和！`)
     }
   }
 }

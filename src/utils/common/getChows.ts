@@ -1,5 +1,4 @@
 import { isEmpty } from '../common/isEmpty'
-import { removeElements } from '../common/removeElements'
 
 /**
  * 找出数组中的所有顺子
@@ -24,7 +23,7 @@ export const getAllChows = (arr: number[], flex = 1) => {
     if (countMap[num] >= range) {
       chows.push(
         Array.from({ length: range }).map(
-          (_, i) => Number(num) + (i - range / 2),
+          (_, i) => Number(num) + (i - Math.floor(range / 2)),
         ),
       )
     }
@@ -39,19 +38,19 @@ export const getAllChows = (arr: number[], flex = 1) => {
  * @param count
  * @returns
  */
-export const getChows = (nums: number[], count = 0, chows: number[][] = []) => {
-  const res = getAllChows(nums)
-  if (isEmpty(res)) {
-    return [count, chows]
+export const getChows = (nums: number[], chows: number[][] = []) => {
+  const allChows = getAllChows(nums)
+  if (isEmpty(allChows)) {
+    return chows
   } else {
     const obj: Record<number, number[][]> = {}
-    for (let r of res) {
+    for (let chow of allChows) {
       let arr = [...nums]
-      r.forEach(rr => (arr = removeElements(arr, rr)))
-      // const [n, r] = chows(rest, count + 1, result.concat(res))
-      // obj[n] = r
+      chow.forEach(c => arr.splice(arr.indexOf(c), 1))
+      const res = getChows(arr, [...chows, chow])
+      obj[res.length] = res // 同等 count 下，后来的会覆盖之前的顺子
     }
     const max = Math.max(...Object.keys(obj).map(k => parseInt(k)))
-    return [max, obj[max]]
+    return obj[max]
   }
 }

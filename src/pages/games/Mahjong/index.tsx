@@ -52,10 +52,10 @@ export default function Mahjong() {
         setStatus('giri')
         break
       case 'giri':
-        np.isWin([...np.hand, np.draw])
         // 自动打牌
         if (playIndex === -1 || playIndex === 0) return
         setTimeout(() => {
+          np.isWin(np.draw) // 和了判断
           np.draw ? np.tsumogiri(np.draw) : np.tegiri(np.hand[0], 0)
           setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
           setStatus('nagi')
@@ -70,6 +70,7 @@ export default function Mahjong() {
         } else {
           setMelds(nagiList)
         }
+        player.forEach(p => p.isWin(lastRiverTile)) // 和了判断
     }
   }, [status])
 
