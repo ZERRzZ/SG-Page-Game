@@ -44,8 +44,8 @@ export const getChows = (nums: number[], chows: number[][] = []) => {
     return chows
   } else {
     const obj: Record<number, number[][]> = {}
-    for (let chow of allChows) {
-      let arr = [...nums]
+    for (const chow of allChows) {
+      const arr = [...nums]
       chow.forEach(c => arr.splice(arr.indexOf(c), 1))
       const res = getChows(arr, [...chows, chow])
       obj[res.length] = res // 同等 count 下，后来的会覆盖之前的顺子

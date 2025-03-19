@@ -10,14 +10,14 @@ export interface CSVData {
  */
 export const exportCSV = (data: CSVData[], head: string[], column: string[], filename: string) => {
 
-  let csv = data2csv(data, head, column) // 转换数据成 csv 格式
+  const csv = data2csv(data, head, column) // 转换数据成 csv 格式
 
   // 可下载链接
-  let a = document.createElement('a');
+  const a = document.createElement('a');
   a.download = filename;
 
   // 转变 blob 地址
-  let blob = new Blob(['\uFEFF' + csv]); // 解决 excel 乱码
+  const blob = new Blob(['\uFEFF' + csv]); // 解决 excel 乱码
   a.href = URL.createObjectURL(blob)
 
   // 点击

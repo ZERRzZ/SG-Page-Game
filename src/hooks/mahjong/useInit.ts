@@ -86,7 +86,7 @@ export const useInit = () => {
     let i = ton
     let restTiles = [...tiles]
     let count = 1
-    let playerTiles: string[][] = []
+    const playerTiles: string[][] = []
     while (count++ <= 4) {
       const [rests, picks] = getRandomTiles(13, restTiles)
       restTiles = rests

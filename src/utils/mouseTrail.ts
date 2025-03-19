@@ -63,7 +63,7 @@ class MouseElement {
       left: `${this.x}px`
     }
     span.innerHTML = this.character
-    for (let k in initStyle) {
+    for (const k in initStyle) {
       initStyle[k] && (span.style[k] = initStyle[k])
     }
     return span

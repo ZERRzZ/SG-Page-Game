@@ -6,8 +6,8 @@ export const dragmove = (el: HTMLElement) => {
   el.onmousedown = e => {
     // 鼠标按下时计算鼠标在元素上的相对偏移量
     // = 鼠标在视口的位置 - 元素在视口的偏移量
-    let mouseX = e.clientX - el.offsetLeft;
-    let mouseY = e.clientY - el.offsetTop;
+    const mouseX = e.clientX - el.offsetLeft;
+    const mouseY = e.clientY - el.offsetTop;
     // 在鼠标按下时触发 onmousemove 事件
     // 不直接给元素添加是为了防止鼠标移动过快超出元素导致 bug
     document.onmousemove = ev => {

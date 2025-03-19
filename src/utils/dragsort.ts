@@ -20,7 +20,7 @@ export const dragsort = (el: HTMLElement) => {
   el.ondragenter = e => {
 
     // 保证 enter 与 start 元素层级一致
-    let enter = e.target as HTMLElement // 没有嵌套
+    const enter = e.target as HTMLElement // 没有嵌套
     // let enter = (e.target as HTMLElement).parentElement // 再嵌套一级
 
     // 筛选不必要的触发
@@ -28,14 +28,14 @@ export const dragsort = (el: HTMLElement) => {
     if (enter.nodeName != start.nodeName) return // 防止层级不一样
 
     // 获取源元素与目标元素初始位置
-    let preStartY = start.offsetTop
-    let preEnterY = enter.offsetTop
+    const preStartY = start.offsetTop
+    const preEnterY = enter.offsetTop
 
     index(start) < index(enter) ? el.insertBefore(start, enter.nextElementSibling) : el.insertBefore(start, enter) // 改变元素的顺序
 
     // 获取改变之后的元素位置
-    let curStartY = start.offsetTop
-    let curEnterY = enter.offsetTop
+    const curStartY = start.offsetTop
+    const curEnterY = enter.offsetTop
 
     // 让元素瞬间回到初始位置
     transform(start, '', `translateY(${preStartY - curStartY}px)`)

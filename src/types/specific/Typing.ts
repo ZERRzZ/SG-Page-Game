@@ -19,7 +19,7 @@ export type TypingColor = [string, string]
  */
 export interface Typed {
   word: string
-  isCorrect: Boolean
+  isCorrect: boolean
 }
 
 /**
