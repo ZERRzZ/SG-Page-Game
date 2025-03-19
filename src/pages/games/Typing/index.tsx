@@ -9,6 +9,7 @@ import { useWords } from '@/hooks/common/useWords'
 import { useInit } from '@/hooks/typing/useInit'
 import { useTyped } from '@/hooks/typing/useTyped'
 import { useResult } from '@/hooks/typing/useResult'
+import { isEmpty } from '@/utils/common/isEmpty'
 
 export default function Typing() {
   const { state, word, initCount, mode, setState, changeMode } = useInit()
@@ -84,7 +85,7 @@ export default function Typing() {
           <span className="tr-5">准确性：{accuracy.toFixed(0)}%</span>
         </div>
       )}
-      {result.length && (
+      {isEmpty(result) || (
         <Rank
           rank={result}
           clearRank={() => changeResult([])}
