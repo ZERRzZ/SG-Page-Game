@@ -12,6 +12,8 @@ import { pung } from '@/utils/mahjong/pung'
 import { kong } from '@/utils/mahjong/kong.ts'
 import { Player } from '@/utils/mahjong/player'
 import { isEmpty } from '@/utils/common/isEmpty'
+import { wait } from '@/utils/common/wait'
+import { rong } from '@/utils/mahjong/rong'
 
 export default function Mahjong() {
   const {
@@ -44,27 +46,29 @@ export default function Mahjong() {
         setStatus('giri')
         break
       case 'giri':
-        np.isWin(np.draw) // 和了判断
+        if (!isEmpty(rong(np.hand.concat(np.draw)))) alert(`${np.setWind} RONG`) // 和了判断
         // 自动打牌
         if (playIndex === -1 || playIndex === 0) return
-        setTimeout(() => {
+        wait(1000).then(() => {
           np.draw ? np.tsumogiri(np.draw) : np.tegiri(np.hand[0], 0)
           setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
           setStatus('nagi')
-        }, 1000)
+        })
         break
       case 'nagi':
-        setTimeout(() => {
-          const lastRiverTile = np.river.pop()!.tile
-          player.forEach(p => p.isWin(lastRiverTile)) // 和了判断
-          const nagiList = whoNagi(lastRiverTile)
-          if (isEmpty(nagiList)) {
-            nextPlayr()
-            setStatus('draw')
-          } else {
-            setMelds(nagiList)
-          }
-        }, 0)
+        const lastRiverTile = np.river.pop()!.tile
+        player.forEach(
+          p =>
+            !isEmpty(rong(p.hand.concat(lastRiverTile))) &&
+            alert(`${p.setWind} RONG`),
+        ) // 和了判断
+        const nagiList = whoNagi(lastRiverTile)
+        if (isEmpty(nagiList)) {
+          nextPlayr()
+          setStatus('draw')
+        } else {
+          setMelds(nagiList)
+        }
         break
     }
   }, [status])

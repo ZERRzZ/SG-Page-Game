@@ -20,3 +20,10 @@ export interface RongType {
   type: string
   fan: number | '役满'
 }
+
+export interface FinalHand {
+  jantou: string[]
+  chows: string[][]
+  pungs: string[]
+  tiles: string[]
+}

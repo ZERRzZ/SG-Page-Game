@@ -4,6 +4,8 @@ import './index.css'
 import Icon from '@/components/common/Icon'
 import { Mode } from '@/types/specific/Typing'
 import { totalMode } from '@/hooks/typing/useInit'
+import { isEmpty } from '@/utils/common/isEmpty'
+import { wait } from '@/utils/common/wait'
 
 interface IProps {
   mode: Mode
@@ -15,12 +17,11 @@ export default function Set({ mode, changeMode }: IProps) {
   const [open, setOpen] = useState(false)
 
   const toggle = () => {
-    if (pop.current) {
-      pop.current.style.setProperty('animation', 'uphide 0.3s')
-      setTimeout(() => setOpen(false), 250)
-    } else {
-      setOpen(true)
+    if (isEmpty(pop.current)) {
+      return setOpen(true)
     }
+    pop.current!.style.setProperty('animation', 'uphide 0.3s')
+    wait(250).then(() => setOpen(false))
   }
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Set({ mode, changeMode }: IProps) {
       >
         <Icon type="i-common-setting" />
       </div>
-      {open ? (
+      {open && (
         <div
           ref={pop}
           className="t-pop"
@@ -59,8 +60,6 @@ export default function Set({ mode, changeMode }: IProps) {
             </span>
           </div>
         </div>
-      ) : (
-        ''
       )}
     </div>
   )

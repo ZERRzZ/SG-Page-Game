@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import './index.css'
 import { TypingResult } from '@/types/specific/Typing'
 import Icon from '@/components/common/Icon'
+import { wait } from '@/utils/common/wait'
 
 interface IProps {
   rank: TypingResult[]
@@ -10,27 +11,20 @@ interface IProps {
 }
 
 export default function Rank({ rank, clearRank }: IProps) {
-  const [count, setCount] = useState(0)
+  const [clickTime, setClickTime] = useState(0)
 
   const clear = () => {
-    if (count === 1) {
-      setCount(0)
-      clearRank()
-    } else {
-      setCount(count + 1)
+    if (clickTime === 0) {
+      return setClickTime(clickTime + 1)
     }
+    setClickTime(0)
+    clearRank()
   }
 
   useEffect(() => {
-    if (!count) return
-    const timer = setTimeout(() => {
-      setCount(0)
-      clearTimeout(timer)
-    }, 1000)
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [count])
+    if (!clickTime) return
+    wait(1000).then(() => setClickTime(0))
+  }, [clickTime])
 
   return (
     <div className="t-rank">
@@ -87,7 +81,7 @@ export default function Rank({ rank, clearRank }: IProps) {
           type="i-common-clear"
           size="1.2em"
         />
-        {count ? <span>请再次确认</span> : ''}
+        {clickTime ? <span>请再次确认</span> : ''}
       </div>
     </div>
   )
