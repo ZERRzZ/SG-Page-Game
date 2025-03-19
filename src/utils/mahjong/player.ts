@@ -79,7 +79,7 @@ export class Player {
   }
 
   addMeld(meld: Meld) {
-    this.meld.push(meld)
+    this.meld.unshift(meld)
   }
 
   drawATile(tiles: string[]) {

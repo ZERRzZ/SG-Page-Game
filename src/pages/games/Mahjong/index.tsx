@@ -32,45 +32,40 @@ export default function Mahjong() {
     setMelds,
   } = useInit()
 
-  const start = () => {
-    setStatus('deal')
-  }
-
-  const back = () => {
-    setStatus('init')
-  }
-
   useEffect(() => {
     if (status !== 'draw' && status !== 'giri' && status !== 'nagi') return
     const np = new Player(player[playIndex])
     switch (status) {
       case 'draw':
-        if (isEmpty(restCards)) return setStatus('end')
+        if (isEmpty(restCards)) window.alert('牌没有了')
         const rests = np.drawATile(restCards)
         setRestCards(rests)
         setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
         setStatus('giri')
         break
       case 'giri':
+        np.isWin(np.draw) // 和了判断
         // 自动打牌
         if (playIndex === -1 || playIndex === 0) return
         setTimeout(() => {
-          np.isWin(np.draw) // 和了判断
           np.draw ? np.tsumogiri(np.draw) : np.tegiri(np.hand[0], 0)
           setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
           setStatus('nagi')
         }, 1000)
         break
       case 'nagi':
-        const lastRiverTile = np.river.pop()!.tile
-        const nagiList = whoNagi(lastRiverTile)
-        if (isEmpty(nagiList)) {
-          nextPlayr()
-          setStatus('draw')
-        } else {
-          setMelds(nagiList)
-        }
-        player.forEach(p => p.isWin(lastRiverTile)) // 和了判断
+        setTimeout(() => {
+          const lastRiverTile = np.river.pop()!.tile
+          player.forEach(p => p.isWin(lastRiverTile)) // 和了判断
+          const nagiList = whoNagi(lastRiverTile)
+          if (isEmpty(nagiList)) {
+            nextPlayr()
+            setStatus('draw')
+          } else {
+            setMelds(nagiList)
+          }
+        }, 0)
+        break
     }
   }, [status])
 
@@ -78,6 +73,7 @@ export default function Mahjong() {
   const disCard = (pi: number, tile: string, ti?: number) => {
     if (playIndex !== pi) return
     if (playIndex !== 0) return
+    if (!isEmpty(melds)) return
     const np = new Player(player[playIndex])
     ti === undefined ? np.tsumogiri(tile) : np.tegiri(tile, ti)
     setPlayer(player.map((p, i) => (i === playIndex ? np : p)))
@@ -141,33 +137,31 @@ export default function Mahjong() {
     <div className="mahjong">
       {status === 'init' ? (
         <div className="prepare">
-          <div
+          <Icon
             className="start"
-            onClick={start}
-          >
-            <Icon type="i-common-start" />
-          </div>
+            type="i-common-start"
+            onClick={() => setStatus('deal')}
+          />
         </div>
       ) : (
         <div className="playing">
           <div className="header">
+            <Icon
+              className="back"
+              type="i-common-back"
+              onClick={() => setStatus('init')}
+            />
             <div className="dora">
-              <div>DORA</div>
+              <span>DORA</span>
               <TileDisplay tiles={doras} />
             </div>
-            <div
-              className="back"
-              onClick={back}
-            >
-              <Icon type="i-common-back" />
-            </div>
           </div>
-          <div className="player">
+          <div className="table">
             <Points player={player} />
-            <div className="discard-zone">
-              {player.map((p, i) => (
+            <div className="river">
+              {player.map(p => (
                 <TileDisplay
-                  className={`discard p${i + 1}`}
+                  className="item"
                   key={p.setWind}
                   tiles={p.river}
                 />
@@ -176,7 +170,7 @@ export default function Mahjong() {
             <div className="player-zone">
               {player.map((p, pi) => (
                 <TileDisplay
-                  className={`player p${pi + 1}`}
+                  className="player"
                   key={p.setWind}
                   tiles={p.hand}
                   draw={p.draw}
@@ -192,9 +186,9 @@ export default function Mahjong() {
               )}
             </div>
             <div className="meld-area">
-              {player.map((p, i) => (
+              {player.map(p => (
                 <TileDisplay
-                  className={`meld m${i + 1}`}
+                  className="meld"
                   key={p.setWind}
                   tiles={p.meld}
                 />
