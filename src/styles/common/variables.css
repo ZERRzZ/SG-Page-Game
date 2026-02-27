@@ -1,34 +1,29 @@
-[data-theme='light'] {
-  --color: #213547;
-  --color-light: #5b6c82;
-  --color-anti: #ffffff;
-
-  --background-darker: #f0f0f0;
-  --background: #ffffff;
-  --background-lighter: #f6f6f6;
-
-  --box-shadow: #c8c8c8;
-  --border: #c8c8c8;
-}
-
-[data-theme='dark'] {
-  --color: #f8faff;
-  --color-light: #9dabbe;
-  --color-anti: #213547;
-
-  --background-darker: #1f2020;
-  --background: #282828;
-  --background-lighter: #3c3c3c;
-
-  --box-shadow: #5a5a69;
-  --border: #5a5a69;
-}
-
 :root {
+  color-scheme: light dark;
+
+  --color: light-dark(#213547, #f8faff);
+  --color-light: light-dark(#5b6c82, #9dabbe);
+  --color-anti: light-dark(#f8faff, #213547);
+
+  --background: light-dark(#ffffff, #282828);
+  --background-darker: light-dark(#f0f0f0, #1f2020);
+  --background-lighter: light-dark(#f6f6f6, #3c3c3c);
+
+  --box-shadow: light-dark(#c8c8c8, #5a5a69);
+  --border: light-dark(#c8c8c8, #5a5a69);
+
   --theme-dark: #4096ff;
   --theme-dark-active: #6eafff;
   --theme-light: #eff8ff;
   --theme-light-active: #dcf0ff;
 
   --danger: red;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
