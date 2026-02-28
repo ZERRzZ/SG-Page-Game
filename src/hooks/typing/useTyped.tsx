@@ -1,36 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { Typed, TypingColor, State } from '@/types/specific/Typing'
+import { Typed, State } from '@/types/specific/Typing'
+import { TYPING_COLORS } from '@/constants/typingConfig'
 
-export interface IProps {
-  state: State
-  words: string
-  setState: React.Dispatch<React.SetStateAction<State>>
-  updateWords: () => void
-  startCount: () => void
-  resetCount: () => void
-}
-
-export const useTyped = ({
-  state,
-  words,
-  setState,
-  updateWords,
-  startCount,
-  resetCount,
-}: IProps) => {
-  const color: TypingColor = ['#FF0000', '#00BB00']
-
+const useTyped = (
+  state: State,
+  words: string,
+  setState: React.Dispatch<React.SetStateAction<State>>,
+  updateWords: () => void,
+  resetCount: () => void,
+) => {
+  // 已输入
   const [typed, setTyped] = useState<Typed[]>([])
-
+  // 输入总数
   const [total, setTotal] = useState(0)
-
+  // 错误数
   const [error, setError] = useState(0)
-
-  const startGame = () => {
-    setState('running')
-    startCount()
-  }
 
   const resetGame = () => {
     setState('init')
@@ -41,44 +26,32 @@ export const useTyped = ({
     setError(0)
   }
 
+  const favourCode = (code: string) =>
+    code.startsWith('Key') ||
+    code.startsWith('Digit') ||
+    code === 'Minus' ||
+    code === 'Space'
+
+  const typing = ({ code, key }: KeyboardEvent) => {
+    // console.log('keyup event running...')
+    if (!favourCode(code)) return
+    if (state !== 'running') return
+
+    setTyped(t => [
+      ...t,
+      { word: words[total], isCorrect: key === words[total] },
+    ])
+    setTotal(t => t + 1)
+    if (key !== words[total]) {
+      setError(e => e + 1)
+    }
+  }
+
   // 状态改变时重新绑定事件
   useEffect(() => {
     document.addEventListener('keyup', typing)
     return () => document.removeEventListener('keyup', typing)
   }, [typed, state])
-
-  const favourCode = (code: string) =>
-    code.startsWith('Key') ||
-    code.startsWith('Digit') ||
-    code === 'Minus' ||
-    code === 'Space' ||
-    code === 'Enter'
-
-  const typing = ({ code, key }: KeyboardEvent) => {
-    // console.log('keyup event running...')
-    if (!favourCode(code)) return
-    switch (code) {
-      case 'Enter':
-        switch (state) {
-          case 'init':
-            startGame()
-            break
-          case 'running':
-          case 'end':
-            resetGame()
-            break
-        }
-        break
-      default:
-        if (state !== 'running') return
-        setTotal(t => t + 1)
-        setTyped(t => [
-          ...t,
-          { word: words[total], isCorrect: key === words[total] },
-        ])
-        key !== words[total] && setError(e => e + 1)
-    }
-  }
 
   const renderTyped = useMemo(
     () => (
@@ -88,8 +61,9 @@ export const useTyped = ({
             key={t.word + i}
             style={{
               background:
-                t.word === ' ' ? color[Number(t.isCorrect)] : undefined,
-              color: t.word === ' ' ? undefined : color[Number(t.isCorrect)],
+                t.word === ' ' ? TYPING_COLORS[Number(t.isCorrect)] : undefined,
+              color:
+                t.word === ' ' ? undefined : TYPING_COLORS[Number(t.isCorrect)],
             }}
           >
             {t.word}
@@ -108,3 +82,5 @@ export const useTyped = ({
 
   return { typed: renderTyped, total, error, resetGame }
 }
+
+export default useTyped

@@ -7,9 +7,6 @@
   flex-flow: column;
   gap: 1em;
   align-items: center;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 
 .tr-title {
@@ -73,9 +70,9 @@
   color: var(--danger);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 85em) {
   .t-rank {
     width: 40em;
-    position: static;
+    order: 3;
   }
 }

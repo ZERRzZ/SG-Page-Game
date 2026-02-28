@@ -1,82 +1,96 @@
-import { useEffect } from 'react'
+import useInit from '@/hooks/typing/useInit'
+import useEngine from '@/hooks/typing/useEngine'
+import useTyped from '@/hooks/typing/useTyped'
+import useResult from '@/hooks/typing/useResult'
+
+import { isEmpty } from '@/utils/common/isEmpty'
 
 import './index.css'
 import Set from '@/components/typing/Set'
 import Rank from '@/components/typing/Rank'
 import Icon from '@/components/common/Icon'
-import { useCount } from '@/hooks/common/useCount'
-import { useWords } from '@/hooks/common/useWords'
-import { useInit } from '@/hooks/typing/useInit'
-import { useTyped } from '@/hooks/typing/useTyped'
-import { useResult } from '@/hooks/typing/useResult'
-import { isEmpty } from '@/utils/common/isEmpty'
+
+import { TYPING_TIPS } from '@/constants/typingConfig'
+import { useMemo } from 'react'
 
 export default function Typing() {
-  const { state, word, initCount, mode, setState, changeMode } = useInit()
+  const {
+    state,
+    setState,
+    mode,
+    changeMode,
+    words,
+    updateWords,
+    initCount,
+    count,
+    resetCount,
+    pauseCount,
+    startGame,
+  } = useInit()
 
-  const { words, updateWords } = useWords(word)
-
-  const { count, startCount, resetCount, pauseCount } = useCount(initCount)
-
-  const { typed, total, error, resetGame } = useTyped({
+  const { typed, total, error, resetGame } = useTyped(
     state,
     words,
     setState,
     updateWords,
-    startCount,
     resetCount,
-  })
+  )
 
-  const { result, speed, accuracy, changeResult, endGame } = useResult({
+  const { result, speed, accuracy, changeResult, endGame } = useResult(
     initCount,
     count,
     total,
     error,
     setState,
     pauseCount,
-  })
+  )
 
-  const tips = { init: '开始游戏', running: '重新开始', end: '重新开始' }
+  useEngine(state, count, total, mode, words, startGame, resetGame, endGame)
 
-  useEffect(() => {
-    count <= 0 && endGame()
-  }, [count])
+  const showRank = useMemo(() => !isEmpty(result), [result])
 
-  useEffect(() => {
-    total === words.length && endGame()
-  }, [total])
-
-  useEffect(() => {
-    resetGame()
-  }, [mode])
+  const showResult = useMemo(() => state === 'end', [state])
 
   return (
-    <div className="typing">
+    <div
+      className="typing"
+      style={{
+        justifyContent: showRank || showResult ? 'start' : 'center',
+      }}
+    >
+      {showRank && (
+        <Rank
+          rank={result}
+          clearRank={() => changeResult([])}
+        />
+      )}
       <div className="t-game">
-        <div className="t-header">
-          <span className="t-count">倒计时：{count}</span>
-          <Set
-            mode={mode}
-            changeMode={changeMode}
-          />
+        <div className="t-paragraph">
+          <div className="t-header">
+            <span className="t-count">倒计时：{count}</span>
+            <Set
+              mode={mode}
+              changeMode={changeMode}
+            />
+          </div>
+          <div className="t-words">{typed}</div>
+          <div
+            className="t-reset"
+            onClick={resetGame}
+          >
+            <Icon
+              type="i-common-reset"
+              color="inherit"
+            />
+          </div>
         </div>
-        <div className="t-words">{typed}</div>
-        <div
-          className="t-reset"
-          onClick={resetGame}
-        >
-          <Icon
-            type="i-common-reset"
-            color="inherit"
-          />
+        <div className="t-tips">
+          输入
+          <span className="tt-btn">Enter</span>
+          {TYPING_TIPS[state]}
         </div>
       </div>
-      <div className="t-tips">
-        输入
-        <span className="tt-btn">Enter</span>
-        {tips[state]}
-      </div>
-      {state === 'end' && (
+      {showResult && (
         <div className="t-results">
           <span className="tr-1">结果</span>
           <span className="tr-2">输入：{total}</span>
@@ -84,12 +98,6 @@ export default function Typing() {
           <span className="tr-4">速度：{speed.toFixed(0)} 词/分</span>
           <span className="tr-5">准确性：{accuracy.toFixed(0)}%</span>
         </div>
-      )}
-      {isEmpty(result) || (
-        <Rank
-          rank={result}
-          clearRank={() => changeResult([])}
-        />
       )}
     </div>
   )

@@ -1,7 +1,18 @@
+/**
+ * 游戏状态
+ */
 export type State = 'init' | 'running' | 'end'
 
+/**
+ * 游戏模式
+ */
 export type Mode = '快速' | '适中' | '持久'
 
+/**
+ * 模式配置
+ * @param count 倒计时
+ * @param word 词数
+ */
 export interface ModeConfig {
   count: number
   word: number

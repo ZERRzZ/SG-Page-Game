@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export const useCount = (init: number) => {
+const useCount = (init: number) => {
   const [count, setCount] = useState(init)
 
   const intervalRef = useRef<NodeJS.Timeout>(null)
@@ -30,3 +30,5 @@ export const useCount = (init: number) => {
 
   return { count, startCount, resetCount, pauseCount }
 }
+
+export default useCount

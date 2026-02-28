@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 
 import './index.css'
+import { wait } from '@/utils/common/wait'
 import Icon from '@/components/common/Icon'
 import { Mode } from '@/types/specific/Typing'
-import { totalMode } from '@/hooks/typing/useInit'
 import { isEmpty } from '@/utils/common/isEmpty'
-import { wait } from '@/utils/common/wait'
+import { TYPING_MODES } from '@/constants/typingConfig'
 
 interface IProps {
   mode: Mode
@@ -48,7 +48,7 @@ export default function Set({ mode, changeMode }: IProps) {
           <div>
             <span>模式</span>
             <span className="tp-btns">
-              {Array.from(totalMode.keys()).map((v, i) => (
+              {Array.from(TYPING_MODES.keys()).map((v, i) => (
                 <div
                   key={i}
                   className={mode === v ? 'active' : ''}

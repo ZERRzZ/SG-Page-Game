@@ -1,26 +1,18 @@
 import { useMemo } from 'react'
 
-import { randomId } from '@/utils/randomId'
 import useLocalStorage from '@/hooks/common/useLocalStorage'
+
+import { randomId } from '@/utils/randomId'
 import { State, TypingResult } from '@/types/specific/Typing'
 
-interface IProps {
-  count: number
-  total: number
-  error: number
-  initCount: number
-  setState: React.Dispatch<React.SetStateAction<State>>
-  pauseCount: () => void
-}
-
-export const useResult = ({
-  initCount,
-  count,
-  total,
-  error,
-  setState,
-  pauseCount,
-}: IProps) => {
+const useResult = (
+  initCount: number,
+  count: number,
+  total: number,
+  error: number,
+  setState: React.Dispatch<React.SetStateAction<State>>,
+  pauseCount: () => void,
+) => {
   const [result, changeResult] = useLocalStorage<TypingResult[]>(
     'typingResult',
     [],
@@ -44,12 +36,12 @@ export const useResult = ({
       accuracy: `${accuracy.toFixed(0)}%`,
       latest: true,
     }
-    const pre = result
+    const cur = result
       .filter((_, i) => i < 4)
       .map(r => ({ ...r, latest: false }))
-    const cur = [...pre, newResult]
-    cur.sort((a, b) => b.score - a.score)
-    cur.forEach((r, i) => (r.rank = i + 1))
+      .concat(newResult)
+      .sort((a, b) => b.score - a.score)
+      .map((r, i) => ({ ...r, rank: i + 1 }))
     changeResult(cur)
   }
 
@@ -61,3 +53,5 @@ export const useResult = ({
 
   return { result, speed, accuracy, changeResult, endGame }
 }
+
+export default useResult
